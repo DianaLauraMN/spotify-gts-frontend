@@ -28,18 +28,20 @@ class ApiSpotify implements IApiControllerCalls {
             throw error; // Re-lanzar el error para que pueda ser manejado más arriba si es necesario
         }
     }
+
     async getUserData(): Promise<User> {
         try {
             const token = localStorage.access_token;
             const response = await axios.get('http://localhost:3000/api/me', {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            const userItem: User = UserAdapter.adaptUser(response.data);
-            return userItem;
+            const user: User = UserAdapter.adaptUser(response.data);
+            return user;
         } catch (error) {
             throw error;
         }
     }
+
     async getArtistById(artistId: string): Promise<Artist> {
         try {
             const token = localStorage.access_token;
@@ -53,6 +55,7 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
+
     async getTrackById(trackId: string): Promise<Track> {
         try {
             const token = localStorage.access_token;
@@ -65,6 +68,7 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
+
     async getArtistsByName(itemName: string): Promise<Artist[]> {
         try {
             const token = localStorage.access_token;
@@ -77,6 +81,7 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
+
     async getTracksByName(itemName: string): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
@@ -89,6 +94,7 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
+
     async getUserTopTracks(): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
@@ -101,6 +107,7 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
+
     async getArtistTopTracks(itemName: string): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
@@ -113,7 +120,8 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
-    async getArtistAllTracks(itemName: string): Promise<Track[]> {
+
+    async getAllArtistTracks(itemName: string): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
             const response = await axios.get(`http://localhost:3000/api/artist/tracks/${itemName}`, {
@@ -125,6 +133,7 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
+
     async getUserTopArtists(): Promise<Artist[]> {
         try {
             const token = localStorage.access_token;
@@ -137,7 +146,8 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
-    async getUserPlaylists(): Promise<Track[]> {
+
+    async getUserPlaylistsTracks(): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
             const response = await axios.get(`http://localhost:3000/api/me/playlists`, {
@@ -149,6 +159,7 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
+
     async getUserSavedTracks(): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
@@ -161,6 +172,7 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
+
     async getUserRecommendations(): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
@@ -173,8 +185,31 @@ class ApiSpotify implements IApiControllerCalls {
             throw error;
         }
     }
-    getUserTopGenres(): void {
-        throw new Error("Method not implemented.");
+
+    async getTracksByGenre(genreName: string): Promise<Track[]> {
+        try {
+            const token = localStorage.access_token;
+            const response = await axios.get(`http://localhost:3000/api/genres/tracks/${genreName}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const tracksTyped = this.getTracksLsitTyped(response.data);
+            return tracksTyped;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getUserTopGenres(): Promise<void> {
+        try {
+            const token = localStorage.access_token;
+            const response = await axios.get(`http://localhost:3000/api/me/top/genres`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const userTopGenres = response.data;
+            return userTopGenres;
+        } catch (error) {
+            throw error;
+        }
     }
 
     getArtistsListTyped(items: any[]): Artist[] {

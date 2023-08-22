@@ -10,7 +10,6 @@ const GamePage = () => {
             //const item = await apiSpotify.getTrackById('11dFghVXANMlKmJXsNCbNl');
             // const item = await apiSpotify.getArtistById('0ghlgldX5Dd6720Q3qFyQB');
             //const item = await apiSpotify.getUserData();
-
             //const item = await apiSpotify.getTracksByName('forget me not');
             //const item = await apiSpotify.getUserTopTracks();
             //const item = await apiSpotify.getArtistTopTracks('bts');
@@ -19,6 +18,8 @@ const GamePage = () => {
             //const item = await apiSpotify.getUserPlaylists();
             //const item = await apiSpotify.getUserSavedTracks();
             const item = await apiSpotify.getUserRecommendations();
+            //const item = await apiSpotify.getTracksByGenre('kpop');
+            //const item = await apiSpotify.getUserTopGenres();
 
             console.log(item);
         })();
