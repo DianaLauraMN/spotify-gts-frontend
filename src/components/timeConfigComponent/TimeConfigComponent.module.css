@@ -1,0 +1,78 @@
+.timeConfigContainer {
+    height: 100%;
+    width: 100%;
+    background-color: var(--darkGrey);
+    border-radius: 0.438rem;
+    text-align: center;
+    display: grid;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.centerContainer {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 25% 75%;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0rem;
+}
+
+.centerContainer div {
+    justify-self: center;
+    align-self: center;
+}
+
+
+/*Comienzan los estilos de stack overflow*/
+
+.slidecontainer {
+    width: 100%;
+}
+
+.slidecontainer input {
+    margin: .5rem 0rem;
+}
+
+.drag__bar {
+    appearance: none;
+    width: 25rem;
+    height: 1rem;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.246);
+    border-radius: 1rem;
+}
+
+.drag__bar::-webkit-slider-thumb {
+    /* Estilos para WebKit (Chrome y Safari) */
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--black);
+    background-image: url('../../img/icon-logo.svg');
+    background-size: cover;
+    border: 0.12rem solid var(--white);
+
+    cursor: pointer;
+    box-shadow: 0px 0px 11px 8px rgba(0, 0, 0, 0.26);
+    background-size: 45%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.drag__bar::-moz-range-thumb {
+    /* Estilos para Gecko (Firefox) */
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--black);
+    background-image: url('../../img/icon-logo.svg');
+    background-size: cover;
+    border: 0.12rem solid var(--white);
+
+    cursor: pointer;
+    box-shadow: 0px 0px 11px 8px rgba(0, 0, 0, 0.26);
+    background-size: 45%;
+    background-position: center;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,33 @@
+.btnConfigs {
+    height: auto;
+    width: auto;
+}
+
+.btnConfigs button {
+    width: 100%;
+    height: 100%;
+    color: var(--white);
+    font-family: var(--font);
+    background-color: var(--black);
+    border: none;
+    border: 1px solid var(--white);
+    border-radius: 0.3rem;
+    cursor: pointer;
+    padding: .6rem;
+    transition: all 1s ease;
+    width: 6rem; 
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+.btnConfigs button:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+.btnConfigs button:focus,
+.btnConfigs button:active {
+    background: var(--white);
+    color: var(--black);
+}

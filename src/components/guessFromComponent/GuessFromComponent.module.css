@@ -1,0 +1,34 @@
+.GuessFromContainer {
+    height: 100%;
+    width: 100%;
+    background-color: var(--darkGrey);
+    border-radius: 0.438rem;
+    text-align: left;
+    display: grid;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.centerContainer {
+    display: grid;
+    grid-template-rows: 25% 75%;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0rem;
+}
+
+.centerContainer div {
+    justify-self: center;
+    align-self: center;
+}
+
+.formRadioBtnOptions {
+    width: 100%;
+    font-size: 1rem;
+}
+
+.option {
+    margin: .5rem 0rem;
+}
