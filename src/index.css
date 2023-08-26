@@ -6,6 +6,7 @@
   --white: #FFFFFF;
   --black: #000000;
   --darkGrey: #121212;
+  --lightGrey: #282828;
 }
 
 body {
@@ -21,7 +22,6 @@ body {
   align-items: center;
   justify-content: center;
 }
-
 
 h1,
 h2,
