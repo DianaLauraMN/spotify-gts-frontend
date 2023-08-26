@@ -1,36 +1,28 @@
-import { useEffect } from 'react';
-import ApiSpotify from '../../api/ApiSpotify';
-import { IApiControllerCalls } from '../../api/IApiSpotify';
-
-const apiSpotify: IApiControllerCalls = new ApiSpotify();
+import CardSelectSongComponent from "../../components/CardSelectSongComponent/CardSelectSongComponent"
+import CardSongComponent from "../../components/cardSongComponent/CardSongComponent"
+import style from "./GamePage.module.css"
 const GamePage = () => {
-
-    useEffect(() => {
-        (async () => {
-            //const item = await apiSpotify.getTrackById('11dFghVXANMlKmJXsNCbNl');
-            // const item = await apiSpotify.getArtistById('0ghlgldX5Dd6720Q3qFyQB');
-            const item = await apiSpotify.getUserData();
-            //const item = await apiSpotify.getTracksByName('forget me not');
-            //const item = await apiSpotify.getUserTopTracks();
-            //const item = await apiSpotify.getArtistTopTracks('bts');
-            //const item = await apiSpotify.getArtistAllTracks('seventeen');
-            //const item = await apiSpotify.getUserTopArtists();
-            //const item = await apiSpotify.getUserPlaylists();
-            //const item = await apiSpotify.getUserSavedTracks();
-            //const item = await apiSpotify.getUserRecommendations();
-            //const item = await apiSpotify.getTracksByGenre('kpop');
-            //const item = await apiSpotify.getUserTopGenres();
-
-            console.log(item);
-        })();
-    }, []);
-
     return (
-        <div>
-            <h2>Bienvenido gracias por autenticarte</h2>
-            {localStorage.access_token && <h3>Tu token se ha almacenado correctamente</h3>}
+        <div className={style.gamePageContainer}>
+            <div className={style.levelScoreContainer}>
+                <div className={style.levelContainer}>
+                    <h2>Level</h2>
+                    <h3>Easy</h3>
+                </div>
+                <div className={style.scoreContainer}>
+                    <h2 >Score</h2>
+                    <h3 >199</h3>
+                </div>
+            </div>
+            <div className={style.cardContainer}>
+                <div className={style.card1}>
+                    <CardSongComponent />
+                </div>
+                <div className={style.card2}>
+                    <CardSelectSongComponent />
+                </div>
+            </div>
         </div>
     )
 }
-
 export default GamePage
