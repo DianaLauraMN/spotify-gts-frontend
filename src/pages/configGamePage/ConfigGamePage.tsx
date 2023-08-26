@@ -10,21 +10,20 @@ import TimeConfigComponent from "../../components/timeConfigComponent/TimeConfig
 import SongsNumberComponent from "../../components/songsNumberComponent/SongsNumberComponent";
 import { IApiControllerCalls } from "../../api/IApiSpotify";
 import ApiSpotify from "../../api/ApiSpotify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import User from "../../entities/user/User";
 
-let currentUser: User;
 const apiSpotify: IApiControllerCalls = new ApiSpotify();
 
 const ConfigGamePage = () => {
+  const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
-      currentUser = await apiSpotify.getUserData();
-      console.log(currentUser);
-
-    });
-  });
+      const user = await apiSpotify.getUserData();
+      setUser(user);
+    })();
+  }, []);
 
   const Levels: IRenderComponent = new LevelsComponent();
   const SearchGenre: IRenderComponent = new SearchGenreComponent();
@@ -36,20 +35,22 @@ const ConfigGamePage = () => {
   const configurationComponents = [Levels, SearchGenre, SearchArtist, GuessFrom, TimeConfig, SongsNumber];
   const cssStyle = [style.firstCard, style.secondCard, style.thirdCard, style.fourthCard, style.fifthCard, style.sixthCard];
   return (
-    <div className={style.configsContainer}>
-      <LogosNamesComponent />
-      {currentUser && <h2>Welcome {currentUser.name} </h2>}
-      <h3>Please select the options you would like to play with.</h3>
-      <div className={style.contenedor}>
-        {
-          configurationComponents.map((component, key) => (
-            <div className={cssStyle[key]} key={key}>
-              {component.render()}
-            </div>
-          ))
-        }
-      </div>
-      <SpotifyButton type="game" />
+    <div>
+      {user && (<>
+        <LogosNamesComponent />
+        <h2>Welcome {user.name} </h2>
+        <h3>Please select the options you would like to play with.</h3>
+        <div className={style.container}>
+          {
+            configurationComponents.map((component, key) => (
+              <div className={cssStyle[key]} key={key}>
+                {component.render()}
+              </div>
+            ))
+          }
+        </div>
+        <SpotifyButton type="game" />
+      </>)}
     </div>
   )
 }

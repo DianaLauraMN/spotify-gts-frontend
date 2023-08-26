@@ -3,10 +3,10 @@ export default class User {
     name: string;
     email: string;
     href: string;
-    constructor(id: string, name: string, team: string, href: string) {
+    constructor(id: string, name: string, email: string, href: string) {
         this.id = id;
         this.name = name;
-        this.email = team;
+        this.email = email;
         this.href = href;
     }
 }

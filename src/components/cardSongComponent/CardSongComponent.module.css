@@ -1,0 +1,40 @@
+.cardSongContainer {
+    width: 100%;
+    height: 100%;
+    border-radius: .75rem;
+}
+
+.titleContainer{
+    margin: 1rem 0rem;
+}
+
+.albumContainer {
+    display: grid;
+    grid-template-rows: (80%,20%);
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.albumCover img {
+    width: 25rem;
+    height: 25rem;
+}
+
+.albumDataContainer {
+    width: 100%;
+    justify-self: start;
+    display: grid;
+    gap: .5rem;
+}
+
+.titleSong {
+    text-align: start;
+}
+
+.artistSong {
+    text-align: start;
+}
+
+.albumSong {
+    text-align: start;
+}

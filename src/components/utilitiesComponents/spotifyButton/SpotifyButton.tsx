@@ -17,14 +17,18 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
     const location = useLocation();
 
     const handleLoginClick = () => {
-        login();
+        const authenticated: boolean = isAuthenticated();
+        if (authenticated) {
+            navigate("/configGame");
+        } else {
+            login();
+        }
         console.log('Es un tipo login');
-
     };
 
     const handleGameClick = () => {
+        startGame();
         console.log('Es un tipo game');
-
     };
 
     useEffect(() => {
@@ -46,6 +50,14 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
             console.log('Error while authentication:', error);
         }
     };
+
+    const isAuthenticated = () => {
+        return localStorage.access_token ? true : false;
+    }
+
+    const startGame = () => {
+        navigate("/game")
+    }
 
 
     function login() {
