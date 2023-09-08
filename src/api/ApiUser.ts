@@ -1,0 +1,36 @@
+import User from "../entities/user/User";
+import UserAdapter from "../entities/user/UserAdapter";
+import { IApiUserControllerCalls } from "./interfaces/IApiUser";
+import axios from "axios";
+
+const urlBase = 'http://localhost:3000/api';
+
+class ApiUser implements IApiUserControllerCalls {
+    async getUserData(): Promise<User> {
+        try {
+            const token = localStorage.access_token;
+            const response = await axios.get(`${urlBase}/me`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const user: User = UserAdapter.adaptUser(response.data);
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getUserTopGenres(): Promise<string[]> {
+        try {
+            const token = localStorage.access_token;
+            const response = await axios.get(`${urlBase}/me/top/genres`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const userTopGenres = response.data;
+            return userTopGenres;
+        } catch (error) {
+            throw error;
+        }
+    }
+}
+
+export default ApiUser;
