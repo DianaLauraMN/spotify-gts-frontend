@@ -1,26 +1,26 @@
+import style from "./ConfigGamePage.module.css";
 import { IRenderComponent } from "../../components/iRenderComponent/IRenderComponent";
 import GuessFromComponent from "../../components/guessFromComponent/GuessFromComponent";
 import LevelsComponent from "../../components/levelsComponent/LevelsComponent";
 import LogosNamesComponent from "../../components/logosNamesComponent/LogosNamesComponent";
 import SpotifyButton from "../../components/utilitiesComponents/spotifyButton/SpotifyButton";
-import style from "./ConfigGamePage.module.css";
 import SearchGenreComponent from "../../components/searchGenreComponent/SearchGenreComponent";
 import SearchArtistComponent from "../../components/searchArtistComponent/SearchArtistComponent";
 import TimeConfigComponent from "../../components/timeConfigComponent/TimeConfigComponent";
 import SongsNumberComponent from "../../components/songsNumberComponent/SongsNumberComponent";
-import { IApiControllerCalls } from "../../api/IApiSpotify";
-import ApiSpotify from "../../api/ApiSpotify";
 import { useEffect, useState } from "react";
+import { IApiUserControllerCalls } from "../../api/interfaces/IApiUser";
+import ApiUser from "../../api/ApiUser";
 import User from "../../entities/user/User";
 
-const apiSpotify: IApiControllerCalls = new ApiSpotify();
+const apiUser: IApiUserControllerCalls = new ApiUser();
 
 const ConfigGamePage = () => {
   const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
-      const user = await apiSpotify.getUserData();
+      const user = await apiUser.getUserData();
       setUser(user);
     })();
   }, []);
