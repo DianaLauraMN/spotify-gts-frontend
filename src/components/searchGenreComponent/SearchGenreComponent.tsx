@@ -1,6 +1,6 @@
 import style from "./SearchGenreComponent.module.css";
 import { IRenderComponent } from "../iRenderComponent/IRenderComponent";
-import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
+import LoadUserTopGenres from "../loadUserTopGenres/LoadUserTopGenres";
 
 
 export default class SearchGenreComponent implements IRenderComponent {
@@ -17,12 +17,8 @@ export default class SearchGenreComponent implements IRenderComponent {
                     <div className={style.inputContainer}>
                         <input type="text" placeholder={this.title} />
                     </div>
-                    <div className={style.genresBtnsContainer}>
-                        <GenericButtonComponent text="Kpop" onClick={() => { }} />
-                        <GenericButtonComponent text="Reagueton" onClick={() => { }} />
-                        <GenericButtonComponent text="J-pop" onClick={() => { }} />
-                        <GenericButtonComponent text="Pop" onClick={() => { }} />
-                        <GenericButtonComponent text="Rock" onClick={() => { }} />
+                    <div>
+                        <LoadUserTopGenres/>
                     </div>
                 </div>
             </div>
