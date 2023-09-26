@@ -1,7 +1,9 @@
 .cardSelectionContainer {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Esto distribuirá el espacio verticalmente */
     height: 100%;
-    border-radius: .75rem;
 }
 
 .centerContainer {
@@ -11,7 +13,6 @@
     gap: 1rem;
     justify-content: center;
     align-items: center;
-    margin: 1rem 0rem;
 }
 
 .centerContainer div {
@@ -19,25 +20,9 @@
     align-self: center;
 }
 
-.inputContainer {
-    width: 22rem;
-    border-radius: 3rem;
-    background-color: var(--lightGrey);
-    padding: 1rem;
-    display: grid;
-    grid-template-columns: 10% 90%;
-}
+.recentlyPlayedContainer {}
 
-.inputContainer img {
+.linearTimerContainer {
     align-self: center;
-}
-
-.inputContainer input {
-    border: none;
-    height: 1.2rem;
-    outline: none;
-    padding: .2rem;
-    background-color: transparent;
-    color: var(--white);
-    font-size: 1.1rem;
+    width: 100%;
 }

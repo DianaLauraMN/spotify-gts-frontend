@@ -1,21 +1,26 @@
 import style from "./CardSelectSongComponent.module.css";
-import searchIcon from "./../../img/search-icon.svg";
-import RecentlyPlayedComponent from "./recentlyPlayed/RecentlyPlayedComponent";
+import RecentlyPlayedComponent from "../recentlyPlayed/RecentlyPlayedComponent";
+import InputSearchComponent from "../inputSearchComponent/InputSearchComponent";
+import TimerComponent from "../timerComponent/TimerComponent";
 
 const CardSelectSongComponent = () => {
+
   return (
     <div className={style.cardSelectionContainer}>
       <div className={style.centerContainer}>
-        <div className={style.inputContainer}>
-          <div className={style.iconSearch}>
-            <img src={searchIcon} alt="" />
-          </div>
-          <input type="text" placeholder="Search song..." />
+        <div>
+          <InputSearchComponent />
         </div>
+
         <div className={style.recentlyPlayedContainer}>
           <RecentlyPlayedComponent />
         </div>
       </div>
+
+      <div className={style.linearTimerContainer}>
+        <TimerComponent />
+      </div>
+
     </div>
   )
 }
