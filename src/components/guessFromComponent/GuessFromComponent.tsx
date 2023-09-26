@@ -1,31 +1,28 @@
-import { IRenderComponent } from '../iRenderComponent/IRenderComponent'
+import useGameConfig from "../../hooks/useGameConfig";
 import style from "./GuessFromComponent.module.css";
 
-export default class GuessFromComponent implements IRenderComponent {
-    cssClassName: string;
+interface searchGenreComponentProps {
     title: string;
-    constructor() {
-        this.title = "Guess From";
-        this.cssClassName = "fourth";
-    }
-
-    render(): JSX.Element {
-        return (
-            <div className={style.GuessFromContainer}>
-                <div className={style.centerContainer}>
-                    <h3>{this.title}</h3>
-                    <div className={style.formRadioBtnOptions}>
-                            <div className={style.option}>
-                                <input type="radio" name="secondsOption" id="firstSeconds"/>
-                                <label htmlFor="firstSeconds">First Seconds</label>
-                            </div>
-                            <div className={style.option}>
-                                <input type="radio" name="secondsOption" id="randomPart" />
-                                <label htmlFor="randomPart">Random Part of the Song</label>
-                            </div>
+}
+const GuessFromComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
+    const { handleOnChangeGuessFrom } = useGameConfig();
+    return (
+        <div className={style.GuessFromContainer}>
+            <div className={style.centerContainer}>
+                <h3>{title}</h3>
+                <div className={style.formRadioBtnOptions}>
+                    <div className={style.option}>
+                        <input type="radio" name="begginingOption" id="beggining" onClick={() => handleOnChangeGuessFrom(true)} />
+                        <label htmlFor="beggining">Beggining of the song</label>
+                    </div>
+                    <div className={style.option}>
+                        <input type="radio" name="randomPartOption" id="randomPart" onClick={() => handleOnChangeGuessFrom(false)} />
+                        <label htmlFor="randomPart">Random part of the song</label>
                     </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
+
+export default GuessFromComponent;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ConfigurationGame } from "../interfaces/ConfigurationGame";
+import { ConfigurationGame } from "../interfaces/InterfacesContext";
 import { getTracksLsitTyped } from "../ApiTracks";
 
 const urlBase = 'http://localhost:3000/api';

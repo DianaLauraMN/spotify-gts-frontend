@@ -1,5 +1,4 @@
 import style from "./ConfigGamePage.module.css";
-import { IRenderComponent } from "../../components/iRenderComponent/IRenderComponent";
 import GuessFromComponent from "../../components/guessFromComponent/GuessFromComponent";
 import LevelsComponent from "../../components/levelsComponent/LevelsComponent";
 import LogosNamesComponent from "../../components/logosNamesComponent/LogosNamesComponent";
@@ -8,46 +7,63 @@ import SearchGenreComponent from "../../components/searchGenreComponent/SearchGe
 import SearchArtistComponent from "../../components/searchArtistComponent/SearchArtistComponent";
 import TimeConfigComponent from "../../components/timeConfigComponent/TimeConfigComponent";
 import SongsNumberComponent from "../../components/songsNumberComponent/SongsNumberComponent";
-import { useEffect, useState } from "react";
-import { IApiUserControllerCalls } from "../../api/interfaces/IApiUser";
-import ApiUser from "../../api/ApiUser";
-import User from "../../entities/user/User";
+import { useEffect } from "react";
+import useApi from "../../hooks/useApi";
 
-const apiUser: IApiUserControllerCalls = new ApiUser();
 
 const ConfigGamePage = () => {
-  const [user, setUser] = useState<User | undefined>(undefined);
-
+  const { apiState: { user }, loadUserProfile } = useApi();
+  
   useEffect(() => {
-    (async () => {
-      const user = await apiUser.getUserData();
-      setUser(user);
-    })();
+    loadUserProfile();
   }, []);
 
-  const Levels: IRenderComponent = new LevelsComponent();
-  const SearchGenre: IRenderComponent = new SearchGenreComponent();
-  const SearchArtist: IRenderComponent = new SearchArtistComponent();
-  const GuessFrom: IRenderComponent = new GuessFromComponent();
-  const TimeConfig: IRenderComponent = new TimeConfigComponent();
-  const SongsNumber: IRenderComponent = new SongsNumberComponent();
-
-  const configurationComponents = [Levels, SearchGenre, SearchArtist, GuessFrom, TimeConfig, SongsNumber];
-  const cssStyle = [style.firstCard, style.secondCard, style.thirdCard, style.fourthCard, style.fifthCard, style.sixthCard];
   return (
     <div>
       {user && (<>
         <LogosNamesComponent />
         <h2>Welcome {user.name} </h2>
         <h3>Please select the options you would like to play with.</h3>
+
+
         <div className={style.container}>
-          {
-            configurationComponents.map((component, key) => (
-              <div className={cssStyle[key]} key={key}>
-                {component.render()}
-              </div>
-            ))
-          }
+
+          <div className={style.firstCard}>
+            <LevelsComponent
+              title="Levels"
+            />
+          </div>
+
+          <div className={style.secondCard}>
+            <SearchGenreComponent
+              title="Search Genre"
+            />
+          </div>
+
+          <div className={style.thirdCard}>
+            <SearchArtistComponent
+              title="Search Artist"
+            />
+          </div>
+
+          <div className={style.fourthCard}>
+            <GuessFromComponent
+              title="Guess From"
+            />
+          </div>
+
+          <div className={style.fifthCard}>
+            <TimeConfigComponent
+              title="In how many seconds do you guess the song?"
+            />
+          </div>
+
+          <div className={style.sixthCard}>
+            <SongsNumberComponent
+              title="How many songs do you want to guess?"
+            />
+          </div>
+
         </div>
         <SpotifyButton type="game" />
       </>)}

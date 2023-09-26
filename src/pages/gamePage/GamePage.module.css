@@ -35,23 +35,21 @@
 
 .cardContainer {
     width: 100%;
-    height: 100%;
+    height: 40rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    margin: 1rem 0rem;
+    margin-top: 1rem;
 }
 
 .card1 {
-    height: 95%;
-    background-color: #FE7FA9;
-    padding: .5rem;
+    max-height: 100%;
+    background-color: var(--darkGrey);
     border-radius: .75rem;
 }
 
 .card2 {
-    height: 95%;
+    height: 100%;
     background-color: var(--darkGrey);
-    padding: .5rem;
     border-radius: .75rem;
 }

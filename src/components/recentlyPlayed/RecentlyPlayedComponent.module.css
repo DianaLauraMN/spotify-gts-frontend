@@ -15,9 +15,8 @@
 }
 
 .scrollContainer {
-    height: 30.5rem;
+    height: 30rem;
     overflow: hidden; /* Oculta la barra de desplazamiento */
-    position: relative;
 }
 
 .scrollContent{
@@ -38,7 +37,7 @@
 .cardSong {
     width: 11rem;
     height: 13.5rem;
-    background-color: var(--lightGrey);
+    background-color: var(--mediumGrey);
     display: grid;
     grid-template-rows: 80% 10% 10%;
     gap: .5rem;
@@ -46,6 +45,9 @@
     align-items: center;
     border-radius: .5rem;
     cursor: pointer;
+}
+.cardSong:hover{
+    background-color: var(--lightGrey);
 }
 
 .coverAlbum img {
