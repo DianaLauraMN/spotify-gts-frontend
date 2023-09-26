@@ -1,26 +1,24 @@
-import { IRenderComponent } from "../iRenderComponent/IRenderComponent";
+import useGameConfig from "../../hooks/useGameConfig";
 import style from "./SongsNumberComponent.module.css";
 
-export default class SongsNumberComponent implements IRenderComponent {
-    cssClassName: string;
+interface searchGenreComponentProps {
     title: string;
-    constructor() {
-        this.title = "How many songs do you want to guess?"
-        this.cssClassName = "sixth";
-    }
-    render(): JSX.Element {
-        return (
-            <div className={style.songsNumberContainer}>
-                <div className={style.centerContainer}>
-                    <div className={style.labelContainer}>
-                        <h3>{this.title}</h3>
-                    </div>
-                    <div className={style.inputContainer}>
-                        <input type="text" placeholder="15" />
-                    </div>
+}
+
+const SongsNumberComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
+    const { handleOnChangeHowManySongs } = useGameConfig();
+    return (
+        <div className={style.songsNumberContainer}>
+            <div className={style.centerContainer}>
+                <div className={style.labelContainer}>
+                    <h3>{title}</h3>
+                </div>
+                <div className={style.inputContainer}>
+                    <input type="number" placeholder="15" onChange={(event) => handleOnChangeHowManySongs(parseInt(event.target.value))} />
                 </div>
             </div>
-        );
-    }
-
+        </div>
+    )
 }
+
+export default SongsNumberComponent;

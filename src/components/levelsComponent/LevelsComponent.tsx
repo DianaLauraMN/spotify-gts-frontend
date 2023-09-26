@@ -1,83 +1,52 @@
 import style from "./LevelsComponent.module.css";
-import { IRenderComponent } from "../iRenderComponent/IRenderComponent";
+import useGameConfig from "../../hooks/useGameConfig";
 import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
 
-export default class LevelsComponent implements IRenderComponent {
-    contEasy = 0;
-    easySelected: boolean = false;
-    contNormal = 0;
-    normalSelected = false;
-    contHard = 0;
-    hardSelected = false;
-    cssClassName: string;
+interface levelsComponentProps {
+    contEasy?: number;
+    easySelected?: boolean;
+    contNormal?: number;
+    normalSelected?: boolean;
+    contHard?: number;
+    hardSelected?: boolean;
     title: string;
-    constructor() {
-        this.title = "Level";
-        this.cssClassName = "first";
-    }
-    render(): JSX.Element {
-        return (
-            <div className={style.levelContainer}>
-                <div className={style.centerContainer}>
-                    <div className={style.labelContainer_title}>
-                        <h3>{this.title}</h3>
+}
+
+const LevelsComponent: React.FC<levelsComponentProps> = ({ contEasy, contHard, contNormal, easySelected, hardSelected, normalSelected, title }) => {
+    const { handleOnChangeLevel } = useGameConfig();
+    return (
+        <div className={style.levelContainer}>
+            <div className={style.centerContainer}>
+                <div className={style.labelContainer_title}>
+                    <h3>{title}</h3>
+                </div>
+                <div className={style.btnsContainer}>
+                    <div onClick={() => {
+
+                        console.log("EASY ");
+                    }}>
+                        <GenericButtonComponent isLevel={true} text="Easy" onClick={() => handleOnChangeLevel('EASY')} />
                     </div>
-                    <div className={style.btnsContainer}>
-                        <div onClick={() => {
-                            const easeLevelSelected = this.getEasyLevelSelected();
-                            console.log("EASY " + easeLevelSelected);
-                        }}>
-                            <GenericButtonComponent isLevel={true} text="Easy" onClick={() => {
-                                const flag = this.easySelected;
-                                return flag;
-                            }} />
-                        </div>
 
-                        <div onClick={() => {
-                            this.contNormal++;
-                            console.log(this.contNormal);
-                            this.contNormal % 2 === 0 ? this.normalSelected = false : this.normalSelected = true;
-                            console.log("NORMAL " + this.normalSelected);
+                    <div onClick={() => {
 
-                        }}>
-                            <GenericButtonComponent isLevel={true} text="Normal" onClick={() => {
-                                const flag = this.normalSelected;
-                                return flag;
-                            }} />
-                        </div>
+                        console.log("NORMAL ");
+                    }}>
+                        <GenericButtonComponent isLevel={true} text="Normal" onClick={() => handleOnChangeLevel('NORMAL')} />
+                    </div>
 
-                        <div onClick={() => {
-                            this.contHard++;
-                            console.log(this.contHard);
-                            this.contHard % 2 === 0 ? this.hardSelected = false : this.hardSelected = true;
-                            console.log("HARD " + this.hardSelected);
+                    <div onClick={() => {
 
-                        }}>
-                            <GenericButtonComponent isLevel={true} text="Hard" onClick={() => {
-                                const flag = this.hardSelected;
-                                return flag;
-                            }} />
-                        </div>
+                        console.log("HARD ");
+
+                    }}>
+                        <GenericButtonComponent isLevel={true} text="Hard" onClick={() => handleOnChangeLevel('HARD')} />
                     </div>
                 </div>
             </div>
-        )
-    }
-
-    getEasyLevelSelected() {
-        this.contEasy++;
-        console.log(this.contEasy);
-
-        if (this.contEasy % 2 === 0) {
-            this.easySelected = false
-        } else {
-            this.easySelected = true;
-            this.normalSelected = false;
-            this.hardSelected = false;
-        }
-        return this.easySelected;
-    }
-
-
+        </div>
+    )
 
 }
+
+export default LevelsComponent;

@@ -1,28 +1,40 @@
 import style from "./SearchGenreComponent.module.css";
-import { IRenderComponent } from "../iRenderComponent/IRenderComponent";
-import LoadUserTopGenres from "../loadUserTopGenres/LoadUserTopGenres";
+import useGameConfig from "../../hooks/useGameConfig";
+import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
+import { useEffect } from "react";
+import useApi from "../../hooks/useApi";
 
-
-export default class SearchGenreComponent implements IRenderComponent {
-    cssClassName: string;
+interface searchGenreComponentProps {
     title: string;
-    constructor() {
-        this.title = "Search Genre";
-        this.cssClassName="second";
-    }
-    render(): JSX.Element {
-        return (
-            <div className={style.searchGenreContainer}>
-                <div className={style.centerContainer}>
-                    <div className={style.inputContainer}>
-                        <input type="text" placeholder={this.title} />
-                    </div>
-                    <div>
-                        <LoadUserTopGenres/>
-                    </div>
+}
+
+const SearchGenreComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
+    const { handleOnChangeGenres } = useGameConfig();
+    const { apiState: { userTopGenresSeeds }, loadUserTop6GenresSeeds } = useApi();
+
+    useEffect(() => {
+        loadUserTop6GenresSeeds();
+    }, []);
+
+    return (
+        <div className={style.searchGenreContainer}>
+            <div className={style.centerContainer}>
+                <div className={style.inputContainer}>
+                    <input type="text" placeholder={title} />
+                </div>
+                <div className={style.genresBtnsContainer}>
+                    {
+                        userTopGenresSeeds.map((genre, key) => (
+                            <div key={key}>
+                                <GenericButtonComponent text={genre} onClick={() => handleOnChangeGenres(genre)} />
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
-        )
-    }
-
+        </div>
+    )
 }
+
+export default SearchGenreComponent;
+

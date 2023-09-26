@@ -1,27 +1,41 @@
 import style from "./SearchArtistComponent.module.css";
-import { IRenderComponent } from "../iRenderComponent/IRenderComponent";
-import LoadUserTopArtists from "../loadUserTopArtists/LoadUserTopArtists";
+import useGameConfig from "../../hooks/useGameConfig";
+import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
+import { useEffect } from "react";
+import useApi from "../../hooks/useApi";
 
-export default class SearchArtistComponent implements IRenderComponent {
-  cssClassName: string;
+interface searchArtistComponentProps {
   title: string;
-  constructor() {
-    this.title = "Search Artist";
-    this.cssClassName = "third";
-  }
-  render(): JSX.Element {
-    return (
-      <div className={style.searchArtistContainer}>
-        <div className={style.centerContainer}>
-          <div className={style.inputContainer}>
-            <input type="text" placeholder={this.title} />
-          </div>
-          <div>
-            <LoadUserTopArtists />
+}
+
+const SearchArtistComponent: React.FC<searchArtistComponentProps> = ({ title }) => {
+  const { handleOnChangeArtists } = useGameConfig();
+  const { apiState: { userTopArtists }, loadUserTop6Artists } = useApi();
+
+  useEffect(() => {
+    loadUserTop6Artists();
+  }, []);
+
+  return (
+    <div className={style.searchArtistContainer}>
+      <div className={style.centerContainer}>
+        <div className={style.inputContainer}>
+          <input type="text" placeholder={title} />
+        </div>
+        <div>
+          <div className={style.artistsBtnOptions}>
+            {
+              userTopArtists?.map((artist, key) => (
+                <div key={key}>
+                  <GenericButtonComponent text={artist.name} onClick={() => handleOnChangeArtists(artist)} />
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>
-    );
-  }
-
+    </div>
+  )
 }
+
+export default SearchArtistComponent
