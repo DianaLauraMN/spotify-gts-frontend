@@ -14,9 +14,9 @@
     width: 100%;
     display: grid;
     grid-template-rows: 25% 75%;
-    gap: 1rem;
     justify-content: center;
     align-items: center;
+    gap: .3rem;
     margin: 1rem 0rem;
 }
 
@@ -30,17 +30,25 @@
 
 .slidecontainer {
     width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
 }
 
 .slidecontainer input {
-    margin: .5rem 0rem;
+    margin-top: .5rem;
+}
+
+.slidecontainer p{
+    color: var(--green);
 }
 
 .drag__bar {
     appearance: none;
-    width: 25rem;
+    width: 18rem;
     height: 1rem;
-    border-radius: 5px;
     background: rgba(255, 255, 255, 0.246);
     border-radius: 1rem;
 }
