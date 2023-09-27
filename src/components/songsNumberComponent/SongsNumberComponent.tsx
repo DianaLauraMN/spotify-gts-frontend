@@ -1,4 +1,4 @@
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import style from "./SongsNumberComponent.module.css";
 
 interface searchGenreComponentProps {
@@ -6,7 +6,7 @@ interface searchGenreComponentProps {
 }
 
 const SongsNumberComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
-    const { handleOnChangeHowManySongs } = useGameConfig();
+    const { handleOnChangeHowManySongs } = useGame();
     return (
         <div className={style.songsNumberContainer}>
             <div className={style.centerContainer}>

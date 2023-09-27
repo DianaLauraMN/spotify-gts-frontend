@@ -1,13 +1,13 @@
 import style from "./GamePage.module.css"
 import CardSelectSongComponent from "../../components/CardSelectSongComponent/CardSelectSongComponent"
 import CardSongComponent from "../../components/cardSongComponent/CardSongComponent"
-import useGameConfig from "../../hooks/useGameConfig"
+import useGame from "../../hooks/useGame"
 import usePlay from "../../hooks/usePlay"
 
 const GamePage = () => {
     const { playState } = usePlay();
     const { score } = playState;
-    const { configurationGame } = useGameConfig();
+    const { configurationGame } = useGame();
     const { tracks, level } = configurationGame;
     if (!tracks) { throw new Error('Tracks in game page') }
 

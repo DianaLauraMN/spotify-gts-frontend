@@ -1,5 +1,5 @@
 import style from "./SearchArtistComponent.module.css";
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
 import { useEffect } from "react";
 import useGTS from "../../hooks/useGTS";
@@ -9,7 +9,7 @@ interface searchArtistComponentProps {
 }
 
 const SearchArtistComponent: React.FC<searchArtistComponentProps> = ({ title }) => {
-  const { handleOnChangeArtists } = useGameConfig();
+  const { handleOnChangeArtists } = useGame();
   const { apiState: { userTopArtists }, loadUserTop6Artists } = useGTS();
 
   useEffect(() => {

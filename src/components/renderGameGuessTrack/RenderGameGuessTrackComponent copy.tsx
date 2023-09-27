@@ -4,7 +4,7 @@ import CircularProgressWithLabel from '../CircularProgressWithLabel/CircularProg
 import Track from '../../entities/track/Track';
 import style from './RenderGameGuessTrackComponent.module.css'
 import usePlay from '../../hooks/usePlay';
-import useGameConfig from '../../hooks/useGameConfig';
+import useGame from '../../hooks/useGame';
 import AudioPlayerComponent from '../audioPlayerComponent/AudioPlayerComponent';
 
 
@@ -16,7 +16,7 @@ const RenderGameGuessTrackComponent: React.FC<renderGameGuesTrackProps> = ({ tra
     const [showComponent2, setShowComponent2] = useState(false);
     const { playState: { timer } } = usePlay();
     const { configurationGame: { durationMs, timerListen }, handleOnChangeIsTrackAlreadyGuessed,
-        handleOnActiveListen, handleOnActiveGuess } = useGameConfig();
+        handleOnActiveListen, handleOnActiveGuess } = useGame();
     const { preview_url } = track;
     const [prevTrack, setPrevTrack] = useState<Track | null>(null);
     

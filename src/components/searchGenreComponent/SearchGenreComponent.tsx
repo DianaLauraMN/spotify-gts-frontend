@@ -1,5 +1,5 @@
 import style from "./SearchGenreComponent.module.css";
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
 import { useEffect } from "react";
 import useGTS from "../../hooks/useGTS";
@@ -9,7 +9,7 @@ interface searchGenreComponentProps {
 }
 
 const SearchGenreComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
-    const { handleOnChangeGenres } = useGameConfig();
+    const { handleOnChangeGenres } = useGame();
     const { apiState: { userTopGenresSeeds }, loadUserTop6GenresSeeds } = useGTS();
 
     useEffect(() => {

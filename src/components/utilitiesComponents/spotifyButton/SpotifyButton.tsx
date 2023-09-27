@@ -3,7 +3,7 @@ import { json, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Global from "../../../Global/Global";
 import ApiAuth from "../../../api/ApiAuth";
-import useGameConfig from "../../../hooks/useGameConfig";
+import useGame from "../../../hooks/useGame";
 
 const apiAuth = new ApiAuth();
 const spoty_url = `https://accounts.spotify.com/authorize?client_id=${Global.client_id}&response_type=code&redirect_uri=${Global.redirect_uri}&scope=${Global.scopes}`;
@@ -13,7 +13,7 @@ interface SpotifyButtonProps {
 }
 
 const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
-    const { handleOnSubmitConfigGame, configurationGame } = useGameConfig();
+    const { handleOnSubmitConfigGame, configurationGame } = useGame();
 
     const navigate = useNavigate();
     const location = useLocation();

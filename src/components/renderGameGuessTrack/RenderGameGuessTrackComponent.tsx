@@ -3,7 +3,7 @@ import SongAnswerComponent from '../songAnswerComponent/SongAnswerComponent';
 import CircularProgressWithLabel from '../CircularProgressWithLabel/CircularProgressWithLabel';
 import Track from '../../entities/track/Track';
 import style from './RenderGameGuessTrackComponent.module.css'
-import useGameConfig from '../../hooks/useGameConfig';
+import useGame from '../../hooks/useGame';
 import AudioPlayerComponent from '../audioPlayerComponent/AudioPlayerComponent';
 
 
@@ -11,7 +11,7 @@ interface renderGameGuesTrackProps {
     track: Track,
 }
 const RenderGameGuessTrackComponent: React.FC<renderGameGuesTrackProps> = ({ track }) => {
-    const { configurationGame: { durationMs, timerListen, timerSong, timerGuess } } = useGameConfig();
+    const { configurationGame: { durationMs, timerListen, timerSong, timerGuess } } = useGame();
     const [showComponent1, setShowComponent1] = useState(true);
     const [showComponent2, setShowComponent2] = useState(false);
     const { preview_url } = track;

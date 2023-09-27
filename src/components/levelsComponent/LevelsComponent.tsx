@@ -1,5 +1,5 @@
 import style from "./LevelsComponent.module.css";
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
 
 interface levelsComponentProps {
@@ -13,7 +13,7 @@ interface levelsComponentProps {
 }
 
 const LevelsComponent: React.FC<levelsComponentProps> = ({ contEasy, contHard, contNormal, easySelected, hardSelected, normalSelected, title }) => {
-    const { handleOnChangeLevel } = useGameConfig();
+    const { handleOnChangeLevel } = useGame();
     return (
         <div className={style.levelContainer}>
             <div className={style.centerContainer}>

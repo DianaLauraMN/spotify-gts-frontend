@@ -2,7 +2,7 @@ import style from "./CardSongComponent.module.css";
 import Track from "../../entities/track/Track";
 import React, { useEffect } from "react";
 import usePlay from "../../hooks/usePlay";
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import RenderGameGuessTrackComponent from "../renderGameGuessTrack/RenderGameGuessTrackComponent";
 
 interface CardSongComponentProps {
@@ -12,7 +12,7 @@ interface CardSongComponentProps {
 const CardSongComponent: React.FC<CardSongComponentProps> = ({ tracks }) => {
 
     const { playState: { currentTrackIndex }, handleOnChangeCurrentTrack } = usePlay();
-    const { configurationGame: { timerListen, timerSong, timerGuess }, handleOnActiveSong, handleOnActiveListen } = useGameConfig();
+    const { configurationGame: { timerListen, timerSong, timerGuess }, handleOnActiveSong, handleOnActiveListen } = useGame();
     const currentTrack = tracks[currentTrackIndex];
 
     const timerToLoadNextTrack = () => {

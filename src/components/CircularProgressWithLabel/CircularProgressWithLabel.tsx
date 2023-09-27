@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import useGameConfig from '../../hooks/useGameConfig';
+import useGame from '../../hooks/useGame';
 import WavesAudioComponent from '../wavesAudio/WavesAudioComponent';
 
 const CircularProgressWithLabel: React.FC = () => {
-  const { configurationGame: { durationMs, timerListen }, handleOnActiveGuess, handleOnActiveListen, handleOnActiveSong } = useGameConfig();
+  const { configurationGame: { durationMs, timerListen }, handleOnActiveGuess, handleOnActiveListen, handleOnActiveSong } = useGame();
   const value = durationMs;
   const [progress, setProgress] = useState<number>(0);
 
