@@ -2,17 +2,17 @@ import { createContext } from "react"
 import Artist from "../../entities/artist/Artist";
 import User from "../../entities/user/User";
 
-export interface IApiState {
+export interface IStateGTS {
     user: User|null;
     userTopArtists: Artist[];
     userTopGenresSeeds: string[];
 }
 
-export type ApiContextProps = {
-    apiState: IApiState;
+export type GTSContextProps = {
+    apiState: IStateGTS;
     loadUserProfile: () => void;
     loadUserTop6Artists: () => void;
     loadUserTop6GenresSeeds: () => void;
 }
 
-export const ApiContext = createContext<ApiContextProps>({} as ApiContextProps);
+export const GTSContext = createContext<GTSContextProps>({} as GTSContextProps);

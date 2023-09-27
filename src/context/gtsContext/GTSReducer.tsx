@@ -1,6 +1,6 @@
 import Artist from "../../entities/artist/Artist";
 import User from "../../entities/user/User";
-import { IApiState } from "./ApiContext";
+import { IStateGTS } from "./GTSContext";
 
 export enum ApiAction {
     LOAD_USER_PROFILE = 0,
@@ -13,7 +13,7 @@ type apiAction =
     | { type: ApiAction.LOAD_USER_TOP_ARTISTS, payload: Artist[] }
     | { type: ApiAction.LOAD_USER_TOP_GENRES_SEEDS, payload: string[] }
 
-export const ApiReducer = (state: IApiState, action: apiAction): IApiState => {
+export const GTSReducer = (state: IStateGTS, action: apiAction): IStateGTS => {
     switch (action.type) {
         case ApiAction.LOAD_USER_PROFILE:
             return {

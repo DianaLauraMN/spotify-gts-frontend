@@ -1,6 +1,6 @@
 import { useReducer } from "react";
-import { IApiState, ApiContext } from "./ApiContext";
-import { ApiReducer, ApiAction } from "./ApiReducer";
+import { IStateGTS, GTSContext } from "./GTSContext";
+import { GTSReducer, ApiAction } from "./GTSReducer";
 import { IApiUserControllerCalls } from "../../api/interfaces/IApiUser";
 import { IApiArtistsControllerCalls } from "../../api/interfaces/IApiArtists";
 import ApiUser from "../../api/ApiUser";
@@ -13,14 +13,14 @@ interface props {
     children: JSX.Element | JSX.Element[];
 }
 
-const initial_state: IApiState = {
+const initial_state: IStateGTS = {
     user: null,
     userTopArtists: [],
     userTopGenresSeeds: [],
 }
 
-const ApiProvider = ({ children }: props) => {
-    const [apiState, dispatch] = useReducer(ApiReducer, initial_state);
+const GTSProvider = ({ children }: props) => {
+    const [apiState, dispatch] = useReducer(GTSReducer, initial_state);
 
     const loadUserProfile = async () => {
         dispatch({ type: ApiAction.LOAD_USER_PROFILE, payload: await apiUser.getUserData() })
@@ -37,15 +37,15 @@ const ApiProvider = ({ children }: props) => {
     }
 
     return (
-        <ApiContext.Provider value={{
+        <GTSContext.Provider value={{
             apiState,
             loadUserProfile,
             loadUserTop6Artists,
             loadUserTop6GenresSeeds
         }}>
             {children}
-        </ApiContext.Provider>
+        </GTSContext.Provider>
     )
 }
 
-export default ApiProvider;
+export default GTSProvider;
