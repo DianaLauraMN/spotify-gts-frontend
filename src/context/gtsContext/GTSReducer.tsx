@@ -1,38 +1,55 @@
 import Artist from "../../entities/artist/Artist";
+import Track from "../../entities/track/Track";
 import User from "../../entities/user/User";
 import { IStateGTS } from "./GTSContext";
 
-export enum ApiAction {
+export enum GTSAction {
     LOAD_USER_PROFILE = 0,
     LOAD_USER_TOP_ARTISTS = 1,
     LOAD_USER_TOP_GENRES_SEEDS = 2,
+    LOAD_TRACKS_RECENTLY_PLAYED = 3,
+    LOAD_TRACKS_ITEMS_SEARCHED_RESULTS = 4,
 }
 
-type apiAction =
-    | { type: ApiAction.LOAD_USER_PROFILE, payload: User }
-    | { type: ApiAction.LOAD_USER_TOP_ARTISTS, payload: Artist[] }
-    | { type: ApiAction.LOAD_USER_TOP_GENRES_SEEDS, payload: string[] }
+type gtsAction =
+    | { type: GTSAction.LOAD_USER_PROFILE, payload: User }
+    | { type: GTSAction.LOAD_USER_TOP_ARTISTS, payload: Artist[] }
+    | { type: GTSAction.LOAD_USER_TOP_GENRES_SEEDS, payload: string[] }
+    | { type: GTSAction.LOAD_TRACKS_RECENTLY_PLAYED, payload: Track[] }
+    | { type: GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS, payload: Track[] }
 
-export const GTSReducer = (state: IStateGTS, action: apiAction): IStateGTS => {
+export const GTSReducer = (state: IStateGTS, action: gtsAction): IStateGTS => {
     switch (action.type) {
-        case ApiAction.LOAD_USER_PROFILE:
+        case GTSAction.LOAD_USER_PROFILE:
             return {
                 ...state,
                 user: action.payload
             }
 
-        case ApiAction.LOAD_USER_TOP_ARTISTS:
+        case GTSAction.LOAD_USER_TOP_ARTISTS:
             return {
                 ...state,
                 userTopArtists: action.payload
             }
 
-        case ApiAction.LOAD_USER_TOP_GENRES_SEEDS:
+        case GTSAction.LOAD_USER_TOP_GENRES_SEEDS:
             return {
                 ...state,
                 userTopGenresSeeds: action.payload
             }
-            
+
+            case GTSAction.LOAD_TRACKS_RECENTLY_PLAYED:
+                return {
+                    ...state,
+                    tracksRecentlyPlayed: action.payload
+                }
+    
+            case GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS:
+                return {
+                    ...state,
+                    tracksItemsSearchResults: action.payload
+                }
+    
         default:
             return state;
     }
