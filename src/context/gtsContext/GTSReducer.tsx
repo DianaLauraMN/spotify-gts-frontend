@@ -9,6 +9,8 @@ export enum GTSAction {
     LOAD_USER_TOP_GENRES_SEEDS = 2,
     LOAD_TRACKS_RECENTLY_PLAYED = 3,
     LOAD_TRACKS_ITEMS_SEARCHED_RESULTS = 4,
+    HANDLE_IS_NEW_SEARCH = 5,
+    CLEAN_SEARCH = 6,
 }
 
 type gtsAction =
@@ -17,6 +19,8 @@ type gtsAction =
     | { type: GTSAction.LOAD_USER_TOP_GENRES_SEEDS, payload: string[] }
     | { type: GTSAction.LOAD_TRACKS_RECENTLY_PLAYED, payload: Track[] }
     | { type: GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS, payload: Track[] }
+    | { type: GTSAction.HANDLE_IS_NEW_SEARCH, payload: boolean }
+    | { type: GTSAction.CLEAN_SEARCH, payload: Track[]}
 
 export const GTSReducer = (state: IStateGTS, action: gtsAction): IStateGTS => {
     switch (action.type) {
@@ -38,18 +42,30 @@ export const GTSReducer = (state: IStateGTS, action: gtsAction): IStateGTS => {
                 userTopGenresSeeds: action.payload
             }
 
-            case GTSAction.LOAD_TRACKS_RECENTLY_PLAYED:
-                return {
-                    ...state,
-                    tracksRecentlyPlayed: action.payload
-                }
-    
-            case GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS:
-                return {
-                    ...state,
-                    tracksItemsSearchResults: action.payload
-                }
-    
+        case GTSAction.LOAD_TRACKS_RECENTLY_PLAYED:
+            return {
+                ...state,
+                tracksRecentlyPlayed: action.payload
+            }
+
+        case GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS:
+            return {
+                ...state,
+                searchResultsTracks: action.payload
+            }
+
+        case GTSAction.HANDLE_IS_NEW_SEARCH:
+            return {
+                ...state,
+                isNewSearch: action.payload
+            }
+
+        case GTSAction.CLEAN_SEARCH:
+            return {
+                ...state,
+                searchResultsTracks: action.payload
+            }
+
         default:
             return state;
     }

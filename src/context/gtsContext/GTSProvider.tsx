@@ -22,7 +22,8 @@ const initial_state: IStateGTS = {
     userTopArtists: [],
     userTopGenresSeeds: [],
     tracksRecentlyPlayed: [],
-    tracksItemsSearchResults: [],
+    searchResultsTracks: [],
+    isNewSearch: true,
 }
 
 const GTSProvider = ({ children }: props) => {
@@ -45,8 +46,14 @@ const GTSProvider = ({ children }: props) => {
     const loadTracksRecentlyPlayed = async () => {
         dispatch({ type: GTSAction.LOAD_TRACKS_RECENTLY_PLAYED, payload: await apiTracks.getUserTopTracks() })
     }
-    const loadtracksItemsSearchResults = async (itemName:string) => {
+    const loadSearchResultsTracks = async (itemName: string) => {
         dispatch({ type: GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS, payload: await apiTracks.getTracksByName(itemName) })
+    }
+    const handleIsNewSearch = (isNewSearch: boolean) => {
+        dispatch({ type: GTSAction.HANDLE_IS_NEW_SEARCH, payload: isNewSearch });
+    }
+    const cleanSearch = () => {
+        dispatch({ type: GTSAction.CLEAN_SEARCH, payload: [] });
     }
     return (
         <GTSContext.Provider value={{
@@ -55,7 +62,9 @@ const GTSProvider = ({ children }: props) => {
             loadUserTop6Artists,
             loadUserTop6GenresSeeds,
             loadTracksRecentlyPlayed,
-            loadtracksItemsSearchResults
+            loadSearchResultsTracks,
+            handleIsNewSearch,
+            cleanSearch
         }}>
             {children}
         </GTSContext.Provider>
