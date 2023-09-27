@@ -1,13 +1,16 @@
 import style from "./RecentlyPlayedComponent.module.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useGTS from "../../hooks/useGTS";
+import Track from "../../entities/track/Track";
 
 const RecentlyPlayedComponent = () => {
-    const { gtsState: { tracksRecentlyPlayed }, loadTracksRecentlyPlayed } = useGTS();
+    const { gtsState: { tracksRecentlyPlayed, searchResultsTracks }, loadTracksRecentlyPlayed } = useGTS();
+    const [tracks, setTracks] = useState<Track[]>([]);
+    loadTracksRecentlyPlayed();
 
     useEffect(() => {
-        loadTracksRecentlyPlayed();
-    }, [])
+        searchResultsTracks.length > 0 ? setTracks(searchResultsTracks) : setTracks(tracksRecentlyPlayed);
+    }, [searchResultsTracks,tracksRecentlyPlayed]);
 
     return (
         <div className={style.recentlyPlayedContainer}>
@@ -15,7 +18,7 @@ const RecentlyPlayedComponent = () => {
                 <div className={style.scrollContent}>
                     <div className={style.cards}>
                         {
-                            tracksRecentlyPlayed.map((track, key) => (
+                            tracks.map((track, key) => (
                                 <div key={key}>
 
                                     <div className={style.cardSong}>

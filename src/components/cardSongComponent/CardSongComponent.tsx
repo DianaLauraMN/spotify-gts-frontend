@@ -4,13 +4,14 @@ import React, { useEffect } from "react";
 import usePlay from "../../hooks/usePlay";
 import useGame from "../../hooks/useGame";
 import RenderGameGuessTrackComponent from "../renderGameGuessTrack/RenderGameGuessTrackComponent";
+import useGTS from "../../hooks/useGTS";
 
 interface CardSongComponentProps {
     tracks: Track[];
 }
 
 const CardSongComponent: React.FC<CardSongComponentProps> = ({ tracks }) => {
-
+    const {cleanSearch, handleIsNewSearch} =useGTS();
     const { playState: { currentTrackIndex }, handleOnChangeCurrentTrack } = usePlay();
     const { configurationGame: { timerListen, timerSong, timerGuess }, handleOnActiveSong, handleOnActiveListen } = useGame();
     const currentTrack = tracks[currentTrackIndex];
@@ -21,9 +22,11 @@ const CardSongComponent: React.FC<CardSongComponentProps> = ({ tracks }) => {
 
     useEffect(() => {
         setTimeout(() => {
+            cleanSearch();
             handleOnActiveSong(false);
             handleOnChangeCurrentTrack(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
             handleOnActiveListen(true);
+            handleIsNewSearch(true);
         }, timerToLoadNextTrack());
     }, [currentTrack]);
 
