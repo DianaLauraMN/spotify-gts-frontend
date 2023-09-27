@@ -1,9 +1,9 @@
 import style from "./RecentlyPlayedComponent.module.css";
 import React, { useEffect } from "react";
-import usePlay from "../../hooks/usePlay";
+import useGTS from "../../hooks/useGTS";
 
 const RecentlyPlayedComponent = () => {
-    const { playState: { tracksRecentlyPlayed }, loadTracksRecentlyPlayed } = usePlay();
+    const { gtsState: { tracksRecentlyPlayed }, loadTracksRecentlyPlayed } = useGTS();
 
     useEffect(() => {
         loadTracksRecentlyPlayed();

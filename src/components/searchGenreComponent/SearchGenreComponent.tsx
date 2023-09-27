@@ -10,7 +10,7 @@ interface searchGenreComponentProps {
 
 const SearchGenreComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
     const { handleOnChangeGenres } = useGame();
-    const { apiState: { userTopGenresSeeds }, loadUserTop6GenresSeeds } = useGTS();
+    const { gtsState: { userTopGenresSeeds }, loadUserTop6GenresSeeds } = useGTS();
 
     useEffect(() => {
         loadUserTop6GenresSeeds();

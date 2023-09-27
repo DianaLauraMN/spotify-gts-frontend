@@ -12,7 +12,7 @@ import useGTS from "../../hooks/useGTS";
 
 
 const ConfigGamePage = () => {
-  const { apiState: { user }, loadUserProfile } = useGTS();
+  const { gtsState: { user }, loadUserProfile } = useGTS();
   
   useEffect(() => {
     loadUserProfile();

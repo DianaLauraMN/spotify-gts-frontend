@@ -10,7 +10,7 @@ interface searchArtistComponentProps {
 
 const SearchArtistComponent: React.FC<searchArtistComponentProps> = ({ title }) => {
   const { handleOnChangeArtists } = useGame();
-  const { apiState: { userTopArtists }, loadUserTop6Artists } = useGTS();
+  const { gtsState: { userTopArtists }, loadUserTop6Artists } = useGTS();
 
   useEffect(() => {
     loadUserTop6Artists();
