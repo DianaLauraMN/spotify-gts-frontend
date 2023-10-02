@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import style from './WavesAudioComponent.module.css';
-import useGameConfig from '../../hooks/useGameConfig';
+import useGame from '../../hooks/useGame';
 
 const WavesAudioComponent = () => {
     const [stopAnimation, setStopAnimation] = useState(false);
-    const { configurationGame: { durationMs } } = useGameConfig();
+    const { configurationGame: { durationMs } } = useGame();
 
     useEffect(() => {
         const timer = setTimeout(() => {

@@ -8,11 +8,11 @@ import SearchArtistComponent from "../../components/searchArtistComponent/Search
 import TimeConfigComponent from "../../components/timeConfigComponent/TimeConfigComponent";
 import SongsNumberComponent from "../../components/songsNumberComponent/SongsNumberComponent";
 import { useEffect } from "react";
-import useApi from "../../hooks/useApi";
+import useGTS from "../../hooks/useGTS";
 
 
 const ConfigGamePage = () => {
-  const { apiState: { user }, loadUserProfile } = useApi();
+  const { gtsState: { user }, loadUserProfile } = useGTS();
   
   useEffect(() => {
     loadUserProfile();

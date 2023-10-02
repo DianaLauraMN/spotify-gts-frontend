@@ -1,11 +1,11 @@
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import style from "./GuessFromComponent.module.css";
 
 interface searchGenreComponentProps {
     title: string;
 }
 const GuessFromComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
-    const { handleOnChangeGuessFrom } = useGameConfig();
+    const { handleOnChangeGuessFrom } = useGame();
     return (
         <div className={style.GuessFromContainer}>
             <div className={style.centerContainer}>

@@ -1,5 +1,5 @@
 import style from "./CardSelectSongComponent.module.css";
-import RecentlyPlayedComponent from "../recentlyPlayed/RecentlyPlayedComponent";
+import RecentlyPlayedComponent from "../tracksListedComponent/TracksListedComponent";
 import InputSearchComponent from "../inputSearchComponent/InputSearchComponent";
 import TimerComponent from "../timerComponent/TimerComponent";
 

@@ -1,11 +1,11 @@
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import style from "./TimeConfigComponent.module.css";
 
 interface searchGenreComponentProps {
     title: string;
 }
 const TimeConfigComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
-    const { handleOnChangeHowManySec ,activeListenTimer} = useGameConfig();
+    const { handleOnChangeHowManySec ,activeListenTimer} = useGame();
     return (
         <div className={style.timeConfigContainer}>
             <div className={style.centerContainer}>

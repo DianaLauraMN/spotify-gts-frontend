@@ -1,19 +1,17 @@
 import style from "./CardSongComponent.module.css";
-import Track from "../../entities/track/Track";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import usePlay from "../../hooks/usePlay";
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import RenderGameGuessTrackComponent from "../renderGameGuessTrack/RenderGameGuessTrackComponent";
+import useGTS from "../../hooks/useGTS";
 
-interface CardSongComponentProps {
-    tracks: Track[];
-}
+const CardSongComponent = () => {
+    const { cleanSearch, handleIsNewSearch } = useGTS();
+    const { playState: { currentTrackIndex, isGameOver, score }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValues, toggleIsGameOver } = usePlay();
+    const { configurationGame: { timerListen, timerSong, timerGuess, tracks }, handleOnActiveSong, handleOnActiveListen } = useGame();
 
-const CardSongComponent: React.FC<CardSongComponentProps> = ({ tracks }) => {
-
-    const { playState: { currentTrackIndex }, handleOnChangeCurrentTrack } = usePlay();
-    const { configurationGame: { timerListen, timerSong, timerGuess }, handleOnActiveSong, handleOnActiveListen } = useGameConfig();
-    const currentTrack = tracks[currentTrackIndex];
+    if (!tracks) { throw new Error('Game Tracks empty') }
+    const currentTrackAux = tracks[currentTrackIndex];
 
     const timerToLoadNextTrack = () => {
         return ((timerListen.time * 1000) + (timerGuess.time * 1000) + (timerSong.time * 1000))
@@ -21,11 +19,22 @@ const CardSongComponent: React.FC<CardSongComponentProps> = ({ tracks }) => {
 
     useEffect(() => {
         setTimeout(() => {
+            cleanSearch();
+            restartGameValues('trackAnswer');
             handleOnActiveSong(false);
-            handleOnChangeCurrentTrack(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
-            handleOnActiveListen(true);
+            handleOnChangeCurrentTrackIndex(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
+            if (currentTrackIndex === tracks.length - 1) {
+                toggleIsGameOver(true);
+            } else {
+                handleOnActiveListen(true);
+                handleIsNewSearch(true);
+            }
         }, timerToLoadNextTrack());
-    }, [currentTrack]);
+    }, [currentTrackAux]);
+
+    useEffect(() => {
+        handleOnChangeCurrentTrack(currentTrackAux);
+    }, [tracks, currentTrackAux]);
 
     return (
         <div className={style.cardSongContainer}>
@@ -33,11 +42,20 @@ const CardSongComponent: React.FC<CardSongComponentProps> = ({ tracks }) => {
                 <h1>Guess The Song</h1>
             </div>
             <div className={style.trackContainer}>
-                {currentTrack && (
+                {currentTrackAux && (
                     <div>
-                        <RenderGameGuessTrackComponent
-                            track={currentTrack}
-                        />
+                        {isGameOver &&
+                            <div>
+                                <h1>GAME OVER</h1>
+                                <h1>{score}</h1>
+                            </div>
+                        }
+                        {(!isGameOver) &&
+                            <div>
+                                <RenderGameGuessTrackComponent
+                                    track={currentTrackAux}
+                                />
+                            </div>}
                     </div>
                 )}
             </div>

@@ -1,16 +1,17 @@
-import style from "./GamePage.module.css"
-import CardSelectSongComponent from "../../components/CardSelectSongComponent/CardSelectSongComponent"
-import CardSongComponent from "../../components/cardSongComponent/CardSongComponent"
-import useGameConfig from "../../hooks/useGameConfig"
-import usePlay from "../../hooks/usePlay"
+import { useEffect } from 'react';
+import style from "./GamePage.module.css";
+import CardSelectSongComponent from "../../components/CardSelectSongComponent/CardSelectSongComponent";
+import CardSongComponent from "../../components/cardSongComponent/CardSongComponent";
+import useGame from "../../hooks/useGame";
+import usePlay from "../../hooks/usePlay";
 
 const GamePage = () => {
-    const { playState } = usePlay();
-    const { score } = playState;
-    const { configurationGame } = useGameConfig();
-    const { tracks, level } = configurationGame;
-    if (!tracks) { throw new Error('Tracks in game page') }
+    const { playState: { score, failed, asserts }, handleOnChangeScore } = usePlay();
+    const { configurationGame: { level, tracksQuantity } } = useGame();
 
+    useEffect(() => {
+        handleOnChangeScore((asserts.length / tracksQuantity) * 100);
+    }, [asserts])
     return (
         <div className={style.gamePageContainer}>
             <div className={style.levelScoreContainer}>
@@ -21,11 +22,15 @@ const GamePage = () => {
                 <div className={style.scoreContainer}>
                     <h2 >Score</h2>
                     <h3 >{score}</h3>
+                    <h2 >Asserts</h2>
+                    <h3 >{asserts.length}</h3>
+                    <h2 >Failed</h2>
+                    <h3 >{failed.length}</h3>
                 </div>
             </div>
             <div className={style.cardContainer}>
                 <div className={style.card1}>
-                    <CardSongComponent tracks={tracks} />
+                    <CardSongComponent />
                 </div>
                 <div className={style.card2}>
                     <CardSelectSongComponent />

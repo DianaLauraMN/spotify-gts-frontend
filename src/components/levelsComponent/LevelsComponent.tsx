@@ -1,5 +1,5 @@
 import style from "./LevelsComponent.module.css";
-import useGameConfig from "../../hooks/useGameConfig";
+import useGame from "../../hooks/useGame";
 import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
 
 interface levelsComponentProps {
@@ -12,8 +12,8 @@ interface levelsComponentProps {
     title: string;
 }
 
-const LevelsComponent: React.FC<levelsComponentProps> = ({ contEasy, contHard, contNormal, easySelected, hardSelected, normalSelected, title }) => {
-    const { handleOnChangeLevel } = useGameConfig();
+const LevelsComponent: React.FC<levelsComponentProps> = ({ title }) => {
+    const { handleOnChangeLevel } = useGame();
     return (
         <div className={style.levelContainer}>
             <div className={style.centerContainer}>
@@ -21,25 +21,13 @@ const LevelsComponent: React.FC<levelsComponentProps> = ({ contEasy, contHard, c
                     <h3>{title}</h3>
                 </div>
                 <div className={style.btnsContainer}>
-                    <div onClick={() => {
-
-                        console.log("EASY ");
-                    }}>
+                    <div>
                         <GenericButtonComponent isLevel={true} text="Easy" onClick={() => handleOnChangeLevel('EASY')} />
                     </div>
-
-                    <div onClick={() => {
-
-                        console.log("NORMAL ");
-                    }}>
+                    <div>
                         <GenericButtonComponent isLevel={true} text="Normal" onClick={() => handleOnChangeLevel('NORMAL')} />
                     </div>
-
-                    <div onClick={() => {
-
-                        console.log("HARD ");
-
-                    }}>
+                    <div>
                         <GenericButtonComponent isLevel={true} text="Hard" onClick={() => handleOnChangeLevel('HARD')} />
                     </div>
                 </div>

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import useGameConfig from '../../hooks/useGameConfig';
+import useGame from '../../hooks/useGame';
 
 const TimerComponent = () => {
     const [progress, setProgress] = React.useState(0);
-    const { configurationGame: { timerGuess }, handleOnActiveGuess, handleOnActiveSong } = useGameConfig();
+    const { configurationGame: { timerGuess }, handleOnActiveGuess, handleOnActiveSong } = useGame();
     const progressInterval = (100 / timerGuess.time);
 
     useEffect(() => {

@@ -1,49 +1,66 @@
 import { useReducer } from "react";
 import { IPlayState, PlayContext } from "./PlayContext";
 import { PlayAction, PlayReducer } from "./PlayReducer";
-import { IApiTracksControllerCalls } from "../../api/interfaces/IApiTracks";
-import ApiTracks from "../../api/ApiTracks";
-
-const apiTracks: IApiTracksControllerCalls = new ApiTracks();
+import Track from "../../entities/track/Track";
 
 interface props {
     children: JSX.Element | JSX.Element[];
 }
 
-const initial_state: IPlayState = {
-    tracksRecentlyPlayed: [],
+export const initial_state: IPlayState = {
     asserts: [],
     failed: [],
     trackAnswer: null,
     score: 0,
     trackIsPlaying: true,
     currentTrackIndex: 0,
-    tracksItemsSearchResults: [],
-    timer:10
+    timer: 10,
+    currentTrack: null,
+    isGameOver: false,
 }
 
 const PlayProvider = ({ children }: props) => {
     const [playState, dispatch] = useReducer(PlayReducer, initial_state);
     const handleOnChangeTrackPlaying = (trackIsPlaying: boolean) => {
-        dispatch({ type: PlayAction.HANDLE_AUDIO_ENDED, payload: trackIsPlaying })
+        dispatch({ type: PlayAction.HANDLE_TRACK_IS_PLAYING, payload: trackIsPlaying })
     }
-    const handleOnChangeCurrentTrack = (currentTrackIndex: number) => {
-        dispatch({ type: PlayAction.HANDLE_CURRENT_TRACK, payload: currentTrackIndex })
+    const handleOnChangeCurrentTrackIndex = (currentTrackIndex: number) => {
+        dispatch({ type: PlayAction.HANDLE_CURRENT_TRACK_INDEX, payload: currentTrackIndex })
     }
-    const loadTracksRecentlyPlayed = async () => {
-        dispatch({ type: PlayAction.LOAD_TRACKS_RECENTLY_PLAYED, payload: await apiTracks.getUserTopTracks() })
+    const handleOnChangeAsserts = (assert: Track) => {
+        dispatch({ type: PlayAction.HANDLE_CHANGE_ASSERTS, payload: assert });
     }
-    const loadtracksItemsSearchResults = async (itemName:string) => {
-        dispatch({ type: PlayAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS, payload: await apiTracks.getTracksByName(itemName) })
+    const handleOnChangeFailed = (fail: Track) => {
+        dispatch({ type: PlayAction.HANDLE_CHANGE_FAILED, payload: fail });
+    }
+    const handleOnChangeScore = (score: number) => {
+        dispatch({ type: PlayAction.HANDLE_CHANGE_SCORE, payload: score });
+    }
+    const handleOnChangeTrackAnswer = (trackChosen: Track) => {
+        dispatch({ type: PlayAction.HANDLE_CHANGE_TRACK_ANSWER, payload: trackChosen });
+    }
+    const handleOnChangeCurrentTrack = (currentTrack: Track) => {
+        dispatch({ type: PlayAction.HANDLE_CHANGE_CURRENT_TRACK, payload: currentTrack });
+    }
+    const restartGameValues = (attributeToRestart: string) => {
+        dispatch({ type: PlayAction.RESTART_GAME_VALUES, payload: attributeToRestart });
+    }
+    const toggleIsGameOver = (isGameOver: boolean) => {
+        dispatch({ type: PlayAction.TOGGLE_IS_GAME_OVER, payload: isGameOver });
     }
 
     return (
         <PlayContext.Provider value={{
             playState,
             handleOnChangeTrackPlaying,
+            handleOnChangeCurrentTrackIndex,
+            handleOnChangeAsserts,
+            handleOnChangeFailed,
+            handleOnChangeScore,
+            handleOnChangeTrackAnswer,
             handleOnChangeCurrentTrack,
-            loadTracksRecentlyPlayed,
-            loadtracksItemsSearchResults
+            restartGameValues,
+            toggleIsGameOver,
         }}>
             {children}
         </PlayContext.Provider>

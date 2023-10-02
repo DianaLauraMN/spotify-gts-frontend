@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Track from '../../entities/track/Track';
 import style from './SongAnswerComponent.module.css'
-import useGameConfig from '../../hooks/useGameConfig';
+import useGame from '../../hooks/useGame';
 
 interface songAnswerComponentProps {
     track: Track;
@@ -9,7 +9,7 @@ interface songAnswerComponentProps {
 const SongAnswerComponent: React.FC<songAnswerComponentProps> = ({ track }) => {
     const { name, album, artists } = track;
     const coverAlbum = album.images[0].url;
-    const { handleOnActiveSong, handleOnActiveListen, configurationGame: { timerGuess, timerSong } } = useGameConfig();
+    const { handleOnActiveSong, handleOnActiveListen, configurationGame: { timerGuess, timerSong } } = useGame();
 
     useEffect(() => {
         if (timerSong.active && (!timerGuess.active)) {
