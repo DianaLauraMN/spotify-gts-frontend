@@ -1,4 +1,4 @@
-import style from "./RecentlyPlayedComponent.module.css";
+import style from "./TracksListedComponent.module.css"
 import React, { useEffect, useState } from "react";
 import useGTS from "../../hooks/useGTS";
 import Track from "../../entities/track/Track";
