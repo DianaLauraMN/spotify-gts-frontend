@@ -3,10 +3,11 @@ import React, { useRef, useEffect } from "react";
 interface AudioPlayerComponentProps {
     url: string;
     secondsToPlay: number;
+    reestartAudioElement: boolean;
 }
 
-const AudioPlayerComponent: React.FC<AudioPlayerComponentProps> = ({ url, secondsToPlay }) => {
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+const AudioPlayerComponent: React.FC<AudioPlayerComponentProps> = ({ url, secondsToPlay,reestartAudioElement }) => {
+    let audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
         if (audioRef.current) {
