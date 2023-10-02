@@ -30,12 +30,10 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
         } else {
             login();
         }
-        console.log('Es un tipo login');
     };
 
     const handleGameClick = () => {
         startGame();
-        console.log('Es un tipo game');
     };
 
     useEffect(() => {
