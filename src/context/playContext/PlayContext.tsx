@@ -8,15 +8,22 @@ export interface IPlayState {
     score: number,
     trackIsPlaying: boolean,
     currentTrackIndex: number,
-    timer:number,
+    currentTrack: Track | null,
+    timer: number,
+    isGameOver: boolean,
+    [key: string]: any; // Firma de índice para permitir cualquier propiedad de tipo 'any'
 }
 export type PlayContextProps = {
     playState: IPlayState,
     handleOnChangeTrackPlaying: (trackIsPlaying: boolean) => void,
-    handleOnChangeCurrentTrack: (currentTrackIndex: number) => void
-    // handleOnChangeAsserts: (asserts: Track[]) => void
-    // handleOnChangeFailed: (failed: Track[]) => void
-
+    handleOnChangeCurrentTrackIndex: (currentTrackIndex: number) => void,
+    handleOnChangeAsserts: (assert: Track) => void,
+    handleOnChangeFailed: (fail: Track) => void,
+    handleOnChangeScore: (score: number) => void,
+    handleOnChangeTrackAnswer: (trackChosen: Track) => void,
+    handleOnChangeCurrentTrack: (currentTrack: Track) => void,
+    toggleIsGameOver: (isGameOver: boolean) => void,
+    restartGameValues: (attributeToRestart: string) => void,
 }
 
 export const PlayContext = createContext<PlayContextProps>({} as PlayContextProps);
