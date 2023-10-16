@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import style from "./InputSearchComponent.module.css"
 import searchIcon from "./../../img/search-icon.svg";
 import useGTS from '../../hooks/useGTS';
+import usePlay from '../../hooks/usePlay';
 
 const InputSearchComponent = () => {
     const { gtsState: { isNewSearch }, handleIsNewSearch, loadSearchResultsTracks } = useGTS();
+    const { playState: { isGameOver } } = usePlay();
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,9 +26,7 @@ const InputSearchComponent = () => {
     }
 
     useEffect(() => {
-        if (isNewSearch) {
-            setSearchTerm('');
-        }
+        if (isNewSearch) { setSearchTerm(''); }
     }, [isNewSearch])
 
     return (
@@ -40,6 +40,8 @@ const InputSearchComponent = () => {
                 value={searchTerm}
                 onChange={handleInputChange}
                 onKeyUp={handleKeyUp}
+                readOnly={isGameOver}
+                disabled={isGameOver}
             />
         </div>
 
