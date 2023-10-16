@@ -3,19 +3,19 @@ import React, { useRef, useEffect } from "react";
 interface AudioPlayerComponentProps {
     url: string;
     secondsToPlay: number;
-    reestartAudioElement: boolean;
 }
 
-const AudioPlayerComponent: React.FC<AudioPlayerComponentProps> = ({ url, secondsToPlay,reestartAudioElement }) => {
+const AudioPlayerComponent: React.FC<AudioPlayerComponentProps> = ({ url, secondsToPlay }) => {
     let audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
         if (audioRef.current) {
-            setTimeout(() => {
+            const timerId = setTimeout(() => {
                 pauseSong();
             }, (secondsToPlay) * 1000);
+            return () => clearTimeout(timerId);
         }
-    }, [url]);
+    }, [url, secondsToPlay]);
 
     const pauseSong = () => {
         if (audioRef.current) {
