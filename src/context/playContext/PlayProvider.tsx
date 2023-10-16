@@ -14,7 +14,7 @@ export const initial_state: IPlayState = {
     score: 0,
     trackIsPlaying: true,
     currentTrackIndex: 0,
-    timer: 10,
+    timerUser: 0,
     currentTrack: null,
     isGameOver: false,
 }
@@ -48,6 +48,9 @@ const PlayProvider = ({ children }: props) => {
     const toggleIsGameOver = (isGameOver: boolean) => {
         dispatch({ type: PlayAction.TOGGLE_IS_GAME_OVER, payload: isGameOver });
     }
+    const handleOnChangeTimerUser = (timerUser: number) => {
+        dispatch({ type: PlayAction.HANDLE_ON_CHANGE_TIMER_USER, payload: timerUser });
+    }
 
     return (
         <PlayContext.Provider value={{
@@ -61,6 +64,7 @@ const PlayProvider = ({ children }: props) => {
             handleOnChangeCurrentTrack,
             restartGameValues,
             toggleIsGameOver,
+            handleOnChangeTimerUser,
         }}>
             {children}
         </PlayContext.Provider>
