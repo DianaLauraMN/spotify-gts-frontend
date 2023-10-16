@@ -7,30 +7,37 @@ import useGTS from "../../hooks/useGTS";
 
 const CardSongComponent = () => {
     const { cleanSearch, handleIsNewSearch } = useGTS();
-    const { playState: { currentTrackIndex, isGameOver, score }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValues, toggleIsGameOver } = usePlay();
+    const { playState: { currentTrackIndex, isGameOver, score, trackAnswer, timerUser }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValues, toggleIsGameOver } = usePlay();
     const { configurationGame: { timerListen, timerSong, timerGuess, tracks }, handleOnActiveSong, handleOnActiveListen } = useGame();
 
     if (!tracks) { throw new Error('Game Tracks empty') }
     const currentTrackAux = tracks[currentTrackIndex];
 
     const timerToLoadNextTrack = () => {
-        return ((timerListen.time * 1000) + (timerGuess.time * 1000) + (timerSong.time * 1000))
+      //  if (!trackAnswer) {
+            return ((timerListen.time * 1000) + (timerGuess.time * 1000) + (timerSong.time * 1000))
+       // } else {
+         //   return (timerUser * 1000);
+       // }
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            cleanSearch();
-            restartGameValues('trackAnswer');
-            handleOnActiveSong(false);
-            handleOnChangeCurrentTrackIndex(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
-            if (currentTrackIndex === tracks.length - 1) {
-                toggleIsGameOver(true);
-            } else {
-                handleOnActiveListen(true);
-                handleIsNewSearch(true);
-            }
-        }, timerToLoadNextTrack());
-    }, [currentTrackAux]);
+        if (!isGameOver) {
+            const timerId = setTimeout(() => {
+                cleanSearch();
+                restartGameValues('trackAnswer');
+                handleOnActiveSong(false);
+                handleOnChangeCurrentTrackIndex(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
+                if (currentTrackIndex === tracks.length - 1) {
+                    toggleIsGameOver(true);
+                } else {
+                    handleOnActiveListen(true);
+                    handleIsNewSearch(true);
+                }
+            }, timerToLoadNextTrack());
+            return () => clearTimeout(timerId);
+        }
+    }, [isGameOver, currentTrackIndex, tracks]);
 
     useEffect(() => {
         handleOnChangeCurrentTrack(currentTrackAux);
