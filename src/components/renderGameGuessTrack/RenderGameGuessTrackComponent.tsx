@@ -18,7 +18,6 @@ const RenderGameGuessTrackComponent: React.FC<RenderGameGuessTrackComponentProps
                     <AudioPlayerComponent
                         url={preview_url}
                         secondsToPlay={5}
-                        reestartAudioElement={true}
                     />
                     <SongAnswerComponent
                         track={track} />
@@ -28,7 +27,6 @@ const RenderGameGuessTrackComponent: React.FC<RenderGameGuessTrackComponentProps
                     <AudioPlayerComponent
                         url={preview_url}
                         secondsToPlay={durationMs}
-                        reestartAudioElement={false}
                     />
                     <div className={style.guessingContainer}>
                         <div className={style.circularTimerContainer}>
