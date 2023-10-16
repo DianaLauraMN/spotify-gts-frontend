@@ -4,11 +4,11 @@ import useGTS from "../../hooks/useGTS";
 import Track from "../../entities/track/Track";
 import usePlay from "../../hooks/usePlay";
 
-const RecentlyPlayedComponent = () => {
+const TrackListedComponent = () => {
     const [tracks, setTracks] = useState<Track[]>([]);
     const [trackCardEnabled, setTrackCardEnabled] = useState(true);
-    const { gtsState: { tracksRecentlyPlayed, searchResultsTracks }, loadTracksRecentlyPlayed } = useGTS();
-    const { playState: { trackAnswer, currentTrack }, handleOnChangeAsserts, handleOnChangeFailed, handleOnChangeTrackAnswer } = usePlay();
+        const { gtsState: { tracksRecentlyPlayed, searchResultsTracks }, loadTracksRecentlyPlayed } = useGTS();
+    const { playState: { trackAnswer, currentTrack, isGameOver }, handleOnChangeAsserts, handleOnChangeFailed, handleOnChangeTrackAnswer } = usePlay();
 
     if (tracksRecentlyPlayed.length === 0) { loadTracksRecentlyPlayed(); }
 
@@ -17,10 +17,7 @@ const RecentlyPlayedComponent = () => {
     }, [searchResultsTracks, tracksRecentlyPlayed]);
 
     useEffect(() => {
-        setTrackCardEnabled(true);
-    }, [currentTrack]);
-
-    useEffect(() => {
+        trackAnswer ? setTrackCardEnabled(false) : setTrackCardEnabled(true);
         assignsGameResults();
     }, [trackAnswer]);
 
@@ -34,7 +31,7 @@ const RecentlyPlayedComponent = () => {
         <div className={style.recentlyPlayedContainer}>
             <div className={style.scrollContainer}>
                 <div className={style.scrollContent}>
-                    <div className={style.cards}>
+                                        <div className={style.cards}>
                         {
                             tracks.map((track, key) => (
                                 <div key={key}>
@@ -42,7 +39,6 @@ const RecentlyPlayedComponent = () => {
                                     <div id="cardSong" className={style.cardSong} onClick={() => {
                                         if (trackCardEnabled) {
                                             handleOnChangeTrackAnswer(track);
-                                            setTrackCardEnabled(false);
                                         }
                                     }}>
                                         <div className={style.coverAlbum}>
@@ -67,4 +63,4 @@ const RecentlyPlayedComponent = () => {
     )
 }
 
-export default RecentlyPlayedComponent
+export default TrackListedComponent
