@@ -1,5 +1,5 @@
 import SongAnswerComponent from '../songAnswerComponent/SongAnswerComponent';
-import CircularProgressWithLabel from '../CircularProgressWithLabel/CircularProgressWithLabel';
+import CircularProgressWithLabel from '../circularProgressComponent/CircularProgressComponent';
 import style from './RenderGameGuessTrackComponent.module.css'
 import useGame from '../../hooks/useGame';
 import AudioPlayerComponent from '../audioPlayerComponent/AudioPlayerComponent';
