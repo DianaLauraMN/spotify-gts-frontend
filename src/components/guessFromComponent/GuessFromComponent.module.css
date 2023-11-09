@@ -13,7 +13,7 @@
 .centerContainer {
     display: grid;
     grid-template-rows: 25% 75%;
-    gap: .5rem;
+    gap: .1rem;
     justify-content: center;
     align-items: center;
     margin: 1rem 0rem;
@@ -25,10 +25,18 @@
 }
 
 .formRadioBtnOptions {
-    width: 100%;
+    width: 18rem;
     font-size: 1rem;
 }
 
 .option {
     margin: .5rem 0rem;
+    display: flex;
+    align-items: center;
+}
+
+.option input {
+    margin: 0rem 1rem;
+    padding: 0rem;
+    max-width: 1rem;
 }
