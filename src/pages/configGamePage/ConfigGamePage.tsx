@@ -9,12 +9,15 @@ import TimeConfigComponent from "../../components/timeConfigComponent/TimeConfig
 import SongsNumberComponent from "../../components/songsNumberComponent/SongsNumberComponent";
 import { useEffect } from "react";
 import useGTS from "../../hooks/useGTS";
+import useGame from "../../hooks/useGame";
 
 
 const ConfigGamePage = () => {
   const { gtsState: { user }, loadUserProfile } = useGTS();
-  
+  const { resetGameState } = useGame();
+
   useEffect(() => {
+    resetGameState();
     loadUserProfile();
   }, []);
 

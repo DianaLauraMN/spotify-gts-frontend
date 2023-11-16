@@ -1,80 +1,77 @@
 import style from "./SpotifyButton.module.css"
-import { json, useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
 import Global from "../../../Global/Global";
-import ApiAuth from "../../../api/ApiAuth";
 import useGame from "../../../hooks/useGame";
+import useAuth from "../../../hooks/useAuth";
+import LocalStorageManager from "../../../api/LocalStorageManager";
+import useGTS from "../../../hooks/useGTS";
+const localStorageManager = new LocalStorageManager()
 
-const apiAuth = new ApiAuth();
 const spoty_url = `https://accounts.spotify.com/authorize?client_id=${Global.client_id}&response_type=code&redirect_uri=${Global.redirect_uri}&scope=${Global.scopes}`;
 
 interface SpotifyButtonProps {
-    type: 'login' | 'game';
+    type: 'login' | 'game' | 'reestart';
 }
 
 const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
     const { handleOnSubmitConfigGame, configurationGame } = useGame();
+    const [code, setCode] = useState('');
+
+    const { isLoggedIn, apiAuth } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const handleLoginClick = () => {
-        const authenticated: boolean = isAuthenticated();
-        if (authenticated) {
-            // console.log(JSON.parse(localStorage.getItem("access_token")));
-
-            // console.log(localStorage.access_token);
-            // console.log(localStorage.refresh_token);
-
-            login(); //no hace que se autentique de nuevo pero refresca el token al parecer
-        } else {
-            login();
-        }
+    const handleLoginClick = async () => {
+        isLoggedIn ? navigate('/configGame') : window.location.replace(spoty_url);
     };
 
     const handleGameClick = () => {
         startGame();
     };
 
-    useEffect(() => {
-        if (type === 'login') {
-            const timer = setTimeout(() => {
-                const urlParams = new URLSearchParams(location.search);
-                const spotyCode = urlParams.get("code");
-                if (spotyCode) authenticateUser(spotyCode);
-            }, 500); // 0.5 segundos
-            return () => clearTimeout(timer);// Limpieza del useEffect si es necesario (cancelar el timer)
-        }
-    }, [])
-
-    const authenticateUser = async (spotyCode: string) => {
-        try {
-            const accessToken = await apiAuth.getAccessToken(spotyCode);
-            if (accessToken) navigate("/configGame");
-        } catch (error) {
-            console.log('Error while authentication:', error);
-        }
-    };
-
-    const isAuthenticated = () => {
-        return localStorage.access_token ? true : false;
+    const handleReestart = () => {
+        localStorageManager.resetLocalStorage();
+        navigate('/')
     }
+
+    useEffect(() => {
+        const authenticateUser = async () => {
+            if (type === 'login' && (!code)) {
+                const urlParams = new URLSearchParams(location.search);
+                const spotifyCode = urlParams.get('code');
+                if (!code && spotifyCode) {
+                    if (!apiAuth.isTokenValid()) {
+                        setCode(spotifyCode);
+                        await apiAuth.getCredentials(spotifyCode);
+                        navigate('/configGame');
+                    }
+                }
+            }
+
+        }
+        authenticateUser();
+    }, []);
 
     const startGame = async () => {
         await handleOnSubmitConfigGame(configurationGame);
         navigate("/game")
     }
 
-
-    function login() {
-        window.location.replace(spoty_url);
-    };
-
     return (
-        <button className={style.btnLogin} onClick={type === 'login' ? handleLoginClick : handleGameClick}>
-            {type === 'login' ? 'Start Guessing' : 'Start Game'}
-        </button>
+        <div>
+            <button className={style.btnLogin} onClick={type === 'login' ? handleLoginClick : handleGameClick}>
+                {type === 'login' ? 'Start Guessing' : 'Start Game'}
+            </button>
+            <button className={style.btnLogin} onClick={handleReestart}>
+                Reestart
+            </button>
+        </div>
+
     );
 }
+
+
 
 export default SpotifyButton;

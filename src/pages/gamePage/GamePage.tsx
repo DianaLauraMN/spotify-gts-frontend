@@ -10,8 +10,13 @@ const GamePage = () => {
     const { configurationGame: { level, tracksQuantity } } = useGame();
 
     useEffect(() => {
-        handleOnChangeScore((asserts.length / tracksQuantity) * 100);
-    }, [asserts])
+        // handleOnChangeScore((asserts.length / tracksQuantity) * 100);
+        const score = (asserts.length / tracksQuantity) * 100;
+        const scoreFixed = score.toFixed(2);
+        const castedScore = parseFloat(scoreFixed);
+        handleOnChangeScore(castedScore);
+    }, [asserts]);
+
     return (
         <div className={style.gamePageContainer}>
             <div className={style.levelScoreContainer}>
@@ -21,7 +26,7 @@ const GamePage = () => {
                 </div>
                 <div className={style.scoreContainer}>
                     <h2 >Score</h2>
-                    <h3 >{score}</h3>
+                    <h3 >{score} / 100</h3>
                     <h2 >Asserts</h2>
                     <h3 >{asserts.length}</h3>
                     <h2 >Failed</h2>

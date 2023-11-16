@@ -15,13 +15,14 @@ const CircularProgressWithLabel: React.FC = () => {
         setProgress((prevProgress) => (prevProgress >= value ? durationMs : prevProgress + 1));
       }, 1000);
 
-      setTimeout(() => {
+      const timerId = setTimeout(() => {
         handleOnActiveListen(false);
         handleOnActiveSong(false);
         handleOnActiveGuess(true);
       }, timerListen.time * 1000);
       return () => {
         clearInterval(timer);
+        clearTimeout(timerId);
       };
     }
   }, []);
