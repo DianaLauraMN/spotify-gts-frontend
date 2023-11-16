@@ -1,19 +1,23 @@
 import style from "./SpotifyButton.module.css"
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Global from "../../../Global/Global";
 import useGame from "../../../hooks/useGame";
 import useAuth from "../../../hooks/useAuth";
+import LocalStorageManager from "../../../api/LocalStorageManager";
+import useGTS from "../../../hooks/useGTS";
+const localStorageManager = new LocalStorageManager()
 
 const spoty_url = `https://accounts.spotify.com/authorize?client_id=${Global.client_id}&response_type=code&redirect_uri=${Global.redirect_uri}&scope=${Global.scopes}`;
 
 interface SpotifyButtonProps {
-    type: 'login' | 'game';
+    type: 'login' | 'game' | 'reestart';
 }
 
 const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
-
     const { handleOnSubmitConfigGame, configurationGame } = useGame();
+    const [code, setCode] = useState('');
+
     const { isLoggedIn, apiAuth } = useAuth();
 
     const navigate = useNavigate();
@@ -27,20 +31,28 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
         startGame();
     };
 
+    const handleReestart = () => {
+        localStorageManager.resetLocalStorage();
+        navigate('/')
+    }
+
     useEffect(() => {
         const authenticateUser = async () => {
-            if (type === 'login') {
+            if (type === 'login' && (!code)) {
                 const urlParams = new URLSearchParams(location.search);
                 const spotifyCode = urlParams.get('code');
-                if (spotifyCode) {
-                    await apiAuth.getCredentials(spotifyCode);
-                    navigate('/configGame');
+                if (!code && spotifyCode) {
+                    if (!apiAuth.isTokenValid()) {
+                        setCode(spotifyCode);
+                        await apiAuth.getCredentials(spotifyCode);
+                        navigate('/configGame');
+                    }
                 }
             }
-        };
 
+        }
         authenticateUser();
-    }, [location.search]);
+    }, []);
 
     const startGame = async () => {
         await handleOnSubmitConfigGame(configurationGame);
@@ -48,9 +60,15 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
     }
 
     return (
-        <button className={style.btnLogin} onClick={type === 'login' ? handleLoginClick : handleGameClick}>
-            {type === 'login' ? 'Start Guessing' : 'Start Game'}
-        </button>
+        <div>
+            <button className={style.btnLogin} onClick={type === 'login' ? handleLoginClick : handleGameClick}>
+                {type === 'login' ? 'Start Guessing' : 'Start Game'}
+            </button>
+            <button className={style.btnLogin} onClick={handleReestart}>
+                Reestart
+            </button>
+        </div>
+
     );
 }
 
