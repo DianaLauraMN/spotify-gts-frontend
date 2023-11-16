@@ -15,6 +15,7 @@ export enum ConfigurationAction {
     ACTIVE_GUESS = 9,
     ACTIVE_SONG = 10,
     TIME_LISTEN = 11,
+    RESET_CONFIG = 12,
 }
 
 type gameAction =
@@ -30,6 +31,7 @@ type gameAction =
     | { type: ConfigurationAction.ACTIVE_GUESS, payload: boolean }
     | { type: ConfigurationAction.ACTIVE_SONG, payload: boolean }
     | { type: ConfigurationAction.TIME_LISTEN, payload: number }
+    | { type: ConfigurationAction.RESET_CONFIG, payload: ConfigurationGame }
 
 export const GameReducer = (state: ConfigurationGame, action: gameAction): ConfigurationGame => {
     switch (action.type) {
@@ -99,6 +101,21 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
             return {
                 ...state,
                 timerListen: { ...state.timerListen, time: action.payload }
+            }
+        case ConfigurationAction.RESET_CONFIG:
+            return {
+                ...state,
+                level: action.payload.level,
+                genres: action.payload.genres,
+                artists: action.payload.artists,
+                guessFromBeggining: action.payload.guessFromBeggining,
+                durationMs: action.payload.durationMs,
+                tracksQuantity: action.payload.tracksQuantity,
+                tracks: action.payload.tracks,
+                isTrackAlreadyGuessed: action.payload.isTrackAlreadyGuessed,
+                timerListen: action.payload.timerListen,
+                timerSong: action.payload.timerSong,
+                timerGuess: action.payload.timerGuess,
             }
         default:
             return state;

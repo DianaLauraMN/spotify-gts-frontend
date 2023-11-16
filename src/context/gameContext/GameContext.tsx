@@ -16,6 +16,7 @@ export type GameContextProps = {
     activeListenTimer: (listenTime: number) => void;
     handleOnActiveGuess: (isGuessActive: boolean) => void;
     handleOnActiveSong: (isSongActive: boolean) => void;
+    resetGameState: () => void;
 }
 
 export const GameContext = createContext<GameContextProps>({} as GameContextProps);

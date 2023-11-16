@@ -21,7 +21,7 @@ const initial_state: ConfigurationGame = {
     tracks: [],
     isTrackAlreadyGuessed: false,
     timerListen: {
-        time: 5, 
+        time: 5,
         active: true
     },
     timerSong: {
@@ -75,6 +75,9 @@ const GameProvider = ({ children }: props) => {
     const handleOnActiveSong = (isSongActive: boolean) => {
         dispatch({ type: ConfigurationAction.ACTIVE_SONG, payload: isSongActive })
     }
+    const resetGameState = () => {
+        dispatch({ type: ConfigurationAction.RESET_CONFIG, payload: initial_state });
+    }
 
     return (
         <GameContext.Provider value={{
@@ -91,6 +94,7 @@ const GameProvider = ({ children }: props) => {
             handleOnActiveGuess,
             handleOnActiveSong,
             activeListenTimer,
+            resetGameState,
         }}>
             {children}
         </GameContext.Provider>
