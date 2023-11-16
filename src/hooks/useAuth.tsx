@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import ApiAuth from '../api/ApiAuth';
+import AuthDate from '../api/AuthDate';
 
 const useAuth = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const apiAuth = new ApiAuth();
+    const authDate = new AuthDate();
 
     useEffect(() => {
         const checkAuthentication = async () => {
-            if (apiAuth.validateToken()) {
-                setIsLoggedIn(true);
-            } else if (apiAuth.validateRefreshToken()) {
-                await apiAuth.getRefreshedToken();
-                setIsLoggedIn(true);
+            if (authDate.isAuthDateValid()) {
+                if (apiAuth.isTokenValid()) {
+                    setIsLoggedIn(true);
+                } else if (apiAuth.doesRefreshTokenExist()) {
+                    await apiAuth.getRefreshedToken();
+                    setIsLoggedIn(true);
+                }
             }
         };
         checkAuthentication();
@@ -21,3 +25,32 @@ const useAuth = () => {
 };
 
 export default useAuth;
+
+// import { useEffect, useState, useMemo } from 'react';
+// import ApiAuth from '../api/ApiAuth';
+// import AuthDate from '../api/AuthDate';
+
+// const useAuth = () => {
+//     const [isLoggedIn, setIsLoggedIn] = useState(false);
+//     const apiAuth = useMemo(() => new ApiAuth(), []); // Crea la instancia solo una vez
+//     const authDate = new AuthDate();
+
+//     useEffect(() => {
+//         const checkAuthentication = async () => {
+//             if (authDate.isAuthDateValid()) {
+//                 if (apiAuth.isTokenValid()) {
+//                     setIsLoggedIn(true);
+//                 } else if (apiAuth.doesRefreshTokenExist()) {
+//                     await apiAuth.getRefreshedToken();
+//                     setIsLoggedIn(true);
+//                 }
+//             }
+//         };
+//         checkAuthentication();
+//     }, [apiAuth, authDate]);
+
+//     return { isLoggedIn, apiAuth };
+// };
+
+// export default useAuth;
+
