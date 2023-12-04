@@ -6,8 +6,8 @@ const LoginPage = () => {
 
     return (
         <div className={style.bodyHomePage}>
-            <div className={style.textContainerWrapper}>
-                <div className={style.textContainer}>
+            <div className={style.containerWrapper}>
+                <div className={style.container}>
                     <LogosNamesComponent />
                     <SpotifyButton type='login' />
                 </div>

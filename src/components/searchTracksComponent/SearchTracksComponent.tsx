@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import style from "./InputSearchComponent.module.css"
+import style from "./SearchTracksComponent.module.css"
 import searchIcon from "./../../img/search-icon.svg";
 import useGTS from '../../hooks/useGTS';
 import usePlay from '../../hooks/usePlay';
+import useGame from '../../hooks/useGame';
 
-const InputSearchComponent = () => {
-    const { gtsState: { isNewSearch }, handleIsNewSearch, loadSearchResultsTracks } = useGTS();
-    const { playState: { isGameOver } } = usePlay();
+const SearchTracksComponent = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const { configurationGame: { isNewTracksSearch }, handleIsNewTracksSearch } = useGame();
+    const { loadSearchResultsTracks } = useGTS();
+    const { playState: { isGameOver } } = usePlay();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -16,7 +18,7 @@ const InputSearchComponent = () => {
 
     const handleOnClickSearch = () => {
         loadSearchResultsTracks(searchTerm);
-        handleIsNewSearch(false);
+        handleIsNewTracksSearch(false);
     }
 
     const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -26,8 +28,8 @@ const InputSearchComponent = () => {
     }
 
     useEffect(() => {
-        if (isNewSearch) { setSearchTerm(''); }
-    }, [isNewSearch])
+        if (isNewTracksSearch) { setSearchTerm(''); }
+    }, [isNewTracksSearch])
 
     return (
         <div className={style.searchContainer}>
@@ -49,4 +51,4 @@ const InputSearchComponent = () => {
     )
 }
 
-export default InputSearchComponent
+export default SearchTracksComponent

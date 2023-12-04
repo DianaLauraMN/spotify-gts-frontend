@@ -1,13 +1,17 @@
-.btnLogin{
+.btnContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.btnSpotify {
+    cursor: pointer;
+    height: 3rem;
+    width: 11rem;
     background-color: var(--green);
     border: none;
-    cursor: pointer;
-    border-radius: 3rem;
-    min-width: 11rem;
-    min-height: 3rem;
     color: var(--black);
     font-weight: 700;
     font-size: 1rem;
     font-family: var(--font);
-    padding: .5rem;
+    border-radius: 3rem;
 }

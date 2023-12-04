@@ -16,6 +16,7 @@ interface SpotifyButtonProps {
 
 const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
     const { handleOnSubmitConfigGame, configurationGame } = useGame();
+    const { loadUserProfile } = useGTS();
     const [code, setCode] = useState('');
 
     const { isLoggedIn, apiAuth } = useAuth();
@@ -24,11 +25,21 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
     const location = useLocation();
 
     const handleLoginClick = async () => {
-        isLoggedIn ? navigate('/configGame') : window.location.replace(spoty_url);
+        if (isLoggedIn) {
+            loadUserProfile();
+            navigate('/configGame')
+        } else {
+            window.location.replace(spoty_url);
+        }
     };
 
     const handleGameClick = () => {
-        startGame();
+        if (isLoggedIn) {
+            startGame();
+        } else {
+            handleReestart();
+            navigate('/');
+        }
     };
 
     const handleReestart = () => {
@@ -45,6 +56,7 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
                     if (!apiAuth.isTokenValid()) {
                         setCode(spotifyCode);
                         await apiAuth.getCredentials(spotifyCode);
+                        loadUserProfile();
                         navigate('/configGame');
                     }
                 }
@@ -60,13 +72,13 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
     }
 
     return (
-        <div>
-            <button className={style.btnLogin} onClick={type === 'login' ? handleLoginClick : handleGameClick}>
+        <div className={style.btnContainer}>
+            <button className={style.btnSpotify} onClick={type === 'login' ? handleLoginClick : handleGameClick}>
                 {type === 'login' ? 'Start Guessing' : 'Start Game'}
             </button>
-            <button className={style.btnLogin} onClick={handleReestart}>
+            {/* <button className={style.btnSpotify} onClick={handleReestart}>
                 Reestart
-            </button>
+            </button> */}
         </div>
 
     );

@@ -1,6 +1,6 @@
 import style from "./CardSelectSongComponent.module.css";
 import TrackListedComponent from "../tracksListedComponent/TracksListedComponent";
-import InputSearchComponent from "../inputSearchComponent/InputSearchComponent";
+import SearchTracksComponent from "../searchTracksComponent/SearchTracksComponent";
 import TimerComponent from "../timerComponent/TimerComponent";
 
 const CardSelectSongComponent = () => {
@@ -9,7 +9,7 @@ const CardSelectSongComponent = () => {
     <div className={style.cardSelectionContainer}>
       <div className={style.centerContainer}>
         <div>
-          <InputSearchComponent />
+          <SearchTracksComponent />
         </div>
 
         <div className={style.recentlyPlayedContainer}>

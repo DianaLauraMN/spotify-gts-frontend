@@ -23,7 +23,9 @@ const initial_state: IStateGTS = {
     userTopGenresSeeds: [],
     tracksRecentlyPlayed: [],
     searchResultsTracks: [],
-    isNewSearch: true,
+    searchResultsArtists: [],
+    spotifyGenres: [],
+    searchResultsGenres: []
 }
 
 const GTSProvider = ({ children }: props) => {
@@ -39,7 +41,7 @@ const GTSProvider = ({ children }: props) => {
     }
 
     const loadUserTop6GenresSeeds = async () => {
-        const topGenresSeeds = await apiUser.getUserTopGenres();
+        const topGenresSeeds = await apiTracks.getUserTopGenres();
         dispatch({ type: GTSAction.LOAD_USER_TOP_GENRES_SEEDS, payload: topGenresSeeds.length > 6 ? topGenresSeeds.slice(0, 6) : topGenresSeeds })
     }
 
@@ -49,12 +51,19 @@ const GTSProvider = ({ children }: props) => {
     const loadSearchResultsTracks = async (itemName: string) => {
         dispatch({ type: GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS, payload: await apiTracks.getTracksByName(itemName) })
     }
-    const handleIsNewSearch = (isNewSearch: boolean) => {
-        dispatch({ type: GTSAction.HANDLE_IS_NEW_SEARCH, payload: isNewSearch });
+    const loadSearchResultsArtists = async (itemName: string) => {
+        dispatch({ type: GTSAction.LOAD_ARTISTS_ITEMS_SEARCHED_RESULTS, payload: await apiArtists.getArtistsByName(itemName) })
     }
-    const cleanSearch = () => {
-        dispatch({ type: GTSAction.CLEAN_SEARCH, payload: [] });
+    const loadSpotifyGenres = async () => {
+        dispatch({ type: GTSAction.LOAD_SPOTIFY_GENRES, payload: await apiTracks.getSpotifyGenres() })
     }
+    const loadSearchResultsGenres = async (itemName: string) => {
+        dispatch({ type: GTSAction.LOAD_GENRES_ITEMS_SEARCHED_RESULTS, payload: await apiTracks.getGenreByName(itemName) })
+    }
+    const cleanTracksResultsSearch = () => {
+        dispatch({ type: GTSAction.CLEAN_RESULTS_SEARCH_TRACKS, payload: [] })
+    }
+
     return (
         <GTSContext.Provider value={{
             gtsState: apiState,
@@ -63,8 +72,10 @@ const GTSProvider = ({ children }: props) => {
             loadUserTop6GenresSeeds,
             loadTracksRecentlyPlayed,
             loadSearchResultsTracks,
-            handleIsNewSearch,
-            cleanSearch
+            loadSearchResultsArtists,
+            loadSpotifyGenres,
+            loadSearchResultsGenres,
+            cleanTracksResultsSearch,
         }}>
             {children}
         </GTSContext.Provider>

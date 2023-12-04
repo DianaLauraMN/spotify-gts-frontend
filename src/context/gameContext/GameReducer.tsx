@@ -5,56 +5,84 @@ import Track from "../../entities/track/Track";
 export enum ConfigurationAction {
     SUBMIT_CONFIG = 0,
     CHANGE_LEVEL = 1,
-    CHANGE_GENRE = 2,
-    CHANGE_ARTIST = 3,
+    SELECT_GENRE = 2,
+    SELECT_ARTIST = 3,
     CHANGE_BEGGINING = 4,
     CHANGE_DURATION_MS = 5,
     CHANGE_TRACKS_QUANTITY = 6,
-    CHANGE_IS_TRACK_ALREADY_GUESSED = 7,
+    CHANGE_TRACK_ALREADY_GUESSED = 7,
     ACTIVE_LISTEN = 8,
     ACTIVE_GUESS = 9,
     ACTIVE_SONG = 10,
     TIME_LISTEN = 11,
     RESET_CONFIG = 12,
+    CUSTOM_ARTISTS = 13,
+    CUSTOM_GENRES = 14,
+    NEW_TRACK_SEARCH = 15,
+    NEW_ARTISTS_SEARCH = 16,
+    NEW_GENRES_SEARCH = 17
 }
 
 type gameAction =
     | { type: ConfigurationAction.SUBMIT_CONFIG, payload: Track[] | undefined }
     | { type: ConfigurationAction.CHANGE_LEVEL, payload: string }
-    | { type: ConfigurationAction.CHANGE_GENRE, payload: string }
-    | { type: ConfigurationAction.CHANGE_ARTIST, payload: Artist }
+    | { type: ConfigurationAction.SELECT_GENRE, payload: string }
+    | { type: ConfigurationAction.SELECT_ARTIST, payload: Artist }
     | { type: ConfigurationAction.CHANGE_BEGGINING, payload: boolean }
     | { type: ConfigurationAction.CHANGE_DURATION_MS, payload: number }
     | { type: ConfigurationAction.CHANGE_TRACKS_QUANTITY, payload: number }
-    | { type: ConfigurationAction.CHANGE_IS_TRACK_ALREADY_GUESSED, payload: boolean }
+    | { type: ConfigurationAction.CHANGE_TRACK_ALREADY_GUESSED, payload: boolean }
     | { type: ConfigurationAction.ACTIVE_LISTEN, payload: boolean }
     | { type: ConfigurationAction.ACTIVE_GUESS, payload: boolean }
     | { type: ConfigurationAction.ACTIVE_SONG, payload: boolean }
     | { type: ConfigurationAction.TIME_LISTEN, payload: number }
     | { type: ConfigurationAction.RESET_CONFIG, payload: ConfigurationGame }
+    | { type: ConfigurationAction.CUSTOM_ARTISTS, payload: boolean }
+    | { type: ConfigurationAction.CUSTOM_GENRES, payload: boolean }
+    | { type: ConfigurationAction.NEW_TRACK_SEARCH, payload: boolean }
+    | { type: ConfigurationAction.NEW_ARTISTS_SEARCH, payload: boolean }
+    | { type: ConfigurationAction.NEW_GENRES_SEARCH, payload: boolean }
 
 export const GameReducer = (state: ConfigurationGame, action: gameAction): ConfigurationGame => {
+
     switch (action.type) {
+
         case ConfigurationAction.SUBMIT_CONFIG:
             return {
                 ...state,
                 tracks: action.payload
             }
+
         case ConfigurationAction.CHANGE_LEVEL:
             return {
                 ...state,
                 level: action.payload
             }
-        case ConfigurationAction.CHANGE_GENRE:
+
+        case ConfigurationAction.SELECT_GENRE:
+            const stateGenres = [...state.genres];
+            const genreToDelete = action.payload;
+            const genreSelectedIndex = stateGenres.findIndex((genre) => genre === genreToDelete);
+
+            genreSelectedIndex !== -1 ? stateGenres.splice(genreSelectedIndex, 1) : stateGenres.push(action.payload);
+
             return {
                 ...state,
-                genres: [...state.genres, action.payload]
-            }
-        case ConfigurationAction.CHANGE_ARTIST:
+                genres: stateGenres,
+            };
+
+        case ConfigurationAction.SELECT_ARTIST:
+            const stateArtists = [...state.artists];
+            const artistIdToDelete = action.payload.id;
+            const artistSelectedIndex = stateArtists.findIndex((artist) => artist.id === artistIdToDelete);
+
+            artistSelectedIndex !== -1 ? stateArtists.splice(artistSelectedIndex, 1) : stateArtists.push(action.payload);
+
             return {
                 ...state,
-                artists: [...state.artists, action.payload]
-            }
+                artists: stateArtists,
+            };
+
         case ConfigurationAction.CHANGE_BEGGINING:
             return {
                 ...state,
@@ -65,12 +93,14 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 ...state,
                 durationMs: (action.payload) //+1
             }
+
         case ConfigurationAction.CHANGE_TRACKS_QUANTITY:
             return {
                 ...state,
                 tracksQuantity: action.payload
             }
-        case ConfigurationAction.CHANGE_IS_TRACK_ALREADY_GUESSED:
+
+        case ConfigurationAction.CHANGE_TRACK_ALREADY_GUESSED:
             return {
                 ...state,
                 isTrackAlreadyGuessed: action.payload
@@ -83,6 +113,7 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 timerGuess: { ...state.timerGuess, active: false },
                 timerSong: { ...state.timerSong, active: false }
             }
+
         case ConfigurationAction.ACTIVE_GUESS:
             return {
                 ...state,
@@ -90,6 +121,7 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 timerListen: { ...state.timerListen, active: false },
                 timerSong: { ...state.timerSong, active: false }
             }
+
         case ConfigurationAction.ACTIVE_SONG:
             return {
                 ...state,
@@ -97,11 +129,43 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 timerGuess: { ...state.timerGuess, active: false },
                 timerListen: { ...state.timerListen, active: false }
             }
+
         case ConfigurationAction.TIME_LISTEN:
             return {
                 ...state,
                 timerListen: { ...state.timerListen, time: action.payload }
             }
+
+
+        case ConfigurationAction.CUSTOM_ARTISTS:
+            return {
+                ...state,
+                isCustomArtistsConfig: action.payload,
+            }
+
+        case ConfigurationAction.CUSTOM_GENRES:
+            return {
+                ...state,
+                isCustomGenresConfig: action.payload,
+            }
+        case ConfigurationAction.NEW_TRACK_SEARCH:
+            return {
+                ...state,
+                isNewTracksSearch: action.payload
+            }
+
+        case ConfigurationAction.NEW_ARTISTS_SEARCH:
+            return {
+                ...state,
+                isNewArtistsSearch: action.payload
+            }
+
+        case ConfigurationAction.NEW_GENRES_SEARCH:
+            return {
+                ...state,
+                isNewGenresSearch: action.payload
+            }
+
         case ConfigurationAction.RESET_CONFIG:
             return {
                 ...state,

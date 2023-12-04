@@ -6,8 +6,8 @@ export type GameContextProps = {
     configurationGame: ConfigurationGame;
     handleOnSubmitConfigGame: (configurationGame: ConfigurationGame) => void,
     handleOnChangeLevel: (level: string) => void;
-    handleOnChangeGenres: (genre: string) => void;
-    handleOnChangeArtists: (artist: Artist) => void;
+    handleOnSelectGenre: (genre: string) => void;
+    handleOnSelectArtist: (artist: Artist) => void;
     handleOnChangeGuessFrom: (beggining: boolean) => void;
     handleOnChangeHowManySec: (durationMs: number) => void;
     handleOnChangeHowManySongs: (tracksQuantity: number) => void;
@@ -16,6 +16,11 @@ export type GameContextProps = {
     activeListenTimer: (listenTime: number) => void;
     handleOnActiveGuess: (isGuessActive: boolean) => void;
     handleOnActiveSong: (isSongActive: boolean) => void;
+    handleIsCustomArtistsConfig: (isCustom: boolean) => void;
+    handleIsCustomGenresConfig: (isCustom: boolean) => void;
+    handleIsNewTracksSearch: (isNewSearch: boolean) => void;
+    handleIsNewArtistsSearch: (isNewSearch: boolean) => void;
+    handleIsNewGenresSearch: (isNewSearch: boolean) => void;
     resetGameState: () => void;
 }
 

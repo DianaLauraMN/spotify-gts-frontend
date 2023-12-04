@@ -1,28 +1,28 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import style from "./GenericButtonComponent.module.css";
 import { useState } from "react";
 
 interface IButton {
-    isLevel?: boolean;
     text: string;
     onClick(): any;
+    isSelected: boolean
 }
 
-const GenericButtonComponent: FC<IButton> = ({ isLevel, text, onClick }) => {
+const GenericButtonComponent: FC<IButton> = ({ text, onClick, isSelected }) => {
     const [selected, setSelected] = useState<true | false>(false);
+
+    useEffect(() => {
+        setSelected(isSelected);
+    }, [isSelected]);
+
     const handleButtonClick = () => {
-        const aux=onClick();
-        if (aux) {
-            setSelected(true);
-        }
-        selected ? setSelected(false) : setSelected(true);
-        //console.log(onClick());
+        onClick();
+        setSelected(!selected);
     };
 
     return (
         <div className={style.btnConfigs}>
-            {/**className={selected ? style.btnSelected : style.btnNotSelected} */}
-            <button onClick={handleButtonClick}  className={selected ? style.btnSelected : style.btnNotSelected}>
+            <button onClick={handleButtonClick} className={selected ? style.btnSelected : style.btnNotSelected}>
                 {text}
             </button>
         </div>
