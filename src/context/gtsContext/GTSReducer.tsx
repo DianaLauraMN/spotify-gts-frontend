@@ -9,8 +9,11 @@ export enum GTSAction {
     LOAD_USER_TOP_GENRES_SEEDS = 2,
     LOAD_TRACKS_RECENTLY_PLAYED = 3,
     LOAD_TRACKS_ITEMS_SEARCHED_RESULTS = 4,
-    HANDLE_IS_NEW_SEARCH = 5,
-    CLEAN_SEARCH = 6,
+    HANDLE_IS_NEW_TRACK_SEARCH = 5,
+    CLEAN_RESULTS_SEARCH_TRACKS = 6,
+    LOAD_ARTISTS_ITEMS_SEARCHED_RESULTS = 7,
+    LOAD_SPOTIFY_GENRES = 8,
+    LOAD_GENRES_ITEMS_SEARCHED_RESULTS = 9,
 }
 
 type gtsAction =
@@ -19,8 +22,11 @@ type gtsAction =
     | { type: GTSAction.LOAD_USER_TOP_GENRES_SEEDS, payload: string[] }
     | { type: GTSAction.LOAD_TRACKS_RECENTLY_PLAYED, payload: Track[] }
     | { type: GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS, payload: Track[] }
-    | { type: GTSAction.HANDLE_IS_NEW_SEARCH, payload: boolean }
-    | { type: GTSAction.CLEAN_SEARCH, payload: Track[]}
+    | { type: GTSAction.HANDLE_IS_NEW_TRACK_SEARCH, payload: boolean }
+    | { type: GTSAction.CLEAN_RESULTS_SEARCH_TRACKS, payload: Track[] }
+    | { type: GTSAction.LOAD_ARTISTS_ITEMS_SEARCHED_RESULTS, payload: Artist[] }
+    | { type: GTSAction.LOAD_SPOTIFY_GENRES, payload: string[] }
+    | { type: GTSAction.LOAD_GENRES_ITEMS_SEARCHED_RESULTS, payload: string[] }
 
 export const GTSReducer = (state: IStateGTS, action: gtsAction): IStateGTS => {
     switch (action.type) {
@@ -54,16 +60,28 @@ export const GTSReducer = (state: IStateGTS, action: gtsAction): IStateGTS => {
                 searchResultsTracks: action.payload
             }
 
-        case GTSAction.HANDLE_IS_NEW_SEARCH:
-            return {
-                ...state,
-                isNewSearch: action.payload
-            }
-
-        case GTSAction.CLEAN_SEARCH:
+        case GTSAction.CLEAN_RESULTS_SEARCH_TRACKS:
             return {
                 ...state,
                 searchResultsTracks: action.payload
+            }
+
+        case GTSAction.LOAD_ARTISTS_ITEMS_SEARCHED_RESULTS:
+            return {
+                ...state,
+                searchResultsArtists: action.payload
+            }
+
+        case GTSAction.LOAD_SPOTIFY_GENRES:
+            return {
+                ...state,
+                spotifyGenres: action.payload
+            }
+
+        case GTSAction.LOAD_GENRES_ITEMS_SEARCHED_RESULTS:
+            return {
+                ...state,
+                searchResultsGenres: action.payload
             }
 
         default:

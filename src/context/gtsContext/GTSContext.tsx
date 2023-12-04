@@ -7,9 +7,11 @@ export interface IStateGTS {
     user: User | null;
     userTopArtists: Artist[];
     userTopGenresSeeds: string[];
+    spotifyGenres: string[];
     tracksRecentlyPlayed: Track[],
     searchResultsTracks: Track[],
-    isNewSearch: boolean,
+    searchResultsArtists: Artist[],
+    searchResultsGenres: string[],
 }
 
 export type GTSContextProps = {
@@ -17,10 +19,12 @@ export type GTSContextProps = {
     loadUserProfile: () => void;
     loadUserTop6Artists: () => void;
     loadUserTop6GenresSeeds: () => void;
+    loadSpotifyGenres: () => void;
     loadTracksRecentlyPlayed: () => void;
     loadSearchResultsTracks: (itemName: string) => void;
-    handleIsNewSearch: (isNewSearch: boolean) => void;
-    cleanSearch: () => void;
+    loadSearchResultsArtists: (itemName: string) => void;
+    loadSearchResultsGenres: (itemName: string) => void;
+    cleanTracksResultsSearch: () => void;
 }
 
 export const GTSContext = createContext<GTSContextProps>({} as GTSContextProps);
