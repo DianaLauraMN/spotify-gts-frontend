@@ -1,19 +1,21 @@
 import style from "./LevelsComponent.module.css";
+import { useState } from 'react'
 import useGame from "../../hooks/useGame";
 import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
 
 interface levelsComponentProps {
-    contEasy?: number;
-    easySelected?: boolean;
-    contNormal?: number;
-    normalSelected?: boolean;
-    contHard?: number;
-    hardSelected?: boolean;
     title: string;
 }
 
 const LevelsComponent: React.FC<levelsComponentProps> = ({ title }) => {
     const { handleOnChangeLevel } = useGame();
+    const [levelSelected, setLevelSelected] = useState<string>('');
+
+    const handleOnClick = (level: string) => {
+        handleOnChangeLevel(level);
+        setLevelSelected(level);
+    }
+
     return (
         <div className={style.levelContainer}>
             <div className={style.centerContainer}>
@@ -22,19 +24,18 @@ const LevelsComponent: React.FC<levelsComponentProps> = ({ title }) => {
                 </div>
                 <div className={style.btnsContainer}>
                     <div>
-                        <GenericButtonComponent isLevel={true} text="Easy" onClick={() => handleOnChangeLevel('EASY')} />
+                        <GenericButtonComponent text="Easy" onClick={() => handleOnClick('EASY')} isSelected={levelSelected === 'EASY'} />
                     </div>
                     <div>
-                        <GenericButtonComponent isLevel={true} text="Normal" onClick={() => handleOnChangeLevel('NORMAL')} />
+                        <GenericButtonComponent text="Normal" onClick={() => handleOnClick('NORMAL')} isSelected={levelSelected === 'NORMAL'} />
                     </div>
                     <div>
-                        <GenericButtonComponent isLevel={true} text="Hard" onClick={() => handleOnChangeLevel('HARD')} />
+                        <GenericButtonComponent text="Hard" onClick={() => handleOnClick('HARD')} isSelected={levelSelected === 'HARD'} />
                     </div>
                 </div>
             </div>
         </div>
     )
-
 }
 
 export default LevelsComponent;

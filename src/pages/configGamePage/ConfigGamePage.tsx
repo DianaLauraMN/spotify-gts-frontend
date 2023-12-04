@@ -1,24 +1,31 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import style from "./ConfigGamePage.module.css";
+import useGTS from "../../hooks/useGTS";
+import useGame from "../../hooks/useGame";
 import GuessFromComponent from "../../components/guessFromComponent/GuessFromComponent";
 import LevelsComponent from "../../components/levelsComponent/LevelsComponent";
 import LogosNamesComponent from "../../components/logosNamesComponent/LogosNamesComponent";
 import SpotifyButton from "../../components/utilitiesComponents/spotifyButton/SpotifyButton";
-import SearchGenreComponent from "../../components/searchGenreComponent/SearchGenreComponent";
-import SearchArtistComponent from "../../components/searchArtistComponent/SearchArtistComponent";
+import ConfigGenreComponent from "../../components/configGenreComponent/ConfigGenreComponent";
+import ConfigArtistComponent from "../../components/configArtistComponent/ConfigArtistComponent";
 import TimeConfigComponent from "../../components/timeConfigComponent/TimeConfigComponent";
 import SongsNumberComponent from "../../components/songsNumberComponent/SongsNumberComponent";
-import { useEffect } from "react";
-import useGTS from "../../hooks/useGTS";
-import useGame from "../../hooks/useGame";
-
+import useAuth from "../../hooks/useAuth";
 
 const ConfigGamePage = () => {
   const { gtsState: { user }, loadUserProfile } = useGTS();
+  const [userLoaded, setUserLoaded] = useState(false);
   const { resetGameState } = useGame();
+  //const { isLoggedIn, apiAuth } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     resetGameState();
-    loadUserProfile();
+    if (!userLoaded) {
+      loadUserProfile();
+      setUserLoaded(true);
+    }
   }, []);
 
   return (
@@ -38,13 +45,13 @@ const ConfigGamePage = () => {
           </div>
 
           <div className={style.secondCard}>
-            <SearchGenreComponent
+            <ConfigGenreComponent
               title="Search Genre"
             />
           </div>
 
           <div className={style.thirdCard}>
-            <SearchArtistComponent
+            <ConfigArtistComponent
               title="Search Artist"
             />
           </div>
