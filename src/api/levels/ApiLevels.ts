@@ -17,7 +17,7 @@ class ApiLevels {
             const tracksTyped = getTracksLsitTyped(response.data);
             return tracksTyped;
         } catch (error) {
-
+            console.log(error);
         }
     }
 }
