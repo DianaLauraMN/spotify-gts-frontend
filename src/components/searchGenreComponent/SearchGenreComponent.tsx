@@ -1,40 +1,63 @@
+import React, { useEffect, useState } from 'react';
 import style from "./SearchGenreComponent.module.css";
-import useGame from "../../hooks/useGame";
-import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
-import { useEffect } from "react";
-import useGTS from "../../hooks/useGTS";
-
-interface searchGenreComponentProps {
+import useGTS from '../../hooks/useGTS';
+import useGame from '../../hooks/useGame';
+interface SearchGenreProps {
     title: string;
 }
+const SearchGenreComponent: React.FC<SearchGenreProps> = ({ title }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [resultsList, setResultsList] = useState<string[]>([]);
+    const { gtsState: { searchResultsGenres }, loadSearchResultsGenres } = useGTS();
+    const { configurationGame: { isNewGenresSearch }, handleOnSelectGenre, handleIsCustomGenresConfig, handleIsNewGenresSearch } = useGame();
 
-const SearchGenreComponent: React.FC<searchGenreComponentProps> = ({ title }) => {
-    const { handleOnChangeGenres } = useGame();
-    const { gtsState: { userTopGenresSeeds }, loadUserTop6GenresSeeds } = useGTS();
+    const handleInputOnChange = (event: { target: { value: any; }; }) => {
+        const { value } = event.target;
+        setSearchTerm(value);
+
+        if (value) {
+            loadSearchResultsGenres(value);
+            handleIsNewGenresSearch(false);
+        } else {
+            handleIsNewGenresSearch(true);
+        }
+    }
+
+    const handleGenreSelected = (genre: string) => {
+        handleOnSelectGenre(genre);
+        handleIsCustomGenresConfig(true);
+        setSearchTerm('');
+        handleIsNewGenresSearch(true);
+    }
 
     useEffect(() => {
-        loadUserTop6GenresSeeds();
-    }, []);
+        if (isNewGenresSearch) setResultsList([])
+        else searchResultsGenres ? setResultsList(searchResultsGenres) : setResultsList([]);
+
+        return () => {
+            setResultsList([]);
+        }
+    }, [searchResultsGenres, isNewGenresSearch])
 
     return (
-        <div className={style.searchGenreContainer}>
-            <div className={style.centerContainer}>
-                <div className={style.inputContainer}>
-                    <input type="text" placeholder={title} />
-                </div>
-                <div className={style.genresBtnsContainer}>
-                    {
-                        userTopGenresSeeds.map((genre, key) => (
-                            <div key={key}>
-                                <GenericButtonComponent text={genre} onClick={() => handleOnChangeGenres(genre)} />
-                            </div>
-                        ))
-                    }
-                </div>
+        <div className={style.autocompleteContainer}>
+            <input
+                type="text"
+                placeholder={title}
+                value={searchTerm}
+                onChange={handleInputOnChange}
+            />
+            <div className={style.resultsContainer}>
+                <ul className={style.ulResults}>
+                    {resultsList?.map((genreResult) => (
+                        <div onClick={() => { handleGenreSelected(genreResult) }} key={genreResult}>
+                            <li className={style.resultOption}> {genreResult} </li>
+                        </div>
+                    ))}
+                </ul>
             </div>
         </div>
     )
 }
 
-export default SearchGenreComponent;
-
+export default SearchGenreComponent
