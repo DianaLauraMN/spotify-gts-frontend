@@ -18,19 +18,6 @@ class ApiUser implements IApiUserControllerCalls {
             throw error;
         }
     }
-
-    async getUserTopGenres(): Promise<string[]> {
-        try {
-            const token = localStorage.access_token;
-            const response = await axios.get(`${urlBase}/me/top/genres`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const userTopGenres = response.data;
-            return userTopGenres;
-        } catch (error) {
-            throw error;
-        }
-    }
 }
 
 export default ApiUser;

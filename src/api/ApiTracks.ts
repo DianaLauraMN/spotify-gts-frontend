@@ -123,6 +123,45 @@ class ApiTracks implements IApiTracksControllerCalls {
         }
     }
 
+    async getUserTopGenres(): Promise<string[]> {
+        try {
+            const token = localStorage.access_token;
+            const response = await axios.get(`${urlBase}/me/top/genres`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const userTopGenres = response.data;
+            return userTopGenres;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getSpotifyGenres(): Promise<string[]> {
+        try {
+            const token = localStorage.access_token;
+            const response = await axios.get(`${urlBase}/genres`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const genres = response.data;
+            return genres;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getGenreByName(itemName: string): Promise<string[]> {
+        try {         
+            const token = localStorage.access_token;
+            const response = await axios.get(`${urlBase}/search/genres/${itemName}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const genres = response.data;          
+            return genres;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
 
 export function getTracksLsitTyped(items: any[]): Track[] {
