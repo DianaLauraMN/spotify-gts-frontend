@@ -17,6 +17,11 @@ export interface ConfigurationGame {
     tracksQuantity: number;
     tracks?: Track[];
     isTrackAlreadyGuessed: boolean;
+    isCustomArtistsConfig: boolean;
+    isCustomGenresConfig: boolean;
+    isNewTracksSearch: boolean,
+    isNewArtistsSearch: boolean,
+    isNewGenresSearch: boolean,
 
     timerListen: {
         time: number,
