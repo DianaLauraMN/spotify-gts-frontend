@@ -5,7 +5,7 @@ import Track from "../../entities/track/Track";
 import usePlay from "../../hooks/usePlay";
 
 const TrackListedComponent = () => {
-    const [tracks, setTracks] = useState<Track[]>([]);
+    const [searchResults, setSearchResults] = useState<Track[]>([]);
     const [trackCardEnabled, setTrackCardEnabled] = useState(true);
         const { gtsState: { tracksRecentlyPlayed, searchResultsTracks }, loadTracksRecentlyPlayed } = useGTS();
     const { playState: { trackAnswer, currentTrack, isGameOver }, handleOnChangeAsserts, handleOnChangeFailed, handleOnChangeTrackAnswer } = usePlay();
@@ -13,7 +13,7 @@ const TrackListedComponent = () => {
     if (tracksRecentlyPlayed.length === 0) { loadTracksRecentlyPlayed(); }
 
     useEffect(() => {
-        searchResultsTracks.length > 0 ? setTracks(searchResultsTracks) : setTracks(tracksRecentlyPlayed);
+        searchResultsTracks.length > 0 ? setSearchResults(searchResultsTracks) : setSearchResults(tracksRecentlyPlayed);
     }, [searchResultsTracks, tracksRecentlyPlayed]);
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const TrackListedComponent = () => {
                 <div className={style.scrollContent}>
                                         <div className={style.cards}>
                         {
-                            tracks.map((track, key) => (
+                            searchResults.map((track, key) => (
                                 <div key={key}>
 
                                     <div id="cardSong" className={style.cardSong} onClick={() => {

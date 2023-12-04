@@ -6,19 +6,19 @@ import RenderGameGuessTrackComponent from "../renderGameGuessTrack/RenderGameGue
 import useGTS from "../../hooks/useGTS";
 
 const CardSongComponent = () => {
-    const { cleanSearch, handleIsNewSearch } = useGTS();
+    const { cleanTracksResultsSearch: cleanSearch } = useGTS();
     const { playState: { currentTrackIndex, isGameOver, score, trackAnswer, timerUser }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValues, toggleIsGameOver } = usePlay();
-    const { configurationGame: { timerListen, timerSong, timerGuess, tracks }, handleOnActiveSong, handleOnActiveListen } = useGame();
+    const { configurationGame: { timerListen, timerSong, timerGuess, tracks }, handleOnActiveSong, handleOnActiveListen, handleIsNewTracksSearch } = useGame();
 
     if (!tracks) { throw new Error('Game Tracks empty') }
     const currentTrackAux = tracks[currentTrackIndex];
 
     const timerToLoadNextTrack = () => {
-      //  if (!trackAnswer) {
-            return ((timerListen.time * 1000) + (timerGuess.time * 1000) + (timerSong.time * 1000))
-       // } else {
-         //   return (timerUser * 1000);
-       // }
+        //  if (!trackAnswer) {
+        return ((timerListen.time * 1000) + (timerGuess.time * 1000) + (timerSong.time * 1000))
+        // } else {
+        //   return (timerUser * 1000);
+        // }
     }
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const CardSongComponent = () => {
                     toggleIsGameOver(true);
                 } else {
                     handleOnActiveListen(true);
-                    handleIsNewSearch(true);
+                    handleIsNewTracksSearch(true);
                 }
             }, timerToLoadNextTrack());
             return () => clearTimeout(timerId);
