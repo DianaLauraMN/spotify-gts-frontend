@@ -42,14 +42,17 @@ const PlayProvider = ({ children }: props) => {
     const handleOnChangeCurrentTrack = (currentTrack: Track) => {
         dispatch({ type: PlayAction.HANDLE_CHANGE_CURRENT_TRACK, payload: currentTrack });
     }
-    const restartGameValues = (attributeToRestart: string) => {
-        dispatch({ type: PlayAction.RESTART_GAME_VALUES, payload: attributeToRestart });
+    const restartGameValue = (attributeToRestart: string) => {
+        dispatch({ type: PlayAction.RESTART_GAME_VALUE, payload: attributeToRestart });
     }
     const toggleIsGameOver = (isGameOver: boolean) => {
         dispatch({ type: PlayAction.TOGGLE_IS_GAME_OVER, payload: isGameOver });
     }
     const handleOnChangeTimerUser = (timerUser: number) => {
         dispatch({ type: PlayAction.HANDLE_ON_CHANGE_TIMER_USER, payload: timerUser });
+    }
+    const resetPlayState = () => {
+        dispatch({ type: PlayAction.RESTART_PLAY_STATE, payload: initial_state })
     }
 
     return (
@@ -62,9 +65,10 @@ const PlayProvider = ({ children }: props) => {
             handleOnChangeScore,
             handleOnChangeTrackAnswer,
             handleOnChangeCurrentTrack,
-            restartGameValues,
+            restartGameValue,
             toggleIsGameOver,
             handleOnChangeTimerUser,
+            resetPlayState,
         }}>
             {children}
         </PlayContext.Provider>
