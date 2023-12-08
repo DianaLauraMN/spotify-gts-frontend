@@ -4,11 +4,14 @@ import usePlay from "../../hooks/usePlay";
 import useGame from "../../hooks/useGame";
 import RenderGameGuessTrackComponent from "../renderGameGuessTrack/RenderGameGuessTrackComponent";
 import useGTS from "../../hooks/useGTS";
+import SpotifyButton from "../utilitiesComponents/spotifyButton/SpotifyButton";
+import { useNavigate } from "react-router-dom";
 
 const CardSongComponent = () => {
     const { cleanTracksResultsSearch: cleanSearch } = useGTS();
-    const { playState: { currentTrackIndex, isGameOver, score, trackAnswer, timerUser }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValues, toggleIsGameOver } = usePlay();
-    const { configurationGame: { timerListen, timerSong, timerGuess, tracks }, handleOnActiveSong, handleOnActiveListen, handleIsNewTracksSearch } = useGame();
+    const { playState: { currentTrackIndex, isGameOver, score, trackAnswer, timerUser }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValue, toggleIsGameOver, resetPlayState } = usePlay();
+    const { configurationGame: { timerListen, timerSong, timerGuess, tracks }, handleOnActiveSong, handleOnActiveListen, handleIsNewTracksSearch, resetGameState } = useGame();
+    const navigate = useNavigate();
 
     if (!tracks) { throw new Error('Game Tracks empty') }
     const currentTrackAux = tracks[currentTrackIndex];
@@ -21,11 +24,17 @@ const CardSongComponent = () => {
         // }
     }
 
+    const handleOnClick = () => {
+        resetGameState();
+        resetPlayState();
+        navigate('/configGame');
+    }
+
     useEffect(() => {
         if (!isGameOver) {
             const timerId = setTimeout(() => {
                 cleanSearch();
-                restartGameValues('trackAnswer');
+                restartGameValue('trackAnswer');
                 handleOnActiveSong(false);
                 handleOnChangeCurrentTrackIndex(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
                 if (currentTrackIndex === tracks.length - 1) {
@@ -55,6 +64,12 @@ const CardSongComponent = () => {
                             <div>
                                 <h1>GAME OVER</h1>
                                 <h1>{score}</h1>
+
+                                <SpotifyButton
+                                    title={'Play Again'} //hacer que este btn resetee el state de game context
+                                    type={'gameOver'}
+                                    onClick={handleOnClick}
+                                />
                             </div>
                         }
                         {(!isGameOver) &&
