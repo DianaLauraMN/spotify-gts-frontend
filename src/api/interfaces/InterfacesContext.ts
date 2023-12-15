@@ -35,5 +35,5 @@ export interface ConfigurationGame {
         time: number,
         active: boolean,
     }
-    stepGuess: Steps,
+    gameStep: Steps,
 }
