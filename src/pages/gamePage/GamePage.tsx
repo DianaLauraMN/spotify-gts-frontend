@@ -4,10 +4,14 @@ import CardSelectSongComponent from "../../components/CardSelectSongComponent/Ca
 import CardSongComponent from "../../components/cardSongComponent/CardSongComponent";
 import useGame from "../../hooks/useGame";
 import usePlay from "../../hooks/usePlay";
+import SpotifyButton from '../../components/utilitiesComponents/spotifyButton/SpotifyButton';
+import { useNavigate } from 'react-router-dom';
 
 const GamePage = () => {
     const { playState: { score, failed, asserts }, handleOnChangeScore } = usePlay();
     const { configurationGame: { level, tracksQuantity } } = useGame();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // handleOnChangeScore((asserts.length / tracksQuantity) * 100);

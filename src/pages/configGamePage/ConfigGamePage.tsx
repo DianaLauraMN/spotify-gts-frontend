@@ -16,12 +16,13 @@ import useAuth from "../../hooks/useAuth";
 const ConfigGamePage = () => {
   const { gtsState: { user }, loadUserProfile } = useGTS();
   const [userLoaded, setUserLoaded] = useState(false);
-  const { resetGameState } = useGame();
+  const { resetGameState, handleOnSubmitConfigGame, configurationGame } = useGame();
   //const { isLoggedIn, apiAuth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     resetGameState();
+    //resetear tambien el state de play context
     if (!userLoaded) {
       loadUserProfile();
       setUserLoaded(true);
@@ -75,7 +76,14 @@ const ConfigGamePage = () => {
           </div>
 
         </div>
-        <SpotifyButton type="game" />
+        <SpotifyButton
+          title="Start Game"
+          type="game"
+          onClick={() => {
+            handleOnSubmitConfigGame(configurationGame);
+            navigate("/game");
+          }}
+        />
       </>)}
     </div>
   )
