@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ConfigurationGame } from "../../api/interfaces/InterfacesContext";
+import { ConfigurationGame, Steps } from "../../api/interfaces/InterfacesContext";
 import Artist from "../../entities/artist/Artist";
 
 export type GameContextProps = {
@@ -11,7 +11,7 @@ export type GameContextProps = {
     handleOnChangeGuessFrom: (beggining: boolean) => void;
     handleOnChangeHowManySec: (durationMs: number) => void;
     handleOnChangeHowManySongs: (tracksQuantity: number) => void;
-    handleOnChangeIsTrackAlreadyGuessed: (beggining: boolean) => void;
+    handleIsTrackAlreadyGuessed: (beggining: boolean) => void;
     handleOnActiveListen: (isListenActive: boolean) => void;
     activeListenTimer: (listenTime: number) => void;
     handleOnActiveGuess: (isGuessActive: boolean) => void;
@@ -21,6 +21,7 @@ export type GameContextProps = {
     handleIsNewTracksSearch: (isNewSearch: boolean) => void;
     handleIsNewArtistsSearch: (isNewSearch: boolean) => void;
     handleIsNewGenresSearch: (isNewSearch: boolean) => void;
+    handleOnGameStep: (step: Steps) => void;
     resetGameState: () => void;
 }
 

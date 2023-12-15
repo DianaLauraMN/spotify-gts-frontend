@@ -1,4 +1,4 @@
-import { ConfigurationGame } from "../../api/interfaces/InterfacesContext";
+import { ConfigurationGame, Steps } from "../../api/interfaces/InterfacesContext";
 import Artist from "../../entities/artist/Artist";
 import Track from "../../entities/track/Track";
 
@@ -20,7 +20,8 @@ export enum ConfigurationAction {
     CUSTOM_GENRES = 14,
     NEW_TRACK_SEARCH = 15,
     NEW_ARTISTS_SEARCH = 16,
-    NEW_GENRES_SEARCH = 17
+    NEW_GENRES_SEARCH = 17,
+    CHANGE_STEP = 18,
 }
 
 type gameAction =
@@ -42,15 +43,19 @@ type gameAction =
     | { type: ConfigurationAction.NEW_TRACK_SEARCH, payload: boolean }
     | { type: ConfigurationAction.NEW_ARTISTS_SEARCH, payload: boolean }
     | { type: ConfigurationAction.NEW_GENRES_SEARCH, payload: boolean }
+    | { type: ConfigurationAction.CHANGE_STEP, payload: Steps }
 
 export const GameReducer = (state: ConfigurationGame, action: gameAction): ConfigurationGame => {
 
     switch (action.type) {
 
         case ConfigurationAction.SUBMIT_CONFIG:
+            let tracksAux: Track[] = [];
+            if (action.payload) tracksAux = action.payload;
+
             return {
                 ...state,
-                tracks: action.payload
+                tracks: tracksAux
             }
 
         case ConfigurationAction.CHANGE_LEVEL:
@@ -166,6 +171,12 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 isNewGenresSearch: action.payload
             }
 
+        case ConfigurationAction.CHANGE_STEP:
+            return {
+                ...state,
+                gameStep: action.payload
+            }
+
         case ConfigurationAction.RESET_CONFIG:
             return {
                 ...state,
@@ -180,6 +191,12 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 timerListen: action.payload.timerListen,
                 timerSong: action.payload.timerSong,
                 timerGuess: action.payload.timerGuess,
+                isCustomArtistsConfig: action.payload.isCustomArtistsConfig,
+                isCustomGenresConfig: action.payload.isCustomGenresConfig,
+                isNewTracksSearch: action.payload.isNewTracksSearch,
+                isNewArtistsSearch: action.payload.isNewArtistsSearch,
+                isNewGenresSearch: action.payload.isNewGenresSearch,
+                gameStep: action.payload.gameStep,
             }
         default:
             return state;
