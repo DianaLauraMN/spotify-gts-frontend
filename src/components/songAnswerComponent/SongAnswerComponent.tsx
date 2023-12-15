@@ -2,29 +2,24 @@ import React, { useEffect } from 'react'
 import Track from '../../entities/track/Track';
 import style from './SongAnswerComponent.module.css'
 import useGame from '../../hooks/useGame';
-
+import { Steps } from '../../api/interfaces/InterfacesContext';
 interface songAnswerComponentProps {
     track: Track;
 }
 const SongAnswerComponent: React.FC<songAnswerComponentProps> = ({ track }) => {
     const { name, album, artists } = track;
     const coverAlbum = album.images[0].url;
-    const { handleOnActiveSong, handleOnActiveListen, configurationGame: { timerGuess, timerSong } } = useGame();
+    const {handleOnGameStep, configurationGame: { timerSong, gameStep } } = useGame();
 
     useEffect(() => {
-        if (timerSong.active && (!timerGuess.active)) {
+        if (gameStep === Steps.SONG) {
             const timer = setTimeout(() => {
-                handleOnActiveSong(false);
-                handleOnActiveListen(true);
+                handleOnGameStep(Steps.NEXT_SONG);
             }, timerSong.time * 1000);
 
-            return () => {
-                clearTimeout(timer);
-            };
-
+            return () => { clearTimeout(timer); };
         }
-    }, [timerSong.active, timerGuess.active])
-
+    }, [gameStep]);
 
     return (
         <div>

@@ -1,9 +1,12 @@
 import style from "./CardSelectSongComponent.module.css";
 import TrackListedComponent from "../tracksListedComponent/TracksListedComponent";
 import SearchTracksComponent from "../searchTracksComponent/SearchTracksComponent";
-import TimerComponent from "../timerComponent/TimerComponent";
+import LinearTimerComponent from "../linearTimerComponent/LinearTimerComponent";
+import useGame from "../../hooks/useGame";
 
 const CardSelectSongComponent = () => {
+
+  const { configurationGame: { isTrackAlreadyGuessed } } = useGame();
 
   return (
     <div className={style.cardSelectionContainer}>
@@ -17,9 +20,11 @@ const CardSelectSongComponent = () => {
         </div>
       </div>
 
-      <div className={style.linearTimerContainer}>
-        <TimerComponent />
-      </div>
+      {!isTrackAlreadyGuessed &&
+        <div className={style.linearTimerContainer}>
+          <LinearTimerComponent />
+        </div>
+      }
 
     </div>
   )

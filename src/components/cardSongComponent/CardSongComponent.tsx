@@ -6,22 +6,19 @@ import RenderGameGuessTrackComponent from "../renderGameGuessTrack/RenderGameGue
 import useGTS from "../../hooks/useGTS";
 import SpotifyButton from "../utilitiesComponents/spotifyButton/SpotifyButton";
 import { useNavigate } from "react-router-dom";
+import { Steps } from "../../api/interfaces/InterfacesContext";
 
 const CardSongComponent = () => {
     const { cleanTracksResultsSearch: cleanSearch } = useGTS();
-    const { playState: { currentTrackIndex, isGameOver, score, trackAnswer, timerUser }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValue, toggleIsGameOver, resetPlayState } = usePlay();
-    const { configurationGame: { timerListen, timerSong, timerGuess, tracks }, handleOnActiveSong, handleOnActiveListen, handleIsNewTracksSearch, resetGameState } = useGame();
+    const { playState: { currentTrackIndex, isGameOver, score,  }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValue, toggleIsGameOver, resetPlayState } = usePlay();
+    const { configurationGame: { timerListen, timerSong, timerGuess, tracks, gameStep }, handleOnGameStep, handleIsNewTracksSearch, resetGameState } = useGame();
     const navigate = useNavigate();
 
     if (!tracks) { throw new Error('Game Tracks empty') }
     const currentTrackAux = tracks[currentTrackIndex];
 
     const timerToLoadNextTrack = () => {
-        //  if (!trackAnswer) {
         return ((timerListen.time * 1000) + (timerGuess.time * 1000) + (timerSong.time * 1000))
-        // } else {
-        //   return (timerUser * 1000);
-        // }
     }
 
     const handleOnClick = () => {
@@ -30,23 +27,32 @@ const CardSongComponent = () => {
         navigate('/configGame');
     }
 
+    const startGuessing = () => {
+        cleanSearch();
+        restartGameValue('trackAnswer');
+        handleOnGameStep(Steps.LISTEN);
+        handleOnChangeCurrentTrackIndex(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
+        if (currentTrackIndex === tracks.length - 1) {
+            toggleIsGameOver(true);
+        } else {
+            handleOnGameStep(Steps.LISTEN);
+            handleIsNewTracksSearch(true);
+        }
+    }
+
     useEffect(() => {
         if (!isGameOver) {
-            const timerId = setTimeout(() => {
-                cleanSearch();
-                restartGameValue('trackAnswer');
-                handleOnActiveSong(false);
-                handleOnChangeCurrentTrackIndex(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
-                if (currentTrackIndex === tracks.length - 1) {
-                    toggleIsGameOver(true);
-                } else {
-                    handleOnActiveListen(true);
-                    handleIsNewTracksSearch(true);
-                }
-            }, timerToLoadNextTrack());
-            return () => clearTimeout(timerId);
+            if (gameStep != Steps.NEXT_SONG) {
+                const timerId = setTimeout(() => {
+                    startGuessing();
+                }, timerToLoadNextTrack());
+                return () => clearTimeout(timerId);
+            }
+            if (gameStep === Steps.NEXT_SONG) {
+                startGuessing();
+            }
         }
-    }, [isGameOver, currentTrackIndex, tracks]);
+    }, [isGameOver, gameStep]);
 
     useEffect(() => {
         handleOnChangeCurrentTrack(currentTrackAux);
@@ -62,11 +68,11 @@ const CardSongComponent = () => {
                     <div>
                         {isGameOver &&
                             <div>
-                                <h1>GAME OVER</h1>
+                                <h1>DONE!</h1>
                                 <h1>{score}</h1>
 
                                 <SpotifyButton
-                                    title={'Play Again'} //hacer que este btn resetee el state de game context
+                                    title={'Play Again'}
                                     type={'gameOver'}
                                     onClick={handleOnClick}
                                 />

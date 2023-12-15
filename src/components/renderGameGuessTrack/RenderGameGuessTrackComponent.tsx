@@ -9,11 +9,11 @@ interface RenderGameGuessTrackComponentProps {
     track: Track;
 }
 const RenderGameGuessTrackComponent: React.FC<RenderGameGuessTrackComponentProps> = ({ track }) => {
-    const { configurationGame: { durationMs, timerListen, timerSong, timerGuess } } = useGame();
+    const { configurationGame: { durationMs, timerListen, timerSong, timerGuess, isTrackAlreadyGuessed } } = useGame();
     let { preview_url } = track;
     return (
         <div>
-            {timerSong.active &&
+            {(timerSong.active || isTrackAlreadyGuessed) &&
                 <div>
                     <AudioPlayerComponent
                         url={preview_url}
@@ -22,7 +22,7 @@ const RenderGameGuessTrackComponent: React.FC<RenderGameGuessTrackComponentProps
                     <SongAnswerComponent
                         track={track} />
                 </div>}
-            {(timerListen.active || timerGuess.active) &&
+            {((timerListen.active || timerGuess.active) && (!isTrackAlreadyGuessed)) &&
                 <div>
                     <AudioPlayerComponent
                         url={preview_url}
