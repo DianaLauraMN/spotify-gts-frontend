@@ -9,7 +9,7 @@ const LoginPage = () => {
             <div className={style.containerWrapper}>
                 <div className={style.container}>
                     <LogosNamesComponent />
-                    <SpotifyButton type='login' />
+                    <SpotifyButton title='Start Guessing' type='login' />
                 </div>
             </div>
             <div className={style.wave}>
