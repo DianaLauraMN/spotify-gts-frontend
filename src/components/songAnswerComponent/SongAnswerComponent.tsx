@@ -9,7 +9,7 @@ interface songAnswerComponentProps {
 const SongAnswerComponent: React.FC<songAnswerComponentProps> = ({ track }) => {
     const { name, album, artists } = track;
     const coverAlbum = album.images[0].url;
-    const {handleOnGameStep, configurationGame: { timerSong, gameStep } } = useGame();
+    const { handleOnGameStep, configurationGame: { timerSong, gameStep } } = useGame();
 
     useEffect(() => {
         if (gameStep === Steps.SONG) {
@@ -30,7 +30,7 @@ const SongAnswerComponent: React.FC<songAnswerComponentProps> = ({ track }) => {
                 <h2 className={style.titleSong}>{name}</h2>
                 <h3 className={style.artistSong}>
                     {artists.map((artist) => (
-                        <React.Fragment key={artist.id}>{artist.name}</React.Fragment>
+                        <React.Fragment key={artist.id}>{artist.name + ' '}</React.Fragment>
                     ))}
                 </h3>
                 <h3 className={style.albumSong}>{album.name}</h3>
