@@ -14,6 +14,9 @@ export enum GTSAction {
     LOAD_ARTISTS_ITEMS_SEARCHED_RESULTS = 7,
     LOAD_SPOTIFY_GENRES = 8,
     LOAD_GENRES_ITEMS_SEARCHED_RESULTS = 9,
+    RESET_STATE = 10,
+    CLEAN_ARTISTS_SEARCH = 11,
+    HANLDE_SCROLL_ON_TOP = 12,
 }
 
 type gtsAction =
@@ -27,6 +30,9 @@ type gtsAction =
     | { type: GTSAction.LOAD_ARTISTS_ITEMS_SEARCHED_RESULTS, payload: Artist[] }
     | { type: GTSAction.LOAD_SPOTIFY_GENRES, payload: string[] }
     | { type: GTSAction.LOAD_GENRES_ITEMS_SEARCHED_RESULTS, payload: string[] }
+    | { type: GTSAction.RESET_STATE, payload: IStateGTS }
+    | { type: GTSAction.CLEAN_ARTISTS_SEARCH, payload: Artist[] }
+    | { type: GTSAction.HANLDE_SCROLL_ON_TOP, payload: boolean }
 
 export const GTSReducer = (state: IStateGTS, action: gtsAction): IStateGTS => {
     switch (action.type) {
@@ -82,6 +88,32 @@ export const GTSReducer = (state: IStateGTS, action: gtsAction): IStateGTS => {
             return {
                 ...state,
                 searchResultsGenres: action.payload
+            }
+
+        case GTSAction.CLEAN_ARTISTS_SEARCH:
+            return {
+                ...state,
+                searchResultsArtists: action.payload
+            }
+
+        case GTSAction.HANLDE_SCROLL_ON_TOP:
+            return {
+                ...state,
+                scrollOnTop: action.payload
+            }
+            
+        case GTSAction.RESET_STATE:
+            return {
+                ...state,
+                user: action.payload.user,
+                userTopArtists: action.payload.userTopArtists,
+                userTopGenresSeeds: action.payload.userTopGenresSeeds,
+                tracksRecentlyPlayed: action.payload.tracksRecentlyPlayed,
+                searchResultsTracks: action.payload.searchResultsTracks,
+                searchResultsArtists: action.payload.searchResultsArtists,
+                searchResultsGenres: action.payload.searchResultsGenres,
+                spotifyGenres: action.payload.spotifyGenres,
+                scrollOnTop: action.payload.scrollOnTop,
             }
 
         default:

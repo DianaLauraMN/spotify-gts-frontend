@@ -12,6 +12,7 @@ export interface IStateGTS {
     searchResultsTracks: Track[],
     searchResultsArtists: Artist[],
     searchResultsGenres: string[],
+    scrollOnTop: boolean,
 }
 
 export type GTSContextProps = {
@@ -25,6 +26,9 @@ export type GTSContextProps = {
     loadSearchResultsArtists: (itemName: string) => void;
     loadSearchResultsGenres: (itemName: string) => void;
     cleanTracksResultsSearch: () => void;
+    cleanArtistsResultsSearch: () => void;
+    handleScrollOnTop: (isScrollOnTop: boolean) => void;
+    resetStateGTS: () => void;
 }
 
 export const GTSContext = createContext<GTSContextProps>({} as GTSContextProps);
