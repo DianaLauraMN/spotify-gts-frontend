@@ -1,3 +1,4 @@
+import { Levels } from "../../api/enums/Levels";
 import { ConfigurationGame, Steps } from "../../api/interfaces/InterfacesContext";
 import Artist from "../../entities/artist/Artist";
 import Track from "../../entities/track/Track";
@@ -15,18 +16,19 @@ export enum ConfigurationAction {
     ACTIVE_GUESS = 9,
     ACTIVE_SONG = 10,
     TIME_LISTEN = 11,
-    RESET_CONFIG = 12,
+    RESET_STATE = 12,
     CUSTOM_ARTISTS = 13,
     CUSTOM_GENRES = 14,
     NEW_TRACK_SEARCH = 15,
     NEW_ARTISTS_SEARCH = 16,
     NEW_GENRES_SEARCH = 17,
     CHANGE_STEP = 18,
+    HANDLE_ARE_TRACKS_LOADED = 19,
 }
 
 type gameAction =
     | { type: ConfigurationAction.SUBMIT_CONFIG, payload: Track[] | undefined }
-    | { type: ConfigurationAction.CHANGE_LEVEL, payload: string }
+    | { type: ConfigurationAction.CHANGE_LEVEL, payload: Levels }
     | { type: ConfigurationAction.SELECT_GENRE, payload: string }
     | { type: ConfigurationAction.SELECT_ARTIST, payload: Artist }
     | { type: ConfigurationAction.CHANGE_BEGGINING, payload: boolean }
@@ -37,13 +39,14 @@ type gameAction =
     | { type: ConfigurationAction.ACTIVE_GUESS, payload: boolean }
     | { type: ConfigurationAction.ACTIVE_SONG, payload: boolean }
     | { type: ConfigurationAction.TIME_LISTEN, payload: number }
-    | { type: ConfigurationAction.RESET_CONFIG, payload: ConfigurationGame }
+    | { type: ConfigurationAction.RESET_STATE, payload: ConfigurationGame }
     | { type: ConfigurationAction.CUSTOM_ARTISTS, payload: boolean }
     | { type: ConfigurationAction.CUSTOM_GENRES, payload: boolean }
     | { type: ConfigurationAction.NEW_TRACK_SEARCH, payload: boolean }
     | { type: ConfigurationAction.NEW_ARTISTS_SEARCH, payload: boolean }
     | { type: ConfigurationAction.NEW_GENRES_SEARCH, payload: boolean }
     | { type: ConfigurationAction.CHANGE_STEP, payload: Steps }
+    | { type: ConfigurationAction.HANDLE_ARE_TRACKS_LOADED, payload: boolean }
 
 export const GameReducer = (state: ConfigurationGame, action: gameAction): ConfigurationGame => {
 
@@ -93,6 +96,7 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 ...state,
                 guessFromBeggining: action.payload
             }
+            
         case ConfigurationAction.CHANGE_DURATION_MS:
             return {
                 ...state,
@@ -177,7 +181,13 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 gameStep: action.payload
             }
 
-        case ConfigurationAction.RESET_CONFIG:
+        case ConfigurationAction.HANDLE_ARE_TRACKS_LOADED:
+            return {
+                ...state,
+                areTracksLoaded: action.payload
+            }
+
+        case ConfigurationAction.RESET_STATE:
             return {
                 ...state,
                 level: action.payload.level,
@@ -197,6 +207,7 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 isNewArtistsSearch: action.payload.isNewArtistsSearch,
                 isNewGenresSearch: action.payload.isNewGenresSearch,
                 gameStep: action.payload.gameStep,
+                areTracksLoaded: action.payload.areTracksLoaded,
             }
         default:
             return state;

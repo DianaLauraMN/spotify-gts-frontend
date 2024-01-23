@@ -3,16 +3,17 @@ import { ConfigurationGame, Steps } from "../../api/interfaces/InterfacesContext
 import { GameContext } from "./GameContext";
 import { ConfigurationAction, GameReducer } from "./GameReducer";
 import Artist from "../../entities/artist/Artist";
-import ApiLevels from "../../api/levels/ApiLevels";
+import ApiGame from "../../api/levels/ApiGame";
+import { Levels } from "../../api/enums/Levels";
 
-const apiLevels = new ApiLevels();
+const apiGame = new ApiGame();
 
 interface props {
     children: JSX.Element | JSX.Element[];
 }
 
 const initial_state: ConfigurationGame = {
-    level: "",
+    level: Levels.EASY,
     genres: [],
     artists: [],
     guessFromBeggining: false,
@@ -20,6 +21,8 @@ const initial_state: ConfigurationGame = {
     tracksQuantity: 10,
     tracks: [],
     isTrackAlreadyGuessed: false,
+    areTracksLoaded: false,
+
     timerListen: {
         time: 5,
         active: true
@@ -45,10 +48,10 @@ const GameProvider = ({ children }: props) => {
     const [configurationGame, dispatch] = useReducer(GameReducer, initial_state);
 
     const handleOnSubmitConfigGame = async (configurationGame: ConfigurationGame) => {
-        const tracks = await apiLevels.getTracksByLevel(configurationGame);
+        const tracks = await apiGame.getTracksByLevel(configurationGame);
         dispatch({ type: ConfigurationAction.SUBMIT_CONFIG, payload: tracks });
     }
-    const handleOnChangeLevel = (level: string) => {
+    const handleOnChangeLevel = (level: Levels) => {
         dispatch({ type: ConfigurationAction.CHANGE_LEVEL, payload: level })
     }
     const handleOnSelectGenre = (genre: string) => {
@@ -81,8 +84,8 @@ const GameProvider = ({ children }: props) => {
     const handleOnActiveSong = (isSongActive: boolean) => {
         dispatch({ type: ConfigurationAction.ACTIVE_SONG, payload: isSongActive })
     }
-    const resetGameState = () => {
-        dispatch({ type: ConfigurationAction.RESET_CONFIG, payload: initial_state });
+    const resetStateGame = () => {
+        dispatch({ type: ConfigurationAction.RESET_STATE, payload: initial_state });
     }
     const handleIsCustomArtistsConfig = (isCustom: boolean) => {
         dispatch({ type: ConfigurationAction.CUSTOM_ARTISTS, payload: isCustom })
@@ -98,6 +101,9 @@ const GameProvider = ({ children }: props) => {
     }
     const handleIsNewGenresSearch = (isNewSearch: boolean) => {
         dispatch({ type: ConfigurationAction.NEW_GENRES_SEARCH, payload: isNewSearch });
+    }
+    const handleAreTracksLoaded = (areTracksLoaded: boolean) => {
+        dispatch({ type: ConfigurationAction.HANDLE_ARE_TRACKS_LOADED, payload: areTracksLoaded });
     }
     const handleOnGameStep = (step: Steps) => {
         dispatch({ type: ConfigurationAction.CHANGE_STEP, payload: step });
@@ -131,13 +137,14 @@ const GameProvider = ({ children }: props) => {
             handleOnActiveGuess,
             handleOnActiveSong,
             activeListenTimer,
-            resetGameState,
+            resetStateGame,
             handleIsCustomArtistsConfig,
             handleIsCustomGenresConfig,
             handleIsNewTracksSearch,
             handleIsNewArtistsSearch,
             handleIsNewGenresSearch,
             handleOnGameStep,
+            handleAreTracksLoaded,
         }}>
             {children}
         </GameContext.Provider>
