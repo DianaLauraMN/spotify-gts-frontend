@@ -1,5 +1,6 @@
 import Artist from "../../entities/artist/Artist";
 import Track from "../../entities/track/Track";
+import { Levels } from "../enums/Levels";
 
 export enum Steps {
     LISTEN = 1,
@@ -9,7 +10,7 @@ export enum Steps {
 }
 
 export interface ConfigurationGame {
-    level: string;
+    level: Levels;
     genres: string[];
     artists: Artist[];
     guessFromBeggining: boolean;
@@ -22,6 +23,7 @@ export interface ConfigurationGame {
     isNewTracksSearch: boolean,
     isNewArtistsSearch: boolean,
     isNewGenresSearch: boolean,
+    areTracksLoaded: boolean,
 
     timerListen: {
         time: number,
@@ -35,5 +37,5 @@ export interface ConfigurationGame {
         time: number,
         active: boolean,
     }
-    stepGuess: Steps,
+    gameStep: Steps,
 }

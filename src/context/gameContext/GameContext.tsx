@@ -1,17 +1,18 @@
 import { createContext } from "react";
-import { ConfigurationGame } from "../../api/interfaces/InterfacesContext";
+import { ConfigurationGame, Steps } from "../../api/interfaces/InterfacesContext";
 import Artist from "../../entities/artist/Artist";
+import { Levels } from "../../api/enums/Levels";
 
 export type GameContextProps = {
     configurationGame: ConfigurationGame;
     handleOnSubmitConfigGame: (configurationGame: ConfigurationGame) => void,
-    handleOnChangeLevel: (level: string) => void;
+    handleOnChangeLevel: (level: Levels) => void;
     handleOnSelectGenre: (genre: string) => void;
     handleOnSelectArtist: (artist: Artist) => void;
     handleOnChangeGuessFrom: (beggining: boolean) => void;
     handleOnChangeHowManySec: (durationMs: number) => void;
     handleOnChangeHowManySongs: (tracksQuantity: number) => void;
-    handleOnChangeIsTrackAlreadyGuessed: (beggining: boolean) => void;
+    handleIsTrackAlreadyGuessed: (beggining: boolean) => void;
     handleOnActiveListen: (isListenActive: boolean) => void;
     activeListenTimer: (listenTime: number) => void;
     handleOnActiveGuess: (isGuessActive: boolean) => void;
@@ -21,7 +22,9 @@ export type GameContextProps = {
     handleIsNewTracksSearch: (isNewSearch: boolean) => void;
     handleIsNewArtistsSearch: (isNewSearch: boolean) => void;
     handleIsNewGenresSearch: (isNewSearch: boolean) => void;
-    resetGameState: () => void;
+    handleOnGameStep: (step: Steps) => void;
+    handleAreTracksLoaded: (areTracksLoaded: boolean) => void;
+    resetStateGame: () => void;
 }
 
 export const GameContext = createContext<GameContextProps>({} as GameContextProps);

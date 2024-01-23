@@ -23,8 +23,9 @@ class ApiArtists implements IApiArtistsControllerCalls {
     async getArtistsByName(itemName: string): Promise<Artist[]> {
         try {
             const token = localStorage.access_token;
-            const response = await axios.get(`${urlBase}/search/artists/${itemName}`, {
+            const response = await axios.get(`${urlBase}/search/artists/${itemName}?offset=0&limit=50`, {
                 headers: { Authorization: `Bearer ${token}` },
+                //params: { offset, limit }, //tambien se puede 
             });
             const artistsTyped = this.getArtistsListTyped(response.data);
             return artistsTyped;
@@ -36,7 +37,7 @@ class ApiArtists implements IApiArtistsControllerCalls {
     async getUserTopArtists(): Promise<Artist[]> {
         try {
             const token = localStorage.access_token;
-            const response = await axios.get(`${urlBase}/me/top/artists`, {
+            const response = await axios.get(`${urlBase}/me/top/artists?offset=0&limit=50&time_range=medium_term`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const artistsTyped = this.getArtistsListTyped(response.data);

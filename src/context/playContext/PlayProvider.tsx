@@ -2,7 +2,10 @@ import { useReducer } from "react";
 import { IPlayState, PlayContext } from "./PlayContext";
 import { PlayAction, PlayReducer } from "./PlayReducer";
 import Track from "../../entities/track/Track";
+import ApiGame from "../../api/levels/ApiGame";
+import { TrackResults } from "../../api/interfaces/ApiTrackResults";
 
+const apiGame = new ApiGame();
 interface props {
     children: JSX.Element | JSX.Element[];
 }
@@ -21,6 +24,7 @@ export const initial_state: IPlayState = {
 
 const PlayProvider = ({ children }: props) => {
     const [playState, dispatch] = useReducer(PlayReducer, initial_state);
+
     const handleOnChangeTrackPlaying = (trackIsPlaying: boolean) => {
         dispatch({ type: PlayAction.HANDLE_TRACK_IS_PLAYING, payload: trackIsPlaying })
     }
@@ -42,14 +46,18 @@ const PlayProvider = ({ children }: props) => {
     const handleOnChangeCurrentTrack = (currentTrack: Track) => {
         dispatch({ type: PlayAction.HANDLE_CHANGE_CURRENT_TRACK, payload: currentTrack });
     }
-    const restartGameValues = (attributeToRestart: string) => {
-        dispatch({ type: PlayAction.RESTART_GAME_VALUES, payload: attributeToRestart });
+    const restartGameValue = (attributeToRestart: string) => {
+        dispatch({ type: PlayAction.RESTART_GAME_VALUE, payload: attributeToRestart });
     }
     const toggleIsGameOver = (isGameOver: boolean) => {
         dispatch({ type: PlayAction.TOGGLE_IS_GAME_OVER, payload: isGameOver });
     }
     const handleOnChangeTimerUser = (timerUser: number) => {
         dispatch({ type: PlayAction.HANDLE_ON_CHANGE_TIMER_USER, payload: timerUser });
+    }
+    
+    const resetStatePlay = () => {
+        dispatch({ type: PlayAction.RESET_STATE, payload: initial_state })
     }
 
     return (
@@ -62,9 +70,10 @@ const PlayProvider = ({ children }: props) => {
             handleOnChangeScore,
             handleOnChangeTrackAnswer,
             handleOnChangeCurrentTrack,
-            restartGameValues,
+            restartGameValue,
             toggleIsGameOver,
             handleOnChangeTimerUser,
+            resetStatePlay,
         }}>
             {children}
         </PlayContext.Provider>

@@ -3,29 +3,29 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import useGame from '../../hooks/useGame';
 import WavesAudioComponent from '../wavesAudio/WavesAudioComponent';
+import { Steps } from '../../api/interfaces/InterfacesContext';
 
 const CircularProgressWithLabel: React.FC = () => {
-  const { configurationGame: { durationMs, timerListen }, handleOnActiveGuess, handleOnActiveListen, handleOnActiveSong } = useGame();
-  const value = durationMs;
+  const { configurationGame: { durationMs, timerListen, gameStep }, handleOnGameStep } = useGame();
   const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
-    if (timerListen.active) {
+    if (gameStep === Steps.LISTEN) {
       const timer = setInterval(() => {
-        setProgress((prevProgress) => (prevProgress >= value ? durationMs : prevProgress + 1));
+        setProgress((prevProgress) => (prevProgress >= durationMs ? durationMs : prevProgress + 1));
       }, 1000);
 
       const timerId = setTimeout(() => {
-        handleOnActiveListen(false);
-        handleOnActiveSong(false);
-        handleOnActiveGuess(true);
+        handleOnGameStep(Steps.GUESS);
       }, timerListen.time * 1000);
+
       return () => {
         clearInterval(timer);
         clearTimeout(timerId);
       };
+
     }
-  }, []);
+  }, [gameStep]);
 
   const circularProgressStyle = {
     color: '#181818'
@@ -35,7 +35,7 @@ const CircularProgressWithLabel: React.FC = () => {
       <Box sx={{ position: 'relative', display: 'inline-flex' }}>
         <CircularProgress
           variant="determinate"
-          value={(progress / value) * 100}
+          value={(progress / durationMs) * 100}
           size={300}
           thickness={1.2}
           sx={circularProgressStyle}

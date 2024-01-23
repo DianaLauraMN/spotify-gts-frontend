@@ -35,7 +35,7 @@ class ApiTracks implements IApiTracksControllerCalls {
     async getUserTopTracks(): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
-            const response = await axios.get(`${urlBase}/me/top/tracks`, {
+            const response = await axios.get(`${urlBase}/me/top/tracks?time_range=medium_term&limit=50&offset=0`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const tracksTyped = getTracksLsitTyped(response.data);
@@ -58,10 +58,10 @@ class ApiTracks implements IApiTracksControllerCalls {
         }
     }
 
-    async getAllArtistTracks(itemName: string): Promise<Track[]> {
+    async getArtistAllTracks(itemName: string): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
-            const response = await axios.get(`${urlBase}/artist/tracks/${itemName}`, {
+            const response = await axios.get(`${urlBase}/artist/tracks/${itemName}?limit=50&offset=0`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const tracksTyped = getTracksLsitTyped(response.data);
@@ -87,7 +87,7 @@ class ApiTracks implements IApiTracksControllerCalls {
     async getUserSavedTracks(): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
-            const response = await axios.get(`${urlBase}/me/favorite/tracks`, {
+            const response = await axios.get(`${urlBase}/me/favorite/tracks?limit=50&offset=0`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const tracksTyped = getTracksLsitTyped(response.data);
@@ -100,7 +100,7 @@ class ApiTracks implements IApiTracksControllerCalls {
     async getUserRecommendations(): Promise<Track[]> {
         try {
             const token = localStorage.access_token;
-            const response = await axios.get(`${urlBase}/me/recommendations`, {
+            const response = await axios.get(`${urlBase}/me/recommendations?time_range=medium_term&limit=50&offset=0`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const tracksTyped = getTracksLsitTyped(response.data);
@@ -150,12 +150,12 @@ class ApiTracks implements IApiTracksControllerCalls {
     }
 
     async getGenreByName(itemName: string): Promise<string[]> {
-        try {         
+        try {
             const token = localStorage.access_token;
             const response = await axios.get(`${urlBase}/search/genres/${itemName}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            const genres = response.data;          
+            const genres = response.data;
             return genres;
         } catch (error) {
             throw error;

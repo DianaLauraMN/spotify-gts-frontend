@@ -11,10 +11,12 @@ const localStorageManager = new LocalStorageManager()
 const spoty_url = `https://accounts.spotify.com/authorize?client_id=${Global.client_id}&response_type=code&redirect_uri=${Global.redirect_uri}&scope=${Global.scopes}`;
 
 interface SpotifyButtonProps {
-    type: 'login' | 'game' | 'reestart';
+    title: string,
+    type: 'login' | 'game' | 'gameOver' | 'reestart',
+    onClick?: any,
 }
 
-const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
+const SpotifyButton: React.FC<SpotifyButtonProps> = ({ title, type, onClick }) => {
     const { handleOnSubmitConfigGame, configurationGame } = useGame();
     const { loadUserProfile } = useGTS();
     const [code, setCode] = useState('');
@@ -73,8 +75,8 @@ const SpotifyButton: React.FC<SpotifyButtonProps> = ({ type }) => {
 
     return (
         <div className={style.btnContainer}>
-            <button className={style.btnSpotify} onClick={type === 'login' ? handleLoginClick : handleGameClick}>
-                {type === 'login' ? 'Start Guessing' : 'Start Game'}
+            <button className={style.btnSpotify} onClick={type === 'login' ? handleLoginClick : onClick}>
+                {title}
             </button>
             {/* <button className={style.btnSpotify} onClick={handleReestart}>
                 Reestart

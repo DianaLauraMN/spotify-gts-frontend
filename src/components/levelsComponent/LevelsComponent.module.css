@@ -12,7 +12,7 @@
 
 .centerContainer {
     display: grid;
-    grid-template-rows:  25% 75%;
+    grid-template-rows: 25% 75%;
     gap: 1rem;
     justify-content: center;
     align-items: center;
@@ -33,4 +33,10 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: .2rem;
+}
+
+@media (width <=45em) {
+    .levelContainer {
+        background-color: white;
+    }
 }

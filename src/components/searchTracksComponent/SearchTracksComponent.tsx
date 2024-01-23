@@ -8,7 +8,7 @@ import useGame from '../../hooks/useGame';
 const SearchTracksComponent = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const { configurationGame: { isNewTracksSearch }, handleIsNewTracksSearch } = useGame();
-    const { loadSearchResultsTracks } = useGTS();
+    const { loadSearchResultsTracks,handleScrollOnTop } = useGTS();
     const { playState: { isGameOver } } = usePlay();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +17,7 @@ const SearchTracksComponent = () => {
     }
 
     const handleOnClickSearch = () => {
+        handleScrollOnTop(true);
         loadSearchResultsTracks(searchTerm);
         handleIsNewTracksSearch(false);
     }
@@ -39,7 +40,7 @@ const SearchTracksComponent = () => {
             <input className={style.inputContainer}
                 type="text"
                 placeholder="Search..."
-                value={searchTerm}
+                value={isGameOver ? '' : searchTerm}
                 onChange={handleInputChange}
                 onKeyUp={handleKeyUp}
                 readOnly={isGameOver}

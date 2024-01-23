@@ -23,8 +23,9 @@ export type PlayContextProps = {
     handleOnChangeTrackAnswer: (trackChosen: Track) => void,
     handleOnChangeCurrentTrack: (currentTrack: Track) => void,
     toggleIsGameOver: (isGameOver: boolean) => void,
-    restartGameValues: (attributeToRestart: string) => void,
+    restartGameValue: (attributeToRestart: string) => void,
     handleOnChangeTimerUser: (timerUser: number) => void,
+    resetStatePlay: () => void,
 }
 
 export const PlayContext = createContext<PlayContextProps>({} as PlayContextProps);

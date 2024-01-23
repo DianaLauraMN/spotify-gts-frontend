@@ -2,42 +2,42 @@ import React, { useEffect } from 'react'
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import useGame from '../../hooks/useGame';
+import { Steps } from '../../api/interfaces/InterfacesContext';
 
-const TimerComponent = () => {
+const LinearTimerComponent = () => {
     const [progress, setProgress] = React.useState(0);
-    const { configurationGame: { timerGuess }, handleOnActiveGuess, handleOnActiveSong } = useGame();
+    const { configurationGame: { timerGuess, gameStep }, handleOnGameStep } = useGame();
     const progressInterval = (100 / timerGuess.time);
+    let timerToChangeStep = (timerGuess.time + 1) * 1000;
 
     useEffect(() => {
-        if (timerGuess.active) {
+        if (gameStep === Steps.GUESS) {
             const timer = setInterval(() => {
                 setProgress((oldProgress) => {
                     return Math.min(oldProgress + 1, 10);
                 });
             }, 1000);
 
-            setTimeout(() => {
-                handleOnActiveGuess(false)
-                handleOnActiveSong(true);
-            }, (timerGuess.time + 1) * 1000);
-
+            const timerId = setTimeout(() => {
+                handleOnGameStep(Steps.SONG);
+            }, timerToChangeStep);
 
             return () => {
                 clearInterval(timer);
+                clearTimeout(timerId)
             };
+
         } else {
             setProgress(0);
         }
-    }, [timerGuess.active]);
 
-
+    }, [gameStep]);
 
     const backgroundStyle = {
         background: '#121212',
         borderBottomLeftRadius: '1rem',
         borderBottomRightRadius: '1rem',
         height: '.3rem',
-
     };
 
     const filledStyle = {
@@ -45,9 +45,7 @@ const TimerComponent = () => {
         borderBottomLeftRadius: '1rem',
         borderBottomRightRadius: '1rem',
         height: '.3rem',
-
     };
-
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -61,4 +59,4 @@ const TimerComponent = () => {
     );
 }
 
-export default TimerComponent
+export default LinearTimerComponent
