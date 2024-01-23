@@ -7,6 +7,9 @@
 .recentlyPlayedContainer h3 {
     font-weight: 600;
     font-size: .75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .recentlyPlayedContainer h4 {
@@ -34,6 +37,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  /*Agregar el     overflow: hidden; /* Oculta la barra de desplazamiento */
 }
 
 .cardSong {

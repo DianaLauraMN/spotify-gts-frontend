@@ -1,41 +1,52 @@
 import style from "./TracksListedComponent.module.css"
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useGTS from "../../hooks/useGTS";
 import Track from "../../entities/track/Track";
 import usePlay from "../../hooks/usePlay";
 import useGame from "../../hooks/useGame";
 import { Steps } from "../../api/interfaces/InterfacesContext";
+import ScoreManager from "../../api/score/ScoreManager";
 
 const TrackListedComponent = () => {
     const [searchResults, setSearchResults] = useState<Track[]>([]);
     const [trackCardEnabled, setTrackCardEnabled] = useState(true);
-    const { gtsState: { tracksRecentlyPlayed, searchResultsTracks }, loadTracksRecentlyPlayed } = useGTS();
+
+    const { gtsState: { tracksRecentlyPlayed, searchResultsTracks, scrollOnTop: isScrollOnTop }, loadTracksRecentlyPlayed, handleScrollOnTop } = useGTS();
     const { playState: { trackAnswer, currentTrack, isGameOver }, handleOnChangeAsserts, handleOnChangeFailed, handleOnChangeTrackAnswer } = usePlay();
     const { handleIsTrackAlreadyGuessed, handleOnGameStep } = useGame();
+
+    const scrollContentRef = useRef<HTMLDivElement>(null);
+    const scoreManager = new ScoreManager();
+    let assertedTrack = false;
 
     if (tracksRecentlyPlayed.length === 0) { loadTracksRecentlyPlayed(); }
 
     useEffect(() => {
+        if (isScrollOnTop && scrollContentRef.current) {
+            scrollContentRef.current.scrollTop = 0;
+            handleScrollOnTop(false);
+        }
         searchResultsTracks.length > 0 ? setSearchResults(searchResultsTracks) : setSearchResults(tracksRecentlyPlayed);
-    }, [searchResultsTracks, tracksRecentlyPlayed]);
+    }, [searchResultsTracks, tracksRecentlyPlayed, isScrollOnTop]);
 
     useEffect(() => {
         trackAnswer ? handleIsTrackAlreadyGuessed(true) : handleIsTrackAlreadyGuessed(false);
         trackAnswer ? setTrackCardEnabled(false) : setTrackCardEnabled(true);
-        assignsGameResults();
-       if (trackAnswer) handleOnGameStep(Steps.SONG);
+        assignGameResults();
+        if (trackAnswer) handleOnGameStep(Steps.SONG);
     }, [trackAnswer]);
 
-    const assignsGameResults = () => {
+    const assignGameResults = () => {
         if (trackAnswer && currentTrack) {
-            ((trackAnswer.id === currentTrack.id) || (trackAnswer.name === currentTrack.name)) ? handleOnChangeAsserts(currentTrack) : handleOnChangeFailed(currentTrack);
+            assertedTrack = scoreManager.isCurrentTrackGuessed(currentTrack, trackAnswer);
+            assertedTrack ? handleOnChangeAsserts(currentTrack) : handleOnChangeFailed(currentTrack);
         }
     }
 
     return (
         <div className={style.recentlyPlayedContainer}>
             <div className={style.scrollContainer}>
-                <div className={style.scrollContent}>
+                <div className={style.scrollContent} ref={scrollContentRef} >
                     <div className={style.cards}>
                         {
                             searchResults.map((track, key) => (
@@ -45,7 +56,7 @@ const TrackListedComponent = () => {
                                         if (trackCardEnabled && (!isGameOver)) handleOnChangeTrackAnswer(track);
                                     }}>
                                         <div className={style.coverAlbum}>
-                                            <img src={track.album.images[0].url} alt="" />
+                                            <img src={track.album.images[0]?.url} alt="Cover Album" />
                                         </div>
                                         <div className={style.albumData}>
                                             <h3>{track.name}</h3>
