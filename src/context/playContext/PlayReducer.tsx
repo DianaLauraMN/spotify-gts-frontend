@@ -13,7 +13,7 @@ export enum PlayAction {
     TOGGLE_IS_GAME_OVER = 7,
     RESTART_GAME_VALUE = 8,
     HANDLE_ON_CHANGE_TIMER_USER = 9,
-    RESTART_PLAY_STATE = 10,
+    RESET_STATE = 10,
 }
 
 type playAction =
@@ -27,7 +27,7 @@ type playAction =
     | { type: PlayAction.TOGGLE_IS_GAME_OVER, payload: boolean }
     | { type: PlayAction.RESTART_GAME_VALUE, payload: string }
     | { type: PlayAction.HANDLE_ON_CHANGE_TIMER_USER, payload: number }
-    | { type: PlayAction.RESTART_PLAY_STATE, payload: IPlayState }
+    | { type: PlayAction.RESET_STATE, payload: IPlayState }
 
 export const PlayReducer = (state: IPlayState, action: playAction): IPlayState => {
     switch (action.type) {
@@ -84,13 +84,14 @@ export const PlayReducer = (state: IPlayState, action: playAction): IPlayState =
             return {
                 ...state,
             }
+
         case PlayAction.HANDLE_ON_CHANGE_TIMER_USER:
             return {
                 ...state,
                 timerUser: action.payload
             }
 
-        case PlayAction.RESTART_PLAY_STATE:
+        case PlayAction.RESET_STATE:
             return {
                 ...state,
                 asserts: action.payload.asserts,
@@ -102,6 +103,7 @@ export const PlayReducer = (state: IPlayState, action: playAction): IPlayState =
                 timerUser: action.payload.timerUser,
                 currentTrack: action.payload.currentTrack,
                 isGameOver: action.payload.isGameOver,
+                isCurrentTrackGuessed: action.payload.isCurrentTrackGuessed,
             }
 
         default:

@@ -25,7 +25,7 @@ export type PlayContextProps = {
     toggleIsGameOver: (isGameOver: boolean) => void,
     restartGameValue: (attributeToRestart: string) => void,
     handleOnChangeTimerUser: (timerUser: number) => void,
-    resetPlayState: () => void,
+    resetStatePlay: () => void,
 }
 
 export const PlayContext = createContext<PlayContextProps>({} as PlayContextProps);
