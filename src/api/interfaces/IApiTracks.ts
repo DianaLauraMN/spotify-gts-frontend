@@ -5,7 +5,7 @@ export interface IApiTracksControllerCalls {
     getTracksByName(itemName: string): Promise<Track[]>;
     getUserTopTracks(): Promise<Track[]>;
     getArtistTopTracks(itemName: string): Promise<Track[]>;
-    getAllArtistTracks(itemName: string): Promise<Track[]>;
+    getArtistAllTracks(itemName: string): Promise<Track[]>;
     getUserPlaylistsTracks(): Promise<Track[]>;
     getUserSavedTracks(): Promise<Track[]>;
     getUserRecommendations(): Promise<Track[]>;
