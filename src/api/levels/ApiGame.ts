@@ -1,10 +1,11 @@
 import axios from "axios";
 import { ConfigurationGame } from "../interfaces/InterfacesContext";
 import { getTracksLsitTyped } from "../ApiTracks";
+import Track from "../../entities/track/Track";
 
 const urlBase = 'http://localhost:3000/api';
 
-class ApiLevels {
+class ApiGame {
     async getTracksByLevel(configurationGame: ConfigurationGame) {
         try {
             const token = localStorage.access_token;
@@ -20,6 +21,22 @@ class ApiLevels {
             console.log(error);
         }
     }
+
+    async getCurrentTrackResult(currentTrack: Track, trackAnswer: Track) {
+        try {
+            const response = await axios.get(`${urlBase}/track/score`, {
+                params: {
+                    currentTrack: JSON.stringify(currentTrack),
+                    trackAnswer: JSON.stringify(trackAnswer),
+                }
+            });
+
+            const { assert } = response.data;
+            return assert;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
-export default ApiLevels;
+export default ApiGame;
