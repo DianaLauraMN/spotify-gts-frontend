@@ -97,41 +97,6 @@ class ApiAuth {
         }
     }
 
-    getRefreshedTokenbackend = async () => {
-        try {
-            const refreshToken = localStorage.getItem('refresh_token');
-            const url = `http://localhost:3000/api/auth/refreshToken?refresh_token=${refreshToken}`;
-
-            const config = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            };
-            if (refreshToken) {
-                const response = await axios.post(url, null, config);
-                if (response.status === 200) {
-                    const { access_token, expires_in, refresh_token } = response.data;
-                    if (access_token && expires_in && refresh_token) {
-                        const currentDate = authDate.getCurrentDate();
-                        const data: IAuthData = {
-                            access_token,
-                            refresh_token,
-                            expires_in,
-                            login_time: currentDate.currentTime.toString(),
-                            login_date: currentDate.currentFormatDate,
-                            spoty_code: null,
-                            login_time_formated: authDate.getTimeFormated(currentDate.currentTime),
-                        }
-                        localStorageManager.saveDataInLocalStorage(data);
-                    }
-                }
-            }
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     isTokenValid = () => {
         const { access_token, refresh_token, login_date, login_time, expires_in } = localStorageManager.getLocalStorageData();
 
