@@ -5,11 +5,14 @@ import useGame from '../../hooks/useGame';
 import useGTS from '../../hooks/useGTS';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import iconFirstPlace from '../../img/icon-firstPlaceGtsColors.svg';
+import ConfettiComponent from '../utilitiesComponents/confettiComponent/ConfettiComponent';
+
 
 const GameEnded = () => {
     const { resetStateGame } = useGame();
     const { playState: { score, failed }, resetStatePlay } = usePlay();
-    const { resetStateGTS } = useGTS();
+    const { gtsState: { user }, resetStateGTS } = useGTS();
     const navigate = useNavigate();
 
     let message;
@@ -19,7 +22,7 @@ const GameEnded = () => {
     } else if (score >= 60 && score <= 99) {
         message = 'Good Job!';
     } else if (score === 100) {
-        message = '🔥 On Fire!! 🔥';
+        message = 'You own a perfect game!!';
     }
 
     const handleOnClick = () => {
@@ -30,11 +33,11 @@ const GameEnded = () => {
     }
     return (
         <div>
-            <div className={style.gameResultsContainer}>
-                <h1>{message}</h1>
-            </div>
             {failed.length > 0 &&
                 <div className={style.failedTracksContainer}>
+                    <div className={style.gameResultsContainer}>
+                        <h1>{message}</h1>
+                    </div>
                     <div className={style.scrollContainer}>
                         <div className={style.scrollContent}>
                             <div className={style.cards}>
@@ -62,6 +65,15 @@ const GameEnded = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            }
+
+            {failed.length === 0 &&
+                <div className={style.perfectGameContainer}>
+                    <img src={iconFirstPlace} alt="" />
+                    <h3>{message}</h3>
+                    <h3>{user?.name}</h3>
+                    <ConfettiComponent />
                 </div>
             }
 
