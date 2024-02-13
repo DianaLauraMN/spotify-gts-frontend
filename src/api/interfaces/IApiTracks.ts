@@ -9,7 +9,7 @@ export interface IApiTracksControllerCalls {
     getUserPlaylistsTracks(): Promise<Track[]>;
     getUserSavedTracks(): Promise<Track[]>;
     getUserRecommendations(): Promise<Track[]>;
-    getUserTopGenresTracks(genreName: string): Promise<Track[]>;
+    getUserTopGenresTracks(): Promise<Track[]>;
     getUserTopGenres(): Promise<string[]>;
     getSpotifyGenres(): Promise<string[]>;
     getGenreByName(itemName: string): Promise<string[]>;

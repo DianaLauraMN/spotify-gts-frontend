@@ -6,6 +6,7 @@ import axios from "axios";
 const urlBase = 'http://localhost:3000/api';
 
 class ApiTracks implements IApiTracksControllerCalls {
+
     async getTrackById(trackId: string): Promise<Track> {
         try {
             const token = localStorage.access_token;
@@ -25,7 +26,7 @@ class ApiTracks implements IApiTracksControllerCalls {
             const response = await axios.get(`${urlBase}/search/tracks/${itemName}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            const tracksTyped = getTracksLsitTyped(response.data);
+            const tracksTyped = getTracksLsitTyped(response.data.tracks.items);
             return tracksTyped;
         } catch (error) {
             throw error;
