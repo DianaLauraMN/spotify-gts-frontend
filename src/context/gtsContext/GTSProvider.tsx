@@ -82,34 +82,34 @@ const GTSProvider = ({ children }: props) => {
         dispatch({ type: GTSAction.CLEAN_ARTISTS_SEARCH, payload: [] })
     }
 
-    const handleScrollOnTop = (scrollOnTop: boolean)=>{
+    const handleScrollOnTop = (scrollOnTop: boolean) => {
         dispatch({ type: GTSAction.HANLDE_SCROLL_ON_TOP, payload: scrollOnTop })
-}
+    }
 
-const resetStateGTS = () => {
-    console.log('resetStateGTS');
-    dispatch({ type: GTSAction.RESET_STATE, payload: initial_state })
-}
+    const resetStateGTS = () => {
+        console.log('resetStateGTS');
+        dispatch({ type: GTSAction.RESET_STATE, payload: initial_state })
+    }
 
-return (
-    <GTSContext.Provider value={{
-        gtsState: apiState,
-        loadUserProfile,
-        loadUserTop6Artists,
-        loadUserTop6GenresSeeds,
-        loadTracksRecentlyPlayed,
-        loadSearchResultsTracks,
-        loadSearchResultsArtists,
-        loadSpotifyGenres,
-        loadSearchResultsGenres,
-        cleanTracksResultsSearch,
-        resetStateGTS,
-        cleanArtistsResultsSearch,
-        handleScrollOnTop,
-    }}>
-        {children}
-    </GTSContext.Provider>
-)
+    return (
+        <GTSContext.Provider value={{
+            gtsState: apiState,
+            loadUserProfile,
+            loadUserTop6Artists,
+            loadUserTop6GenresSeeds,
+            loadTracksRecentlyPlayed,
+            loadSearchResultsTracks,
+            loadSearchResultsArtists,
+            loadSpotifyGenres,
+            loadSearchResultsGenres,
+            cleanTracksResultsSearch,
+            resetStateGTS,
+            cleanArtistsResultsSearch,
+            handleScrollOnTop,
+        }}>
+            {children}
+        </GTSContext.Provider>
+    )
 }
 
 export default GTSProvider;
