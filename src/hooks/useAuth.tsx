@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import ApiAuth from '../api/ApiAuth';
 import AuthDate from '../api/AuthDate';
+import LocalStorageManager from '../api/LocalStorageManager';
 
 const useAuth = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const apiAuth = new ApiAuth();
     const authDate = new AuthDate();
+    const localStorageManager = new LocalStorageManager();
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -16,6 +18,8 @@ const useAuth = () => {
                     await apiAuth.getRefreshedToken();
                     setIsLoggedIn(true);
                 }
+            } else {
+                localStorageManager.resetLocalStorage();
             }
         };
         checkAuthentication();
