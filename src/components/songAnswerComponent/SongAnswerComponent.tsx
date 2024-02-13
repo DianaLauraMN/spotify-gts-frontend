@@ -8,7 +8,7 @@ interface songAnswerComponentProps {
 }
 const SongAnswerComponent: React.FC<songAnswerComponentProps> = ({ track }) => {
     const { name, album, artists } = track;
-    const coverAlbum = album.images[0].url;
+    const coverAlbum = album?.images[0]?.url;
     const { handleOnGameStep, configurationGame: { timerSong, gameStep } } = useGame();
 
     useEffect(() => {
