@@ -10,7 +10,7 @@ import GameEnded from "../gameEndedComponent/GameEnded";
 const CardSongComponent = () => {
     const { cleanTracksResultsSearch: cleanSearch, handleScrollOnTop } = useGTS();
     const { playState: { currentTrackIndex, isGameOver, trackAnswer }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValue, toggleIsGameOver, handleOnChangeFailed } = usePlay();
-    const { configurationGame: { timerListen, timerSong, timerGuess, tracks, gameStep }, handleOnGameStep, handleIsNewTracksSearch } = useGame();
+    const { configurationGame: { timerListen, timerSong, timerGuess, tracks, gameStep }, handleIsNewTracksSearch, resetGameStep } = useGame();
 
     if (!tracks) { throw new Error('Game Tracks empty') }
     const currentTrackAux = tracks[currentTrackIndex];
@@ -20,14 +20,12 @@ const CardSongComponent = () => {
     }
 
     const startGuessing = () => {
-        handleOnGameStep(Steps.LISTEN);
         cleanSearch();
         restartGameValue('trackAnswer');
         handleOnChangeCurrentTrackIndex(currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0);
         if (currentTrackIndex === tracks.length - 1) {
             toggleIsGameOver(true);
         } else {
-            handleOnGameStep(Steps.LISTEN);
             handleIsNewTracksSearch(true);
         }
     }
@@ -40,6 +38,8 @@ const CardSongComponent = () => {
                 }, timerToLoadNextTrack());
                 return () => clearTimeout(timerId);
             } else if (gameStep === Steps.NEXT_SONG) {
+                resetGameStep();
+
                 if (trackAnswer === null && currentTrackAux) {
                     handleOnChangeFailed(currentTrackAux);
                 }
