@@ -15,6 +15,30 @@ const CardSongComponent = () => {
     if (!tracks) { throw new Error('Game Tracks empty') }
     const currentTrackAux = tracks[currentTrackIndex];
 
+    useEffect(() => {
+        if (!isGameOver) {
+            if (gameStep === Steps.NEXT_SONG) {
+                resetGameStep();
+
+                if (trackAnswer === null && currentTrackAux) {
+                    handleOnChangeFailed(currentTrackAux);
+                }
+                handleScrollOnTop(true);
+                startGuessing();
+            } else {
+                const timerId = setTimeout(() => {
+                    startGuessing();
+                }, timerToLoadNextTrack());
+                return () => clearTimeout(timerId);
+            }
+        }
+    }, [isGameOver, gameStep]);
+
+    useEffect(() => {
+        handleOnChangeCurrentTrack(currentTrackAux);
+    }, [tracks, currentTrackAux]);
+
+    
     const timerToLoadNextTrack = () => {
         return ((timerListen.time * 1000) + (timerGuess.time * 1000) + (timerSong.time * 1000))
     }
@@ -29,29 +53,6 @@ const CardSongComponent = () => {
             handleIsNewTracksSearch(true);
         }
     }
-
-    useEffect(() => {
-        if (!isGameOver) {
-            if (gameStep != Steps.NEXT_SONG) {
-                const timerId = setTimeout(() => {
-                    startGuessing();
-                }, timerToLoadNextTrack());
-                return () => clearTimeout(timerId);
-            } else if (gameStep === Steps.NEXT_SONG) {
-                resetGameStep();
-
-                if (trackAnswer === null && currentTrackAux) {
-                    handleOnChangeFailed(currentTrackAux);
-                }
-                handleScrollOnTop(true);
-                startGuessing();
-            }
-        }
-    }, [isGameOver, gameStep]);
-
-    useEffect(() => {
-        handleOnChangeCurrentTrack(currentTrackAux);
-    }, [tracks, currentTrackAux]);
 
     return (
         <div className={style.cardSongContainer}>
