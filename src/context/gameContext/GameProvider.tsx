@@ -122,6 +122,11 @@ const GameProvider = ({ children }: props) => {
         }
     }
 
+    const resetGameStep = () => {
+        console.log('resetGameStep');
+        dispatch({ type: ConfigurationAction.RESET_GAME_STEP, payload: initial_state });
+    }
+
     return (
         <GameContext.Provider value={{
             configurationGame,
@@ -145,6 +150,7 @@ const GameProvider = ({ children }: props) => {
             handleIsNewGenresSearch,
             handleOnGameStep,
             handleAreTracksLoaded,
+            resetGameStep,
         }}>
             {children}
         </GameContext.Provider>

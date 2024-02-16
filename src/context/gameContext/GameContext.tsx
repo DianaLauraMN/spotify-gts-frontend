@@ -25,6 +25,7 @@ export type GameContextProps = {
     handleOnGameStep: (step: Steps) => void;
     handleAreTracksLoaded: (areTracksLoaded: boolean) => void;
     resetStateGame: () => void;
+    resetGameStep: () => void;
 }
 
 export const GameContext = createContext<GameContextProps>({} as GameContextProps);

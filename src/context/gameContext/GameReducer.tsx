@@ -24,6 +24,7 @@ export enum ConfigurationAction {
     NEW_GENRES_SEARCH = 17,
     CHANGE_STEP = 18,
     HANDLE_ARE_TRACKS_LOADED = 19,
+    RESET_GAME_STEP = 20,
 }
 
 type gameAction =
@@ -47,6 +48,7 @@ type gameAction =
     | { type: ConfigurationAction.NEW_GENRES_SEARCH, payload: boolean }
     | { type: ConfigurationAction.CHANGE_STEP, payload: Steps }
     | { type: ConfigurationAction.HANDLE_ARE_TRACKS_LOADED, payload: boolean }
+    | { type: ConfigurationAction.RESET_GAME_STEP, payload: ConfigurationGame }
 
 export const GameReducer = (state: ConfigurationGame, action: gameAction): ConfigurationGame => {
 
@@ -96,7 +98,7 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
                 ...state,
                 guessFromBeggining: action.payload
             }
-            
+
         case ConfigurationAction.CHANGE_DURATION_MS:
             return {
                 ...state,
@@ -185,6 +187,15 @@ export const GameReducer = (state: ConfigurationGame, action: gameAction): Confi
             return {
                 ...state,
                 areTracksLoaded: action.payload
+            }
+
+        case ConfigurationAction.RESET_GAME_STEP:
+            return {
+                ...state,
+                gameStep: action.payload.gameStep,
+                timerListen: action.payload.timerListen,
+                timerGuess: action.payload.timerGuess,
+                timerSong: action.payload.timerSong,
             }
 
         case ConfigurationAction.RESET_STATE:
