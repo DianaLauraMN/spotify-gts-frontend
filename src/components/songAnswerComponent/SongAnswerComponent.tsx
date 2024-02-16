@@ -9,7 +9,7 @@ interface songAnswerComponentProps {
 const SongAnswerComponent: React.FC<songAnswerComponentProps> = ({ track }) => {
     const { name, album, artists } = track;
     const coverAlbum = album?.images[0]?.url;
-    const { handleOnGameStep, configurationGame: { timerSong, gameStep }, resetGameStep } = useGame();
+    const { handleOnGameStep, configurationGame: { timerSong, gameStep } } = useGame();
 
     useEffect(() => {
         if (gameStep === Steps.SONG) {
