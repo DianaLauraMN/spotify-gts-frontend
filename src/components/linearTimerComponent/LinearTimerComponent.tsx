@@ -48,14 +48,18 @@ const LinearTimerComponent = () => {
     };
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <LinearProgress variant="determinate" value={progress * progressInterval}
-                sx={{
-                    ...backgroundStyle,
-                    '& .MuiLinearProgress-bar': filledStyle,
-                }}
-            />
-        </Box>
+        <>
+            {gameStep === Steps.GUESS &&
+                <Box sx={{ width: '100%' }}>
+                    <LinearProgress variant="determinate" value={progress * progressInterval}
+                        sx={{
+                            ...backgroundStyle,
+                            '& .MuiLinearProgress-bar': filledStyle,
+                        }}
+                    />
+                </Box>
+            }
+        </>
     );
 }
 
