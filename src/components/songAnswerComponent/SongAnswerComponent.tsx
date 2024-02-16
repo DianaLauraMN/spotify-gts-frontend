@@ -9,7 +9,7 @@ interface songAnswerComponentProps {
 const SongAnswerComponent: React.FC<songAnswerComponentProps> = ({ track }) => {
     const { name, album, artists } = track;
     const coverAlbum = album?.images[0]?.url;
-    const { handleOnGameStep, configurationGame: { timerSong, gameStep } } = useGame();
+    const { handleOnGameStep, configurationGame: { timerSong, gameStep }, resetGameStep } = useGame();
 
     useEffect(() => {
         if (gameStep === Steps.SONG) {
@@ -22,20 +22,24 @@ const SongAnswerComponent: React.FC<songAnswerComponentProps> = ({ track }) => {
     }, [gameStep]);
 
     return (
-        <div>
-            <div className={style.albumCover}>
-                <img src={coverAlbum} alt="Album" />
-            </div>
-            <div className={style.albumDataContainer}>
-                <h2 className={style.titleSong}>{name}</h2>
-                <h3 className={style.artistSong}>
-                    {artists.map((artist) => (
-                        <React.Fragment key={artist.id}>{artist.name + ' '}</React.Fragment>
-                    ))}
-                </h3>
-                <h3 className={style.albumSong}>{album.name}</h3>
-            </div>
-        </div>
+        <>
+            {gameStep === Steps.SONG &&
+                <div>
+                    <div className={style.albumCover}>
+                        <img src={coverAlbum} alt="Album" />
+                    </div>
+                    <div className={style.albumDataContainer}>
+                        <h2 className={style.titleSong}>{name}</h2>
+                        <h3 className={style.artistSong}>
+                            {artists.map((artist) => (
+                                <React.Fragment key={artist.id}>{artist.name + ' '}</React.Fragment>
+                            ))}
+                        </h3>
+                        <h3 className={style.albumSong}>{album.name}</h3>
+                    </div>
+                </div>
+            }
+        </>
     )
 }
 
