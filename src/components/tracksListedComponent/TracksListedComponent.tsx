@@ -22,6 +22,13 @@ const TrackListedComponent = () => {
     if (tracksRecentlyPlayed.length === 0) { loadTracksRecentlyPlayed(); }
 
     useEffect(() => {
+        if (trackAnswer) handleOnGameStep(Steps.SONG);
+        trackAnswer ? handleIsTrackAlreadyGuessed(true) : handleIsTrackAlreadyGuessed(false);
+        trackAnswer ? setTrackCardEnabled(false) : setTrackCardEnabled(true);
+        assignGameResults();
+    }, [trackAnswer]);
+    
+    useEffect(() => {
         if (isScrollOnTop && scrollContentRef.current) {
             scrollContentRef.current.scrollTop = 0;
             handleScrollOnTop(false);
@@ -29,12 +36,6 @@ const TrackListedComponent = () => {
         searchResultsTracks.length > 0 ? setSearchResults(searchResultsTracks) : setSearchResults(tracksRecentlyPlayed);
     }, [searchResultsTracks, tracksRecentlyPlayed, isScrollOnTop]);
 
-    useEffect(() => {
-        trackAnswer ? handleIsTrackAlreadyGuessed(true) : handleIsTrackAlreadyGuessed(false);
-        trackAnswer ? setTrackCardEnabled(false) : setTrackCardEnabled(true);
-        assignGameResults();
-        if (trackAnswer) handleOnGameStep(Steps.SONG);
-    }, [trackAnswer]);
 
     const assignGameResults = () => {
         if (trackAnswer && currentTrack) {
