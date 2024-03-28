@@ -44,7 +44,7 @@ class ApiAuth {
 
 
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
     }
 
@@ -98,9 +98,9 @@ class ApiAuth {
     }
 
     isTokenValid = () => {
-        const { access_token, refresh_token, login_date, login_time, expires_in } = localStorageManager.getLocalStorageData();
+        const { access_token, login_date, login_time, expires_in } = localStorageManager.getLocalStorageData();
 
-        if (access_token && refresh_token && expires_in && login_time && login_date) {
+        if (access_token && expires_in && login_time && login_date) {
             const { currentTime } = authDate.getCurrentDate();
             const loginTimeInSec = parseInt(login_time, 10);
             const expiresInSec = parseInt(expires_in, 10);
