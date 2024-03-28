@@ -9,7 +9,7 @@ import GameEnded from "../gameEndedComponent/GameEnded";
 
 const CardSongComponent = () => {
     const { cleanTracksResultsSearch: cleanSearch, handleScrollOnTop } = useGTS();
-    const { playState: { currentTrackIndex, isGameOver, trackAnswer }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValue, toggleIsGameOver, handleOnChangeFailed } = usePlay();
+    const { playState: { currentTrackIndex, isGameOver, trackAnswer, failed }, handleOnChangeCurrentTrack, handleOnChangeCurrentTrackIndex, restartGameValue, toggleIsGameOver, handleOnChangeFailed } = usePlay();
     const { configurationGame: { timerListen, timerSong, timerGuess, tracks, gameStep }, handleIsNewTracksSearch, resetGameStep } = useGame();
 
     if (!tracks) { throw new Error('Game Tracks empty') }
@@ -38,7 +38,6 @@ const CardSongComponent = () => {
         handleOnChangeCurrentTrack(currentTrackAux);
     }, [tracks, currentTrackAux]);
 
-    
     const timerToLoadNextTrack = () => {
         return ((timerListen.time * 1000) + (timerGuess.time * 1000) + (timerSong.time * 1000))
     }
@@ -55,7 +54,7 @@ const CardSongComponent = () => {
     }
 
     return (
-        <div className={style.cardSongContainer}>
+        <div className={(isGameOver && failed.length === 0) ? style.gradient : style.cardSongContainer}>
             <div className={style.titleContainer}>
                 <h1>Guess The Song</h1>
             </div>
