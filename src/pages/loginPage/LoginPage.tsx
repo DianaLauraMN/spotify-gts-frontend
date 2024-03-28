@@ -1,15 +1,57 @@
 import style from './LoginPage.module.css';
 import SpotifyButton from '../../components/utilitiesComponents/spotifyButton/SpotifyButton';
 import LogosNamesComponent from '../../components/logosNamesComponent/LogosNamesComponent';
+import { useEffect, useState } from 'react';
+import useAuth from '../../hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Global from "../../Global/Global";
+import useSession from '../../hooks/useSession';
+
+const spoty_url = `https://accounts.spotify.com/authorize?client_id=${Global.client_id}&response_type=code&redirect_uri=${Global.redirect_uri}&scope=${Global.scopes}`;
 
 const LoginPage = () => {
+    const [code, setCode] = useState('');
+    const { apiAuth, verifyUserSession } = useAuth();
+    const { sessionState: { isSessionActive }, loadAuthData } = useSession();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleOnClick = async () => {
+        verifyUserSession();
+        
+        if (isSessionActive) {
+            loadAuthData();
+            navigate('/configGame');
+        } else {
+            window.location.replace(spoty_url);
+        }
+    };
+
+    const authenticateUser = async () => {
+        const urlParams = new URLSearchParams(location.search);
+        const spotifyCode = urlParams.get('code');
+        
+        if (!code && spotifyCode) {
+            if (!apiAuth.isTokenValid()) {
+                setCode(spotifyCode);
+                await apiAuth.getCredentials(spotifyCode);
+                loadAuthData();
+                navigate('/configGame');
+            }
+        }
+    }
+
+    useEffect(() => {
+        authenticateUser();
+    }, [])
 
     return (
         <div className={style.bodyHomePage}>
             <div className={style.containerWrapper}>
                 <div className={style.container}>
                     <LogosNamesComponent />
-                    <SpotifyButton title='Start Guessing' type='login' />
+                    <SpotifyButton title='Start Guessing' type='login' onClick={handleOnClick} />
                 </div>
             </div>
             <div>

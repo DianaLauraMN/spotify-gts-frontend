@@ -6,10 +6,13 @@ import usePlay from "../../hooks/usePlay";
 import useGame from "../../hooks/useGame";
 import { Steps } from "../../api/interfaces/InterfacesContext";
 import ScoreManager from "../../api/score/ScoreManager";
+import useHttpCall from "../../hooks/useHttpCall";
 
 const TrackListedComponent = () => {
     const [searchResults, setSearchResults] = useState<Track[]>([]);
     const [trackCardEnabled, setTrackCardEnabled] = useState(true);
+    const [tracksRecPlayedLoaded, setTracksRecPlayedLoaded] = useState(false);
+    const { checkAuthentication } = useHttpCall();
 
     const { gtsState: { tracksRecentlyPlayed, searchResultsTracks, scrollOnTop: isScrollOnTop }, loadTracksRecentlyPlayed, handleScrollOnTop } = useGTS();
     const { playState: { trackAnswer, currentTrack, isGameOver }, handleOnChangeAsserts, handleOnChangeFailed, handleOnChangeTrackAnswer } = usePlay();
@@ -19,15 +22,17 @@ const TrackListedComponent = () => {
     const scoreManager = new ScoreManager();
     let assertedTrack = false;
 
-    if (tracksRecentlyPlayed.length === 0) { loadTracksRecentlyPlayed(); }
-
     useEffect(() => {
+        if (!tracksRecPlayedLoaded) {
+            checkAuthentication(loadTracksRecentlyPlayed());
+            setTracksRecPlayedLoaded(true);
+        }
         if (trackAnswer) handleOnGameStep(Steps.SONG);
         trackAnswer ? handleIsTrackAlreadyGuessed(true) : handleIsTrackAlreadyGuessed(false);
         trackAnswer ? setTrackCardEnabled(false) : setTrackCardEnabled(true);
         assignGameResults();
     }, [trackAnswer]);
-    
+
     useEffect(() => {
         if (isScrollOnTop && scrollContentRef.current) {
             scrollContentRef.current.scrollTop = 0;

@@ -1,5 +1,4 @@
-import { Suspense, useEffect, useState, lazy } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import style from "./ConfigGamePage.module.css";
 import useGTS from "../../hooks/useGTS";
 import useGame from "../../hooks/useGame";
@@ -11,19 +10,24 @@ import ConfigGenreComponent from "../../components/configGenreComponent/ConfigGe
 import ConfigArtistComponent from "../../components/configArtistComponent/ConfigArtistComponent";
 import TimeConfigComponent from "../../components/timeConfigComponent/TimeConfigComponent";
 import SongsNumberComponent from "../../components/songsNumberComponent/SongsNumberComponent";
-
-import useAuth from "../../hooks/useAuth";
+import useHttpCall from "../../hooks/useHttpCall";
+import useSession from "../../hooks/useSession";
 
 const ConfigGamePage = () => {
   const { gtsState: { user }, loadUserProfile } = useGTS();
+  const { loadAuthData } = useSession();
   const [userLoaded, setUserLoaded] = useState(false);
-  const { handleOnSubmitConfigGame, configurationGame, configurationGame: { tracks } } = useGame();
-  //const { isLoggedIn, apiAuth } = useAuth();
-  const navigate = useNavigate();
+  const { handleOnSubmitConfigGame, configurationGame } = useGame();
+  const { checkAuthentication } = useHttpCall();
+
+  const handleOnClick = () => {
+    checkAuthentication(handleOnSubmitConfigGame(configurationGame),"/game");
+  }
 
   useEffect(() => {
     if (!userLoaded) {
-      loadUserProfile();
+      loadAuthData();
+      checkAuthentication(loadUserProfile());
       setUserLoaded(true);
     }
   }, []);
@@ -79,10 +83,7 @@ const ConfigGamePage = () => {
         <SpotifyButton
           title="Start Game"
           type="game"
-          onClick={() => {
-            handleOnSubmitConfigGame(configurationGame);
-            navigate("/game");
-          }}
+          onClick={handleOnClick}
         />
       </>)}
     </div>

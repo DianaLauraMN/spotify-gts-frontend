@@ -9,7 +9,6 @@ export interface IPlayState {
     trackIsPlaying: boolean,
     currentTrackIndex: number,
     currentTrack: Track | null,
-    timerUser: number,
     isGameOver: boolean,
     [key: string]: any; // Firma de índice para permitir cualquier propiedad de tipo 'any'
 }
@@ -24,7 +23,6 @@ export type PlayContextProps = {
     handleOnChangeCurrentTrack: (currentTrack: Track) => void,
     toggleIsGameOver: (isGameOver: boolean) => void,
     restartGameValue: (attributeToRestart: string) => void,
-    handleOnChangeTimerUser: (timerUser: number) => void,
     resetStatePlay: () => void,
 }
 

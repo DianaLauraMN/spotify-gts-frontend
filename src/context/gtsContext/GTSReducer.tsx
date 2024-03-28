@@ -101,7 +101,7 @@ export const GTSReducer = (state: IStateGTS, action: gtsAction): IStateGTS => {
                 ...state,
                 scrollOnTop: action.payload
             }
-            
+
         case GTSAction.RESET_STATE:
             return {
                 ...state,

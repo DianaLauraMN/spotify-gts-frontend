@@ -1,21 +1,8 @@
-/* .gameResultsContainer{
-    display: flex;
-    justify-content: space-between;
-    margin-left: 1rem;
-    margin-right: 1rem;
-} */
-
  .gameResultsContainer h1{
     
     font-size: 1.2rem;
     max-width: 19rem;
 }
-
-/*
-.gameResultsContainer h2{
-    padding: 0rem;
-    font-size: 1.5rem;
-} */
 
 .failedTracksContainer {
     display: grid;
@@ -41,23 +28,22 @@
 
 .scrollContainer {
     height: 26rem;
-    overflow: hidden; /* Oculta la barra de desplazamiento */
+    overflow: hidden;
     margin-bottom: 1rem;
 }
 
 .scrollContent{
-    width: calc(100% + 16px); /* Ancho incluyendo el margen negativo */
+    width: calc(100% + 16px);
     height: 100%;
-    margin-right: -16px; /* Margen negativo para compensar el ancho extra */
-    overflow-y: scroll; /* Permite el desplazamiento vertical */
-    padding-right: 16px; /* Espacio para el contenido en el margen derecho */
+    margin-right: -16px;
+    overflow-y: scroll;
+    padding-right: 16px;
 }
 
 .cards {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-  /*Agregar el     overflow: hidden; /* Oculta la barra de desplazamiento */
 }
 
 .cardSong {
@@ -90,6 +76,26 @@
     align-items: center;
     margin-bottom: .5rem;
     gap: .3rem;
+}
+
+.perfectGameContainer{
+    min-height: 27.5rem;
+    max-width: 14.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfectGameContainer h4{
+    font-weight: 100;
+}
+
+.perfectGameContent img{
+    margin: 1rem;
+}
+
+.perfectGameContainer h4{
+   font-size:1.3rem;
 }
 /* 
 .albumData h3{

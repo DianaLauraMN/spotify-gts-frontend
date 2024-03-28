@@ -4,6 +4,7 @@ import useGame from "../../hooks/useGame";
 import useGTS from "../../hooks/useGTS";
 import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
 import SearchGenreComponent from "../searchGenreComponent/SearchGenreComponent";
+import useHttpCall from "../../hooks/useHttpCall";
 
 interface ConfigGenreProps {
     title: string;
@@ -12,12 +13,13 @@ interface ConfigGenreProps {
 const ConfigGenreComponent: React.FC<ConfigGenreProps> = ({ title }) => {
     const { configurationGame: { isCustomGenresConfig, genres }, handleOnSelectGenre: handleOnSelectGenres, handleIsCustomGenresConfig } = useGame();
     const { gtsState: { userTopGenresSeeds }, loadUserTop6GenresSeeds } = useGTS();
+    const {checkAuthentication} =useHttpCall();
     const [genresLoaded, setGenresLoaded] = useState(false);
-    const [genresConfig, setGenresConfig] = useState<string[]>([])
+    const [genresConfig, setGenresConfig] = useState<string[]>([]);
 
     useEffect(() => {
         if (!genresLoaded) {
-            loadUserTop6GenresSeeds();
+            checkAuthentication(loadUserTop6GenresSeeds());
             setGenresLoaded(true);
         }
         setGenresConfig(isCustomGenresConfig ? genres : userTopGenresSeeds)

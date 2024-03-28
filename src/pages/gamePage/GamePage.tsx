@@ -7,7 +7,7 @@ import usePlay from "../../hooks/usePlay";
 import CircleLoadingComponent from '../../components/utilitiesComponents/circleLoadingComponent/CircleLoadingComponent';
 
 const GamePage = () => {
-    const { playState: { score, asserts }, handleOnChangeScore } = usePlay();
+    const { playState: { score, asserts, isGameOver, failed }, handleOnChangeScore } = usePlay();
     const { configurationGame: { level, tracksQuantity, tracks, areTracksLoaded }, handleAreTracksLoaded } = useGame();
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const GamePage = () => {
                         </div>
                     </div>
                     <div className={style.cardContainer}>
-                        <div className={style.card1}>
+                        <div className={isGameOver && failed.length === 0 ? style.cardWinner : style.card1}>
                             <CardSongComponent />
                         </div>
                         <div className={style.card2}>

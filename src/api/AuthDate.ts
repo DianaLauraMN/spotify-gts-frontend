@@ -6,14 +6,7 @@ class AuthDate {
     isAuthDateValid = () => {
         const { login_date } = localStorageManager.getLocalStorageData();
         const { currentFormatDate } = this.getCurrentDate();
-
-        if (!login_date) {
-            return false;
-        } else if (currentFormatDate !== login_date) {
-            localStorageManager.resetLocalStorage();
-            return false;
-        }
-        return true;
+        return login_date ? currentFormatDate === login_date : false;
     }
 
     getCurrentDate = () => {
