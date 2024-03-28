@@ -1,10 +1,10 @@
+import Global from "../Global/Global";
 import Track from "../entities/track/Track";
 import TrackAdapter from "../entities/track/TrackAdapter";
 import { IApiTracksControllerCalls } from "./interfaces/IApiTracks";
 import axios from "axios";
 
-const urlBase = 'http://localhost:3000/api';
-
+const urlBase = Global.urlBase;
 class ApiTracks implements IApiTracksControllerCalls {
 
     async getTrackById(trackId: string): Promise<Track> {

@@ -1,9 +1,10 @@
+import Global from "../Global/Global";
 import User from "../entities/user/User";
 import UserAdapter from "../entities/user/UserAdapter";
 import { IApiUserControllerCalls } from "./interfaces/IApiUser";
 import axios from "axios";
 
-const urlBase = 'http://localhost:3000/api';
+const urlBase = Global.urlBase;
 
 class ApiUser implements IApiUserControllerCalls {
     async getUserData(): Promise<User> {

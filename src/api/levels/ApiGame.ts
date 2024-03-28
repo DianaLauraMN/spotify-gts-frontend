@@ -2,8 +2,9 @@ import axios from "axios";
 import { ConfigurationGame } from "../interfaces/InterfacesContext";
 import { getTracksLsitTyped } from "../ApiTracks";
 import Track from "../../entities/track/Track";
+import Global from "../../Global/Global";
 
-const urlBase = 'http://localhost:3000/api';
+const urlBase = Global.urlBase;
 
 class ApiGame {
     async getTracksByLevel(configurationGame: ConfigurationGame) {

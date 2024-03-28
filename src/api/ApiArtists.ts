@@ -1,10 +1,10 @@
+import Global from "../Global/Global";
 import Artist from "../entities/artist/Artist";
 import ArtistAdapter from "../entities/artist/ArtistAdapter";
 import { IApiArtistsControllerCalls } from "./interfaces/IApiArtists";
 import axios from "axios";
 
-const urlBase = 'http://localhost:3000/api';
-
+const urlBase = Global.urlBase;
 class ApiArtists implements IApiArtistsControllerCalls {
     async getArtistById(artistId: string): Promise<Artist> {
         try {
