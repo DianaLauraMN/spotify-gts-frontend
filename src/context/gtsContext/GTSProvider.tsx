@@ -37,48 +37,39 @@ const GTSProvider = ({ children }: props) => {
     }
 
     const loadUserTop6Artists = async () => {
-        console.log("loadUserTop6Artists");
         const topArtists = await apiArtists.getUserTopArtists();
         dispatch({ type: GTSAction.LOAD_USER_TOP_ARTISTS, payload: topArtists.length > 6 ? topArtists.slice(0, 6) : topArtists })
     }
 
     const loadUserTop6GenresSeeds = async () => {
-        console.log("loadUserTop6GenresSeeds");
         const topGenresSeeds = await apiTracks.getUserTopGenres();
         dispatch({ type: GTSAction.LOAD_USER_TOP_GENRES_SEEDS, payload: topGenresSeeds.length > 6 ? topGenresSeeds.slice(0, 6) : topGenresSeeds })
     }
 
     const loadTracksRecentlyPlayed = async () => {
-        console.log("loadTracksRecentlyPlayed");
         dispatch({ type: GTSAction.LOAD_TRACKS_RECENTLY_PLAYED, payload: await apiTracks.getUserTopTracks() })
     }
 
     const loadSearchResultsTracks = async (itemName: string) => {
-        console.log("loadSearchResultsTracks");
         dispatch({ type: GTSAction.LOAD_TRACKS_ITEMS_SEARCHED_RESULTS, payload: await apiTracks.getTracksByName(itemName) })
     }
 
     const loadSearchResultsArtists = async (itemName: string) => {
-        console.log('loadSearchResultsArtists');
         dispatch({ type: GTSAction.LOAD_ARTISTS_ITEMS_SEARCHED_RESULTS, payload: await apiArtists.getArtistsByName(itemName) })
     }
     const loadSpotifyGenres = async () => {
-        console.log('loadSpotifyGenres');
         dispatch({ type: GTSAction.LOAD_SPOTIFY_GENRES, payload: await apiTracks.getSpotifyGenres() })
     }
 
     const loadSearchResultsGenres = async (itemName: string) => {
-        console.log('loadSearchResultsGenres');
         dispatch({ type: GTSAction.LOAD_GENRES_ITEMS_SEARCHED_RESULTS, payload: await apiTracks.getGenreByName(itemName) })
     }
 
     const cleanTracksResultsSearch = () => {
-        console.log('cleanTracksResultsSearch');
         dispatch({ type: GTSAction.CLEAN_RESULTS_SEARCH_TRACKS, payload: [] })
     }
 
     const cleanArtistsResultsSearch = () => {
-        console.log('cleanArtistsResultsSearch');
         dispatch({ type: GTSAction.CLEAN_ARTISTS_SEARCH, payload: [] })
     }
 
@@ -87,7 +78,6 @@ const GTSProvider = ({ children }: props) => {
     }
 
     const resetStateGTS = () => {
-        console.log('resetStateGTS');
         dispatch({ type: GTSAction.RESET_STATE, payload: initial_state })
     }
 
