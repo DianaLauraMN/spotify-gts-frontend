@@ -2,10 +2,6 @@ import { useReducer } from "react";
 import { IPlayState, PlayContext } from "./PlayContext";
 import { PlayAction, PlayReducer } from "./PlayReducer";
 import Track from "../../entities/track/Track";
-import ApiGame from "../../api/levels/ApiGame";
-import { TrackResults } from "../../api/interfaces/ApiTrackResults";
-
-const apiGame = new ApiGame();
 interface props {
     children: JSX.Element | JSX.Element[];
 }
@@ -17,7 +13,6 @@ export const initial_state: IPlayState = {
     score: 0,
     trackIsPlaying: true,
     currentTrackIndex: 0,
-    timerUser: 0,
     currentTrack: null,
     isGameOver: false,
 }
@@ -52,10 +47,6 @@ const PlayProvider = ({ children }: props) => {
     const toggleIsGameOver = (isGameOver: boolean) => {
         dispatch({ type: PlayAction.TOGGLE_IS_GAME_OVER, payload: isGameOver });
     }
-    const handleOnChangeTimerUser = (timerUser: number) => {
-        dispatch({ type: PlayAction.HANDLE_ON_CHANGE_TIMER_USER, payload: timerUser });
-    }
-    
     const resetStatePlay = () => {
         dispatch({ type: PlayAction.RESET_STATE, payload: initial_state })
     }
@@ -72,7 +63,6 @@ const PlayProvider = ({ children }: props) => {
             handleOnChangeCurrentTrack,
             restartGameValue,
             toggleIsGameOver,
-            handleOnChangeTimerUser,
             resetStatePlay,
         }}>
             {children}
