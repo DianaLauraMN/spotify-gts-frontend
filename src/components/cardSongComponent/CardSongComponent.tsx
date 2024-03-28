@@ -5,7 +5,7 @@ import useGame from "../../hooks/useGame";
 import RenderGameGuessTrackComponent from "../renderGameGuessTrack/RenderGameGuessTrackComponent";
 import useGTS from "../../hooks/useGTS";
 import { Steps } from "../../api/interfaces/InterfacesContext";
-import GameEnded from "../gameEndedComponent/GameEnded";
+import GameEndedComponent from "../gameEndedComponent/GameEndedComponent";
 
 const CardSongComponent = () => {
     const { cleanTracksResultsSearch: cleanSearch, handleScrollOnTop } = useGTS();
@@ -62,7 +62,7 @@ const CardSongComponent = () => {
                 {currentTrackAux && (
                     <div>
                         {isGameOver &&
-                            <GameEnded />
+                            <GameEndedComponent />
                         }
                         {(!isGameOver) &&
                             <div>
