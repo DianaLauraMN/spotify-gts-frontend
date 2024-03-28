@@ -5,6 +5,7 @@ import useGTS from "../../hooks/useGTS";
 import GenericButtonComponent from "../utilitiesComponents/genericButton/GenericButtonComponent";
 import SearchArtistsComponent from "../searchArtistsComponent/SearchArtistsComponent";
 import Artist from "../../entities/artist/Artist";
+import useHttpCall from "../../hooks/useHttpCall";
 
 interface ConfigArtistProps {
   title: string;
@@ -13,12 +14,13 @@ interface ConfigArtistProps {
 const ConfigArtistComponent: React.FC<ConfigArtistProps> = ({ title }) => {
   const { configurationGame: { isCustomArtistsConfig, artists }, handleOnSelectArtist, handleIsCustomArtistsConfig } = useGame();
   const { gtsState: { userTopArtists }, loadUserTop6Artists } = useGTS();
+  const {checkAuthentication} =useHttpCall();
   const [artistsLoaded, setArtistsLoaded] = useState(false);
   const [artistsConfig, setArtistsConfig] = useState<Artist[]>([])
 
   useEffect(() => {
     if (!artistsLoaded) {
-      loadUserTop6Artists();
+      checkAuthentication(loadUserTop6Artists());
       setArtistsLoaded(true);
     }
     setArtistsConfig(isCustomArtistsConfig ? artists : userTopArtists);

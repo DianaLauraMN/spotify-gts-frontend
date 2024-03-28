@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import style from "./SearchGenreComponent.module.css";
 import useGTS from '../../hooks/useGTS';
 import useGame from '../../hooks/useGame';
+import useHttpCall from '../../hooks/useHttpCall';
 interface SearchGenreProps {
     title: string;
 }
@@ -10,13 +11,14 @@ const SearchGenreComponent: React.FC<SearchGenreProps> = ({ title }) => {
     const [resultsList, setResultsList] = useState<string[]>([]);
     const { gtsState: { searchResultsGenres }, loadSearchResultsGenres } = useGTS();
     const { configurationGame: { isNewGenresSearch }, handleOnSelectGenre, handleIsCustomGenresConfig, handleIsNewGenresSearch } = useGame();
+    const { checkAuthentication } = useHttpCall();
 
     const handleInputOnChange = (event: { target: { value: any; }; }) => {
         const { value } = event.target;
         setSearchTerm(value);
 
         if (value) {
-            loadSearchResultsGenres(value);
+            checkAuthentication(loadSearchResultsGenres(value));
             handleIsNewGenresSearch(false);
         } else {
             handleIsNewGenresSearch(true);

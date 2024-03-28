@@ -4,6 +4,7 @@ import useGTS from '../../hooks/useGTS';
 import useGame from '../../hooks/useGame';
 import Artist from '../../entities/artist/Artist';
 import TimerCallApi from '../utilitiesComponents/timerCallApi/TimerCallApi';
+import useHttpCall from '../../hooks/useHttpCall';
 interface SearchArtistsProps {
   title: string;
 }
@@ -13,6 +14,7 @@ const SearchArtistsComponent: React.FC<SearchArtistsProps> = ({ title }) => {
   const [prevSearchTerm, setPrevSearchTerm] = useState('');
   const [resultsList, setResultsList] = useState<Artist[]>([]);
   const [isFetching, setIsFetching] = useState(false);
+  const { checkAuthentication } = useHttpCall();
 
   const { gtsState: { searchResultsArtists }, loadSearchResultsArtists, cleanArtistsResultsSearch } = useGTS();
   const { configurationGame: { isNewArtistsSearch }, handleOnSelectArtist, handleIsCustomArtistsConfig, handleIsNewArtistsSearch } = useGame();
@@ -39,7 +41,7 @@ const SearchArtistsComponent: React.FC<SearchArtistsProps> = ({ title }) => {
   const handleApiCall = () => {
     if ((searchTerm != prevSearchTerm) && isFetching) {
       cleanArtistsResultsSearch();
-      loadSearchResultsArtists(searchTerm);
+      checkAuthentication(loadSearchResultsArtists(searchTerm));
       setPrevSearchTerm(searchTerm);
       handleIsNewArtistsSearch(false);
     } else {

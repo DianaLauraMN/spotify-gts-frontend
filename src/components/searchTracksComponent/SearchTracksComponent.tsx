@@ -4,12 +4,14 @@ import searchIcon from "./../../img/search-icon.svg";
 import useGTS from '../../hooks/useGTS';
 import usePlay from '../../hooks/usePlay';
 import useGame from '../../hooks/useGame';
+import useHttpCall from '../../hooks/useHttpCall';
 
 const SearchTracksComponent = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const { configurationGame: { isNewTracksSearch }, handleIsNewTracksSearch } = useGame();
     const { loadSearchResultsTracks,handleScrollOnTop } = useGTS();
     const { playState: { isGameOver } } = usePlay();
+    const {checkAuthentication} =useHttpCall();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -18,7 +20,7 @@ const SearchTracksComponent = () => {
 
     const handleOnClickSearch = () => {
         handleScrollOnTop(true);
-        loadSearchResultsTracks(searchTerm);
+        checkAuthentication(loadSearchResultsTracks(searchTerm));
         handleIsNewTracksSearch(false);
     }
 
