@@ -2,6 +2,7 @@ import AppRouter from "./router/AppRouter";
 import GTSProvider from "./context/gtsContext/GTSProvider";
 import GameProvider from "./context/gameContext/GameProvider";
 import PlayProvider from "./context/playContext/PlayProvider";
+import SessionProvider from "./context/sessionContext/SessionProvider";
 
 function App() {
 
@@ -9,7 +10,9 @@ function App() {
     <GTSProvider>
       <GameProvider>
         <PlayProvider>
-          <AppRouter />
+          <SessionProvider>
+            <AppRouter />
+          </SessionProvider>
         </PlayProvider>
       </GameProvider>
     </GTSProvider>
